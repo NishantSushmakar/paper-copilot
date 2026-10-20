@@ -1,0 +1,39 @@
+# Model slots. Code refers to slots (SMALL, MEDIUM, ...), never to model names.
+# Hardware: Apple M3 Pro, 18 GB unified memory (~12 GB usable by the GPU by default).
+# Justify these choices and the memory budget in reports/a00.md.
+#
+# base_url: OpenAI-compatible endpoint. Ollama serves one at http://localhost:11434/v1;
+# swap it for a vLLM notebook URL for large eval runs.
+# Ollama's /v1 endpoint ignores num_ctx: start the server with
+#   OLLAMA_CONTEXT_LENGTH=8192 ollama serve
+# and confirm with `ollama ps`.
+# Ollama tags are mutable; record `digest` (from `ollama list`) in run provenance.
+
+SMALL:
+  model: qwen3:4b
+  digest: null           # fill in after `ollama pull qwen3:4b`
+  base_url: http://localhost:11434/v1
+  quantization: Q4_K_M
+  context_length: 8192
+
+MEDIUM:
+  model: qwen3:8b
+  digest: 500a1f067a9f
+  base_url: http://localhost:11434/v1
+  quantization: Q4_K_M
+  context_length: 8192
+
+EMBED:
+  model: Qwen/Qwen3-Embedding-0.6B   # queries take an instruction prefix, documents do not
+  device: mps
+
+RERANK:
+  model: BAAI/bge-reranker-v2-m3     # optional, first used in A3
+  device: mps
+
+NLI:
+  model: MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli   # 512-token limit; read id2label
+  device: mps
+
+JUDGE:
+  slot: MEDIUM           # self-preference bias when judging MEDIUM's own outputs

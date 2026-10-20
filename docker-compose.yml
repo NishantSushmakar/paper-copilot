@@ -1,0 +1,14 @@
+# Self-hosted Arize Phoenix for tracing.
+#   docker compose up -d      -> UI at http://localhost:6006
+# OTLP endpoints: HTTP http://localhost:6006/v1/traces, gRPC localhost:4317
+services:
+  phoenix:
+    image: arizephoenix/phoenix:version-20.23.0
+    ports:
+      - "6006:6006"
+      - "4317:4317"
+    environment:
+      - PHOENIX_WORKING_DIR=/mnt/data
+    volumes:
+      - ./.phoenix:/mnt/data
+    restart: unless-stopped
