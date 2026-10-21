@@ -33,10 +33,7 @@ class ModelSlots(StrictModel):
     JUDGE: JudgeConfig
 
 
-def get_chat_slot(
-    config: ModelSlots,
-    name: str,
-) -> ChatAPIConfig:
+def get_chat_slot( config: ModelSlots,name: str) -> ChatAPIConfig:
     name = name.upper()
 
     if name == "JUDGE":

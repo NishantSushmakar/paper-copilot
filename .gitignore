@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Model outputs (regenerable from the cache key inputs; never committed)
+evals/cache/
+
+# Raw downloaded datasets and model weights
+data/
+*.gguf
+*.safetensors
+
+# Local secrets and per-user Claude settings
+.env
+.claude/settings.local.json
+
+# Tracing backend storage
+.phoenix/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
