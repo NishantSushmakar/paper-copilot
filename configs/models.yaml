@@ -4,14 +4,15 @@
 #
 # base_url: OpenAI-compatible endpoint. Ollama serves one at http://localhost:11434/v1;
 # swap it for a vLLM notebook URL for large eval runs.
-# Ollama's /v1 endpoint ignores num_ctx: start the server with
-#   OLLAMA_CONTEXT_LENGTH=8192 ollama serve
-# and confirm with `ollama ps`.
+# Ollama's /v1 endpoint ignores num_ctx, so serving settings live in the server's env:
+#   OLLAMA_CONTEXT_LENGTH=8192 OLLAMA_KEEP_ALIVE=30m OLLAMA_FLASH_ATTENTION=1 OLLAMA_KV_CACHE_TYPE=q8_0 ollama serve
+# Flash attention and the 8-bit KV cache can change outputs slightly: record them in run provenance.
+# Confirm with `ollama ps`.
 # Ollama tags are mutable; record `digest` (from `ollama list`) in run provenance.
 
 SMALL:
-  model: qwen3:4b
-  digest: null           # fill in after `ollama pull qwen3:4b`
+  model: qwen3:4b-q4_K_M   # original hybrid Qwen3-4B; plain `qwen3:4b` is the thinking-only 2507 release
+  digest: 2bfd38a7daaf
   base_url: http://localhost:11434/v1
   quantization: Q4_K_M
   context_length: 8192
