@@ -17,6 +17,11 @@ dependencies = [
     "datasets>=3.0",
     # Tracing: OpenTelemetry exporter pointed at the self-hosted Phoenix server
     "arize-phoenix-otel>=0.6",
+    "langchain-openai>=1.7.2",
+    "langchain-ollama>=1.1.0",
+    "langgraph>=1.2.16",
+    "langsmith>=0.14.12",
+    "diskcache>=5.6.3",
 ]
 
 [project.optional-dependencies]

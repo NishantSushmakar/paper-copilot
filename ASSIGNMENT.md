@@ -1,6 +1,6 @@
 # Paper Copilot: A Self-Directed Course in Building Agentic Systems
 
-Version 1.0 (October 2026)
+Version 1.1 (October 2026). Revised to work at the abstraction level of a working AI engineer: industry-standard libraries (LangChain, LangGraph, LangSmith) handle plumbing and orchestration, while you own design decisions, prompts, policies and, above all, evaluation.
 
 ## Overview
 
@@ -11,13 +11,13 @@ Every component is evaluated on a public benchmark with ground truth. By the end
 Constraints that shape the whole course:
 
 * **Local open-weight models only.** No paid APIs. Everything must run on your machine or on free GPU notebooks (Kaggle, Colab).
-* **Limited scaffolding.** You build the core primitives yourself (LLM client, eval harness, retrieval, tool registry, agent loop, memory, router). Frameworks are allowed only where an assignment says so.
+* **Industry tools, your decisions.** Use the libraries a real team would use for plumbing and orchestration (model clients, vector stores, LangGraph, LangSmith). You own what they do not decide for you: graph design, prompts, retrieval choices, memory policy, routing logic, guardrails, and the evaluation of all of it. Prebuilt agents and chains are baselines to beat, not the system you evaluate.
 * **Measure everything.** A feature without a number does not count as done.
 
 ### How each assignment is structured
 
 * **Goals**: what you should understand at the end.
-* **Problems**: numbered tasks with a short name in parentheses, e.g. `(llm_client)`. Points are for self-assessment only.
+* **Problems**: numbered tasks with a short name in parentheses, e.g. `(llm_access)`. Points are for self-assessment only.
 * **Deliverables**: code in `copilot/`, eval code in `evals/`, written answers in `reports/aXX.md`.
 * **Done when**: a checklist. Do not move on until every box is ticked.
 * **Interview angle**: questions you should be able to answer out loud afterwards.
@@ -37,7 +37,8 @@ paper-copilot/
   pyproject.toml
   configs/              # model slots, dataset paths, eval settings
   copilot/
-    llm/                # client, cache, model slots
+    infra/              # config loading, tracing setup, cache storage, small utilities
+    llm/                # LLM access layer, cache-key design, model slots
     ingest/             # sources, parsing, event queue, workers
     cards/              # paper card schema and extraction
     retrieval/          # chunking, indexes, rerankers
@@ -84,13 +85,25 @@ Define these in `configs/models.yaml` and never hardcode model names in code:
 | `NLI` | entailment for citation and faithfulness checks | small NLI model |
 | `JUDGE` | LLM judge where needed | usually `MEDIUM` |
 
-Serve chat models behind an OpenAI-compatible endpoint (Ollama or llama.cpp for development, vLLM on a free GPU notebook for large eval runs). Pick models after checking current open-weight leaderboards and your hardware, and justify the choice in `reports/a00.md`.
+Serve chat models behind an OpenAI-compatible endpoint (Ollama or llama.cpp for development, vLLM on a free GPU notebook for large eval runs), and access them through LangChain chat models or the OpenAI SDK pointed at that endpoint. Pick models after checking current open-weight leaderboards and your hardware, and justify the choice in `reports/a00.md`.
 
 ### Allowed libraries
 
-Allowed from the start: `pydantic`, `numpy`, `pandas`, `scikit-learn`, `torch`, `transformers`, `sentence-transformers`, `datasets`, a vector index (`faiss`, `hnswlib`, LanceDB or similar), `rank_bm25`, `httpx`, `pytest`, plotting libraries, a tracing backend (Langfuse or Arize Phoenix, self-hosted).
+Allowed from the start:
+* Data and ML: `pydantic`, `numpy`, `pandas`, `scikit-learn`, `torch`, `transformers`, `sentence-transformers`, `datasets`, plotting libraries, `pytest`.
+* Model access: LangChain chat models (`langchain-openai`, `langchain-ollama`) and the `openai` SDK. Use their built-in retry and timeout settings; you decide the policy (what to retry, how long to wait) and can explain it.
+* Tracing: LangSmith (free developer tier; check its limits against your eval volume) or self-hosted Langfuse or Arize Phoenix.
+* Retrieval: vector stores and indexes (`faiss`, Chroma, Qdrant, LanceDB or similar, directly or through LangChain integrations), `rank_bm25`.
+* Storage helpers: `diskcache` or SQLite for the cache. The cache-key design is yours.
+* Orchestration: LangGraph from A5 onwards, for graphs you design yourself.
 
-Not allowed until the assignment says so: prebuilt agents (`create_react_agent` and similar), prebuilt RAG chains, memory libraries, routing libraries, structured-output wrappers that hide retries, and evaluation frameworks that compute your metrics for you. LangGraph is allowed from A11 onwards for composition.
+Allowed only as baselines, never as the system under test: prebuilt agents (`create_react_agent`, `create_agent` and similar) and prebuilt RAG chains. Your own design must be compared against them.
+
+Not allowed: routing libraries (the router is the assignment), and evaluation frameworks that compute your reported metrics for you. You may run Ragas, DeepEval or similar as a cross-check after implementing a metric yourself.
+
+### Evaluation is still hand-built
+
+The evaluation protocol above, your eval harness, dataset adapters, frozen subsets, metrics and bootstrap intervals are yours in every assignment. This is where AI engineers differ most, and what interviews probe hardest.
 
 ---
 
@@ -101,9 +114,9 @@ Not allowed until the assignment says so: prebuilt agents (`create_react_agent` 
 **Problems**
 
 1. `(setup)` (5 pts) Serve `SMALL` and `MEDIUM` behind an OpenAI-compatible endpoint, plus `EMBED` and `NLI` locally. In the report, record model names, quantization, context length, and measured tokens per second for a 512-token prompt with 256 output tokens on your hardware.
-2. `(llm_client)` (15 pts) Write a thin client: chat with a model slot, messages, temperature, max tokens and an optional response format. Return text, token usage, latency and a cache-hit flag. Requirements: a disk cache keyed on every input that affects output (sampled calls also keyed on a sample index), retries with backoff on connection errors, and a hard timeout. Write unit tests for cache behaviour.
-3. `(eval_harness)` (20 pts) A generic runner with three parts: a dataset adapter (load, split, frozen subsets), a system under test (any callable), and metric functions. Output one JSONL row per example plus a summary JSON with bootstrap CIs and provenance. It should run from a single command with task, system and subset as arguments.
-4. `(tracing)` (10 pts) Self-host Langfuse or Phoenix. Every LLM call becomes a span with model, tokens, latency and cache hit. Eval runs group their spans under one run ID.
+2. `(llm_access)` (15 pts) Build the LLM access layer on LangChain chat models (or the OpenAI SDK) configured from your model slots: chat with a slot, messages, temperature, max tokens, thinking on/off and an optional response format. Return text, reasoning (if any), token usage, `finish_reason`, latency and a cache-hit flag. Requirements: configure the library's retries and timeouts deliberately and justify the policy; handle thinking tokens and truncated outputs explicitly; add a disk cache keyed on every input that affects output (sampled calls also keyed on a sample index). The key design is the graded part; storage can use `diskcache` or SQLite. Write unit tests for cache behaviour.
+3. `(eval_harness)` (20 pts) A generic runner with three parts: a dataset adapter (load, split, frozen subsets), a system under test (any callable), and metric functions. Output one JSONL row per example plus a summary JSON with bootstrap CIs and provenance. It should run from a single command with task, system and subset as arguments. Build this yourself.
+4. `(tracing)` (10 pts) Set up LangSmith (or self-hosted Langfuse or Phoenix). Every LLM call becomes a span with model, tokens, latency and cache hit. Eval runs group their spans under one run ID, with the example ID as metadata.
 5. `(oracle_baseline)` (20 pts) On QASPER, run two baselines with `MEDIUM`: closed-book (question only) and oracle (question plus the gold evidence paragraphs). Implement QASPER answer F1 yourself. The oracle number is your ceiling for A3.
 
 **Written (`reports/a00.md`)** (10 pts)
@@ -115,7 +128,7 @@ Not allowed until the assignment says so: prebuilt agents (`create_react_agent` 
 - [ ] Traces for an eval run are visible in the tracing UI.
 - [ ] Your F1 matches hand computation on 5 examples.
 
-**Interview angle:** How do you make LLM evaluations reproducible? Why bootstrap intervals? What belongs in a cache key?
+**Interview angle:** How do you make LLM evaluations reproducible? Why bootstrap intervals? What belongs in a cache key? Which LLM API errors should be retried, and why does backoff use jitter?
 
 ---
 
@@ -156,7 +169,7 @@ Not allowed until the assignment says so: prebuilt agents (`create_react_agent` 
 2. `(strategies)` (25 pts) Three extraction strategies:
    * S1: prompt-only, parse JSON.
    * S2: validate, and on failure retry with the validation error fed back (maximum 3 attempts). Log every failure with its error type.
-   * S3: constrained decoding using your serving stack's JSON schema or grammar support.
+   * S3: constrained decoding using your serving stack's JSON schema or grammar support (LangChain's `with_structured_output` in JSON-schema mode is fine here). Write S1 and S2 yourself so you can see and log every failure.
 3. `(long_docs)` (15 pts) Papers do not fit in context. Implement chunked extraction and a merge step that deduplicates entities (aliases, casing, abbreviations).
 4. `(scirex_eval)` (20 pts) Evaluate on SciREX, which has gold salient entities of type Task, Dataset, Method and Metric. Count a predicted entity as correct if it matches a mention of a gold cluster after normalization. Run S1, S2 and S3 with both `SMALL` and `MEDIUM`.
 
@@ -182,7 +195,7 @@ Not allowed until the assignment says so: prebuilt agents (`create_react_agent` 
 **Problems**
 
 1. `(chunking)` (10 pts) Two chunkers: fixed-size token windows with overlap, and structure-aware (section and paragraph). Chunk IDs must be stable across re-ingestion.
-2. `(retrievers)` (20 pts) BM25, dense (`EMBED` plus a vector index), and hybrid with reciprocal rank fusion. Optional: cross-encoder reranking with `RERANK`.
+2. `(retrievers)` (20 pts) BM25, dense (`EMBED` plus a vector store such as FAISS or Chroma, directly or through LangChain), and hybrid with reciprocal rank fusion. Implement the fusion yourself; prebuilt ensemble retrievers are a baseline only. Optional: cross-encoder reranking with `RERANK`.
 3. `(retrieval_eval)` (15 pts) On QASPER dev, measure evidence recall@k (k = 1, 3, 5, 10) and MRR, retrieving within the question's paper. Stretch: retrieve across the whole library, which adds a paper-selection step.
 4. `(grounded_generation)` (15 pts) Generate answers with inline citation markers that refer to chunk IDs. Parse them, and flag any sentence without a citation.
 5. `(citation_eval)` (20 pts) Implement citation recall and citation precision following the ALCE definitions, using `NLI` as the entailment judge. Validate the judge on 50 sentence-citation pairs you label by hand and report agreement.
@@ -210,9 +223,9 @@ Not allowed until the assignment says so: prebuilt agents (`create_react_agent` 
 
 **Problems**
 
-1. `(registry)` (15 pts) Register tools with a decorator. Generate JSON schemas from type hints or Pydantic models. Each tool carries metadata: side effect (yes/no), timeout, permission scope.
+1. `(registry)` (15 pts) Define tools with LangChain's tool interface (`@tool` with Pydantic argument schemas) and wrap them in your own registry that adds metadata: side effect (yes/no), timeout, permission scope. Schema design, descriptions and argument validation are yours.
 2. `(tools)` (20 pts) Implement: `search_library`, `get_paper_card`, `arxiv_search`, `citation_graph` (Semantic Scholar API; cache aggressively and request a free API key for higher limits), `python_exec` (subprocess sandbox with timeout, no network, memory limit), `send_digest` (writes to an `outbox/` folder; this is your side-effect tool, gated in A7).
-3. `(calling_modes)` (15 pts) Two modes: native tool calling (where your model and server support it) and prompt-based calling with JSON parsing. Validate arguments; on failure, return a structured error the model can act on.
+3. `(calling_modes)` (15 pts) Two modes: native tool calling (`bind_tools`, where your model and server support it) and prompt-based calling with JSON parsing that you write. Validate arguments; on failure, return a structured error the model can act on.
 4. `(parallel)` (10 pts) Execute independent tool calls concurrently and measure the wall-clock speedup.
 5. `(bfcl_eval)` (20 pts) Evaluate on the Berkeley Function Calling Leaderboard data, categories simple, multiple, parallel, parallel-multiple and irrelevance. Implement AST-based matching following BFCL's documented rules.
 
@@ -233,12 +246,12 @@ Not allowed until the assignment says so: prebuilt agents (`create_react_agent` 
 
 ## Assignment 5: The ReAct planner
 
-**Goals:** build the agent loop yourself and understand how and why it fails. (Project idea 3.)
+**Goals:** design the agent loop yourself as a LangGraph graph and understand how and why it fails. (Project idea 3.) LangGraph is allowed from here on.
 
 **Problems**
 
-1. `(loop)` (25 pts) Implement a Thought, Action, Observation loop on top of your tool registry. Requirements: a `final_answer` action; a maximum step count; loop detection (repeated tool and arguments, or no new information for several steps); observation truncation to protect context; graceful failure that returns partial findings and says what is missing.
-2. `(hotpot_offline)` (20 pts) HotpotQA distractor setting, dev subset. Give the agent two tools over the 10 provided paragraphs: `search` (BM25) and `lookup` (by title). This keeps the benchmark fully offline. Baselines: closed-book chain-of-thought, and single-shot retrieve-then-read.
+1. `(loop)` (25 pts) Implement a Thought, Action, Observation loop on top of your tool registry as your own LangGraph `StateGraph` (your nodes, state and edges, not the prebuilt agent). Requirements: a `final_answer` action; a maximum step count; loop detection (repeated tool and arguments, or no new information for several steps); observation truncation to protect context; graceful failure that returns partial findings and says what is missing.
+2. `(hotpot_offline)` (20 pts) HotpotQA distractor setting, dev subset. Give the agent two tools over the 10 provided paragraphs: `search` (BM25) and `lookup` (by title). This keeps the benchmark fully offline. Baselines: closed-book chain-of-thought, single-shot retrieve-then-read, and LangGraph's prebuilt ReAct agent with the same tools and step limit.
 3. `(domain_set)` (15 pts) Write 30 multi-hop questions over your own library (for example cross-paper comparisons), each with a gold answer and gold paper IDs. This is a test set: never tune on it.
 4. `(failure_taxonomy)` (15 pts) Label 50 failures into categories such as bad search query, ignored evidence, premature stop, loop, invalid tool call, formatting error. Fix the top category and re-measure.
 
@@ -246,11 +259,12 @@ Not allowed until the assignment says so: prebuilt agents (`create_react_agent` 
 
 **Written** (15 pts)
 * When was ReAct worse than retrieve-then-read, and why?
+* Where did your graph beat or lose to the prebuilt agent, and which of your design choices explains it?
 * How does the `SMALL` vs `MEDIUM` gap compare to A3?
 * What did fixing the top failure category change?
 
 **Done when**
-- [ ] Table with ReAct vs both baselines on HotpotQA and your domain set.
+- [ ] Table with your ReAct graph vs all three baselines on HotpotQA and your domain set.
 - [ ] Failure taxonomy with counts, before and after your fix.
 
 **Interview angle:** how ReAct works, why agents loop, stopping criteria, when not to use an agent.
@@ -264,7 +278,7 @@ Not allowed until the assignment says so: prebuilt agents (`create_react_agent` 
 **Problems**
 
 1. `(short_term)` (10 pts) Conversation window with a rolling summary when the token budget is exceeded.
-2. `(long_term)` (30 pts) Write path: after each session, extract memory items (content, type, timestamp, source session, what it supersedes) into a Pydantic model; deduplicate; resolve conflicts when a fact changes. Read path: retrieve by similarity, recency and type, with support for time-aware questions.
+2. `(long_term)` (30 pts) Use LangGraph's checkpointer and store for persistence; the memory policy is yours. Write path: after each session, extract memory items (content, type, timestamp, source session, what it supersedes) into a Pydantic model; deduplicate; resolve conflicts when a fact changes. Read path: retrieve by similarity, recency and type, with support for time-aware questions.
 3. `(longmemeval)` (25 pts) LongMemEval (the shorter "S" setting), a subset of about 100 questions stratified by question type. Compare: (a) full history truncated to the model's context, (b) naive retrieval over raw turns, (c) your memory system. Use an LLM judge following the benchmark's protocol, and validate it on 40 answers you label by hand.
 4. `(product)` (10 pts) The copilot remembers your research interests and reading history and can answer questions like "what did I read about retrieval last week?"
 
@@ -292,7 +306,7 @@ Not allowed until the assignment says so: prebuilt agents (`create_react_agent` 
 1. `(confidence)` (20 pts) Implement at least three confidence signals: verbalized confidence, self-consistency agreement over k samples, retrieval score, and NLI support of the answer by its cited evidence. Combine them with a small classifier trained on dev.
 2. `(policy)` (10 pts) A decision policy: answer, abstain ("the paper does not say"), or escalate to a human.
 3. `(qasper_abstention)` (20 pts) QASPER includes unanswerable questions, which gives you ground truth. Measure abstention precision, recall and F1, plus a risk-coverage curve and its area (AURC) for each signal and the combination.
-4. `(approval_gate)` (25 pts) Side-effect tools require approval. The workflow pauses, persists its state, lets a human approve, edit or reject from the CLI, and resumes, including after a process restart. Every decision goes to an append-only audit log (what, when, decision, reason).
+4. `(approval_gate)` (25 pts) Side-effect tools require approval (LangGraph interrupts and a persistent checkpointer are the natural fit; which actions need approval and what the reviewer sees are yours). The workflow pauses, persists its state, lets a human approve, edit or reject from the CLI, and resumes, including after a process restart. Every decision goes to an append-only audit log (what, when, decision, reason).
 5. `(tests)` (10 pts) Property-style tests that every side-effect call is gated across randomly generated plans; a resume-after-kill test.
 
 **Written** (15 pts)
@@ -315,7 +329,7 @@ Not allowed until the assignment says so: prebuilt agents (`create_react_agent` 
 **Problems**
 
 1. `(labels)` (10 pts) Run `SMALL` and `MEDIUM` on train splits from A3, A5 and A9. Label each example by whether the small model was good enough.
-2. `(routers)` (30 pts) R0: always small, always medium. R1: rules (length, question type). R2: a classifier on embeddings plus features. R3: a cascade (small first, escalate when A7 confidence is low).
+2. `(routers)` (30 pts) Plug each router into your graph as the decision function of a conditional edge; the routing logic is yours. R0: always small, always medium. R1: rules (length, question type). R2: a classifier on embeddings plus features. R3: a cascade (small first, escalate when A7 confidence is low).
 3. `(eval)` (25 pts) Plot quality against compute (latency, GPU-seconds or tokens) for every router. Include a random router at the same fraction of medium calls, and an oracle router as the upper bound.
 4. `(routerbench)` (15 pts) Train and test your R2 approach on RouterBench's precomputed outputs so you can compare with published routing results without running large models.
 
@@ -380,12 +394,12 @@ Not allowed until the assignment says so: prebuilt agents (`create_react_agent` 
 
 ## Assignment 11: Integration and observability
 
-**Goals:** turn modules into one system you can operate, monitor and debug. (Project idea 11.) LangGraph is now allowed for composition.
+**Goals:** turn modules into one system you can operate, monitor and debug. (Project idea 11.) Compose your existing LangGraph graphs as subgraphs of one parent graph.
 
 **Problems**
 
 1. `(graph)` (20 pts) Compose the system: intent detection, router, then the right path (question answering, claim verification, digest, memory). Every module can be switched off by config for ablations.
-2. `(tracing)` (10 pts) Spans for every node and tool call. A dashboard with p50 and p95 latency, tokens, cache hit rate, tool error rate, abstention rate and escalation rate.
+2. `(tracing)` (10 pts) Spans for every node and tool call (LangSmith traces LangGraph runs automatically; add the metadata and tags you need). A dashboard with p50 and p95 latency, tokens, cache hit rate, tool error rate, abstention rate and escalation rate.
 3. `(faults)` (20 pts) A fault injection harness: tool timeouts, malformed tool output, model server down, slow embedding service. Verify graceful degradation, and implement simple threshold alerts.
 4. `(e2e_eval)` (20 pts) An end-to-end suite: your A5 domain set, a QASPER sample and a SciFact sample. Run an ablation removing each module in turn.
 5. `(ci)` (10 pts) CI runs unit tests and replays evals from cached outputs to catch pipeline regressions without a GPU.

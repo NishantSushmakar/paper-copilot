@@ -2,7 +2,21 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
     "deny": [
-      "Edit(/copilot/**)",
+      "Edit(/copilot/*.py)",
+      "Edit(/copilot/llm/**)",
+      "Edit(/copilot/ingest/**)",
+      "Edit(/copilot/cards/**)",
+      "Edit(/copilot/retrieval/**)",
+      "Edit(/copilot/answer/**)",
+      "Edit(/copilot/tools/**)",
+      "Edit(/copilot/agent/**)",
+      "Edit(/copilot/memory/**)",
+      "Edit(/copilot/hitl/**)",
+      "Edit(/copilot/router/**)",
+      "Edit(/copilot/verify/**)",
+      "Edit(/copilot/refine/**)",
+      "Edit(/copilot/graph/**)",
+      "Edit(/copilot/obs/**)",
       "Edit(/evals/metrics/**)",
       "Edit(/evals/adapters/**)",
       "Edit(/reports/**)"
