@@ -33,7 +33,10 @@ def build_chat_model(
 ) -> Runnable:
     """Return a chat model for `slot` (a validated chat slot from copilot.llm.slots).
 
-    `request_timeout` bounds a single HTTP request. Retries multiply it, so a total
+    `request_timeout` is httpx's per-operation timeout. ChatOllama streams internally,
+    so for Ollama slots it limits the silence between chunks (a stall detector), not
+    the length of a call: generation time is bounded by `max_tokens`. For OpenAI slots
+    (non-streaming) it limits the whole request. Retries multiply either, so a total
     deadline across attempts is the caller's job.
 
     Provider choice: "ollama" uses Ollama's native API, which returns the thinking

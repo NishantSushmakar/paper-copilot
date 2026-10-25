@@ -18,8 +18,7 @@
       "Edit(/copilot/graph/**)",
       "Edit(/copilot/obs/**)",
       "Edit(/evals/metrics/**)",
-      "Edit(/evals/adapters/**)",
-      "Edit(/reports/**)"
+      "Edit(/evals/adapters/**)"
     ]
   }
 }

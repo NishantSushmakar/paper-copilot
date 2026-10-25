@@ -1,0 +1,5 @@
+# Server settings that change model outputs but cannot be read from the server at runtime.
+# Change `profile` whenever you change these env vars, so cached answers from the old
+# settings stop matching.
+#   OLLAMA_FLASH_ATTENTION=1 OLLAMA_KV_CACHE_TYPE=q8_0
+profile: fa1-kvq8

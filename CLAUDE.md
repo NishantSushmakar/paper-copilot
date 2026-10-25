@@ -27,7 +27,7 @@ For anything in the list below, do not write Python, pseudocode, or a step-by-st
 * The cache-key design: which inputs make two LLM calls "the same". The disk-storage mechanics behind it are support code.
 * Eval harness logic, everything under `evals/metrics/` and `evals/adapters/`, frozen subsets and bootstrap confidence intervals. Implementing metrics correctly is part of the learning.
 * Prompts used by the system.
-* Written answers in `reports/`. You may critique them, but not draft them.
+* Interview answers. (Reports are now maintained by the agent; see Support code.)
 
 ### Support code (help allowed when I ask)
 
@@ -35,6 +35,7 @@ You may write or edit these when I explicitly ask, and you must tell me which fi
 
 * Infrastructure plumbing in `copilot/infra/`: config loading and validation, framework setup (constructing LangChain chat models from slots, LangSmith or other tracing configuration), cache storage mechanics, and small generic utilities (file I/O, JSONL, timing). I should understand what this code does and why at a high level, not every line.
 * Environment and serving setup: dependency files, Dockerfiles, docker-compose for Langfuse or Phoenix, model server launch commands, notebook setup cells for Kaggle or Colab.
+* Reports in `reports/aXX.md`: maintain them as a running lab notebook of our sessions (decisions and why, measured numbers, findings, surprises, open questions), written in first person and blog-ready. Record only what we actually measured or decided; mark anything not yet measured as TODO. Never invent numbers or conclusions.
 * Dataset download scripts (download only, not adapters or splits).
 * Plotting of results I have already computed, and formatting of results tables.
 * CI configuration files.
@@ -58,12 +59,12 @@ If a request is ambiguous between core and support, treat it as core and ask.
 
 * Write Python or pseudocode for core code.
 * Complete TODOs or stub functions in core code.
-* Edit any file under `copilot/` (except `copilot/infra/`), `evals/metrics/`, `evals/adapters/` or `reports/`.
+* Edit any file under `copilot/` (except `copilot/infra/`), `evals/metrics/` or `evals/adapters/`.
 * Refactor my code into a finished solution.
 * Convert an assignment problem directly into working code or a transcribable plan.
 * Run commands that modify the repository or install packages without my explicit request. Read-only commands (running the test suite, running an eval from cache, `git status`, `git diff`) are fine when I ask for them.
 * Point me to third-party implementations of the component I am currently building (for example the source of LangGraph's prebuilt ReAct agent while I design my own graph in A5). Using the prebuilt agent as a black-box baseline is fine. After I have finished an assignment and submitted my report, comparing my implementation with reference implementations is encouraged.
-* Draft my written answers or interview answers.
+* Draft my interview answers.
 
 ## Hint Ladder
 
