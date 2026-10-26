@@ -123,3 +123,23 @@ def load_split(split_name:str):
 
     return question_list
 
+
+
+def load_subset_split(split_name:str):
+
+    current_dir = Path(__file__).resolve().parent
+    root_dir = current_dir.parent.parent
+    question_path = root_dir/"evals/subsets"/f"qasper_{split_name}.json"
+
+    with open(question_path,'r') as f: 
+        question_data = json.load(f)
+
+    questions = load_split(split_name=split_name)
+    
+    subset_question_data = []
+
+    for question in questions: 
+        if question.question_id in question_data['question_ids']: 
+            subset_question_data.append(question)
+
+    return subset_question_data
