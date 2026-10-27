@@ -28,11 +28,12 @@ def git_info() -> dict:
     """Current commit, and whether the working tree has uncommitted changes.
 
     A dirty tree means the commit hash alone does not reproduce the run.
+    evals/results/ is excluded: run outputs can't change what a run computes.
     """
     return {
         "commit": _git("rev-parse", "HEAD"),
         "branch": _git("rev-parse", "--abbrev-ref", "HEAD"),
-        "dirty": bool(_git("status", "--porcelain")),
+        "dirty": bool(_git("status", "--porcelain", "--", ".", ":(exclude)evals/results")),
     }
 
 
