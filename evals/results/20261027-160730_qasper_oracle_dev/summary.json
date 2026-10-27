@@ -1,0 +1,88 @@
+{
+  "run_id": "20261027-160730_qasper_oracle_dev",
+  "task": "qasper",
+  "system": "oracle",
+  "subset": "dev",
+  "limit": 10,
+  "wall_seconds": 466.98,
+  "summary": {
+    "n": 10,
+    "mean_f1": 0.45956521739130435,
+    "by_type": {
+      "extractive": {
+        "n": 8,
+        "mean_f1": 0.4494565217391304,
+        "ci": {
+          "n": 8,
+          "mean": 0.4494565217391304,
+          "lower": 0.1875,
+          "upper": 0.6994565217391304
+        }
+      },
+      "yes_no": {
+        "n": 2,
+        "mean_f1": 0.5,
+        "ci": {
+          "n": 2,
+          "mean": 0.5,
+          "lower": 0.0,
+          "upper": 1.0
+        }
+      }
+    },
+    "errors": 0,
+    "error_types": {},
+    "n_with_response": 10,
+    "truncation_rate": 0.2,
+    "cache_hit_rate": 0.0,
+    "mean_latency_ms": 46653.3367,
+    "total_prompt_tokens": 19449,
+    "total_completion_tokens": 10456,
+    "mean_f1_ci": {
+      "n": 10,
+      "mean": 0.45956521739130435,
+      "lower": 0.21956521739130436,
+      "upper": 0.705
+    }
+  },
+  "provenance": {
+    "date_utc": "2026-10-27T16:07:30+00:00",
+    "git": {
+      "commit": "6ed42fc56b4a674a596d14e408a524ba7ec8d742",
+      "branch": "master",
+      "dirty": true
+    },
+    "slots": [
+      {
+        "slot": "MEDIUM",
+        "provider": "ollama",
+        "model": "qwen3:8b",
+        "quantization": "Q4_K_M",
+        "context_length": 8192,
+        "base_url": "http://localhost:11434/v1",
+        "digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+        "server_version": "0.40.5"
+      }
+    ],
+    "server_profile": "fa1-kvq8",
+    "settings": {
+      "slot": "MEDIUM",
+      "temperature": 0.0,
+      "thinking": true,
+      "max_tokens": 4000
+    },
+    "seed": 42,
+    "subset": {
+      "path": "evals/subsets/qasper_dev.json",
+      "sha256": "3b29d868216a1b5ae44c5670507cefefb4355cc9f52578e2e6626b765908c3af"
+    },
+    "python": "3.12.4",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "packages": {
+      "langchain-core": "1.7.0",
+      "langchain-ollama": "1.1.0",
+      "langchain-openai": "1.7.2",
+      "pydantic": "2.14.1"
+    }
+  }
+}
