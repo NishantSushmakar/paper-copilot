@@ -6,7 +6,7 @@ from evals.metrics.qasper_f1 import compare_scores
 from collections import Counter, defaultdict
 from pathlib import Path
 from statistics import mean
-
+from langsmith import traceable, get_current_run_tree
 from copilot.infra.jsonl import append_jsonl
 
 
@@ -39,6 +39,38 @@ class ResultModel(BaseModel):
     response: Optional[ResponseModel]=None
     failure: Optional[FailureModel]=None
 
+def get_input(input:dict):
+
+    question_text = input["question"].question
+    
+    answer_list = []
+    for answer in input["question"].answers : 
+        answer_list.append(answer.text)
+
+    return {
+        "question_text": question_text,
+        "gold_answers": answer_list
+    }
+
+
+def get_output(output):
+
+    
+    failure = None
+
+    if output.failure is not None:
+        failure = {"failure_code":output.failure.failure_code,
+                   "failure_message":output.failure.failure_message}
+
+    response = {
+        "prediction": output.outcome.prediction,
+        "f1": output.outcome.f1_score,
+        "failure": failure
+    }
+
+    return response 
+
+@traceable(run_type="chain",name="Q/A System",process_inputs=get_input,process_outputs=get_output)
 def run_one_question(system_name:str,question:QASPERQuestion): 
 
     system = system_dict[system_name]
@@ -49,6 +81,15 @@ def run_one_question(system_name:str,question:QASPERQuestion):
         "prediction":"",
         "response": None
     })
+
+    run = get_current_run_tree()
+
+    if run is not None: 
+        run.add_metadata({
+            "question_id": question.question_id,
+            "question_type": question.question_type,
+            "system_name": system_name
+        })
 
     try: 
         system_response = system(question=question)

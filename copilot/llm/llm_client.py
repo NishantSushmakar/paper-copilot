@@ -8,10 +8,23 @@ from copilot.infra.models import build_chat_model,RetryPolicy
 import hashlib,json
 from copilot.infra.server_info import ollama_digest,ollama_version,server_profile
 from copilot.infra.cache import ResponseCache
+from langsmith import traceable, get_current_run_tree, tracing_context
 
 RETRYABLE_STATUSES = {429, 500, 502, 503, 504}
 llm_cache = ResponseCache()
 
+def get_llm_output(output):
+    return {
+        "text": output.text,
+        "thinking": output.thinking,
+        "finish_reason": output.finish_reason,
+        "cache_hit": output.cache_hit,
+        "usage_metadata": {
+            "input_tokens": output.prompt_tokens,
+            "output_tokens": output.completion_tokens,
+            "total_tokens": output.prompt_tokens + output.completion_tokens,
+        },
+    }
 
 def should_retry(exc: BaseException) -> bool:
     if isinstance(
@@ -45,7 +58,7 @@ def get_cache_key(response):
     payload = json.dumps(response ,sort_keys=True)
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
-
+@traceable(run_type="llm", name="chat_with_llm", process_outputs=get_llm_output)
 def chat_with_llm(
     slot: str,
     messages: list,
@@ -81,6 +94,16 @@ def chat_with_llm(
 
     final_response = llm_cache.get(cache_key)
 
+    run = get_current_run_tree()
+
+    if run is not None:
+        run.add_metadata({
+            "ls_provider": getattr(slot_config, "provider", "ollama"),
+            "ls_model_name": slot_config.model,
+            "cache_hit": final_response is not None,
+        })
+
+
     if final_response is not None:
         final_response['cache_hit']=True
 
@@ -101,7 +124,9 @@ def chat_with_llm(
         )
 
         start = monotonic()
-        response = model.invoke(messages)
+        with tracing_context(enabled=False):
+            response = model.invoke(messages)
+
         latency = timedelta(seconds=monotonic() - start)
 
         usage = response.usage_metadata or {}

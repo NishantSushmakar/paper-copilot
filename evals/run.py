@@ -9,6 +9,10 @@ Writes evals/results/<run_id>/:
 
 The test subset is guarded: it needs --confirm-test, so it can't be run by accident.
 
+--trace sends the run to LangSmith: one trace per question, each tagged with the
+run ID and subset as metadata. It is off by default because the free tier allows
+5,000 traces a month (25 runs of 200 questions).
+
 Systems that call an LLM describe their settings in an optional `system_settings`
 dict in their systems module, e.g.
     system_settings = {"closed_book": {"slot": "MEDIUM", "temperature": 0.0, ...}}
@@ -23,7 +27,11 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
+from langsmith import tracing_context
+from langsmith.run_trees import get_cached_client
+
 from copilot.infra.provenance import collect_provenance
+from copilot.infra.tracing import enable_langsmith
 from copilot.llm.slots import config as slot_config
 from copilot.llm.slots import get_chat_slot
 from evals.adapters.qasper import load_subset_split
@@ -82,6 +90,7 @@ def main() -> None:
     parser.add_argument("--subset", required=True, choices=["dev", "test"])
     parser.add_argument("--limit", type=int, help="only the first N questions (smoke tests; not for reported numbers)")
     parser.add_argument("--confirm-test", action="store_true", help="required to run on the test subset")
+    parser.add_argument("--trace", action="store_true", help="send one LangSmith trace per question")
     args = parser.parse_args()
 
     task = TASKS[args.task]
@@ -110,9 +119,17 @@ def main() -> None:
     run_dir = RESULTS_DIR / run_id
     print(f"run {run_id}: {len(questions)} questions -> {run_dir.relative_to(EVALS_DIR.parent)}")
 
+    if args.trace:
+        enable_langsmith()
+    # Every trace started inside this block carries the run ID, so a whole run is
+    # found in LangSmith by filtering on metadata run_id.
+    trace_metadata = {"run_id": run_id, "task": args.task, "subset": args.subset}
     start = time.monotonic()
-    rows = run_all(args.system, questions, run_dir / "results.jsonl")
+    with tracing_context(enabled=args.trace, metadata=trace_metadata):
+        rows = run_all(args.system, questions, run_dir / "results.jsonl")
     wall_seconds = time.monotonic() - start
+    if args.trace:
+        get_cached_client().flush()  # send queued traces before the process exits
 
     summary = add_cis(summarise(rows), rows, SEED)
     output = {
@@ -121,6 +138,7 @@ def main() -> None:
         "system": args.system,
         "subset": args.subset,
         "limit": args.limit,
+        "traced": args.trace,
         "wall_seconds": round(wall_seconds, 2),
         "summary": summary,
         "provenance": provenance,

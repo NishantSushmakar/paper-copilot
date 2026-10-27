@@ -1,0 +1,108 @@
+{
+  "run_id": "20261027-204103_qasper_oracle_test",
+  "task": "qasper",
+  "system": "oracle",
+  "subset": "test",
+  "limit": null,
+  "wall_seconds": 2884.59,
+  "summary": {
+    "n": 200,
+    "mean_f1": 0.5976850360395973,
+    "by_type": {
+      "abstractive": {
+        "n": 29,
+        "mean_f1": 0.3138419646974534,
+        "ci": {
+          "n": 29,
+          "mean": 0.3138419646974534,
+          "lower": 0.1716660140420216,
+          "upper": 0.4703740227073439
+        }
+      },
+      "extractive": {
+        "n": 132,
+        "mean_f1": 0.598754471452222,
+        "ci": {
+          "n": 132,
+          "mean": 0.598754471452222,
+          "lower": 0.5402402491580685,
+          "upper": 0.6572476470871246
+        }
+      },
+      "unanswerable": {
+        "n": 11,
+        "mean_f1": 1.0,
+        "ci": {
+          "n": 11,
+          "mean": 1.0,
+          "lower": 1.0,
+          "upper": 1.0
+        }
+      },
+      "yes_no": {
+        "n": 28,
+        "mean_f1": 0.7285714285714285,
+        "ci": {
+          "n": 28,
+          "mean": 0.7285714285714285,
+          "lower": 0.5642857142857143,
+          "upper": 0.8857142857142858
+        }
+      }
+    },
+    "errors": 0,
+    "error_types": {},
+    "n_with_response": 200,
+    "truncation_rate": 0.0,
+    "cache_hit_rate": 0.01,
+    "mean_latency_ms": 14446.968415,
+    "total_prompt_tokens": 368270,
+    "total_completion_tokens": 62841,
+    "mean_f1_ci": {
+      "n": 200,
+      "mean": 0.5976850360395973,
+      "lower": 0.5437130922881925,
+      "upper": 0.6502205497975602
+    }
+  },
+  "provenance": {
+    "date_utc": "2026-10-27T20:41:03+00:00",
+    "git": {
+      "commit": "e94932c4852fe740eab1367422ae17d6128aba58",
+      "branch": "master",
+      "dirty": false
+    },
+    "slots": [
+      {
+        "slot": "MEDIUM",
+        "provider": "ollama",
+        "model": "qwen3:8b",
+        "quantization": "Q4_K_M",
+        "context_length": 8192,
+        "base_url": "http://localhost:11434/v1",
+        "digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+        "server_version": "0.40.5"
+      }
+    ],
+    "server_profile": "fa1-kvq8",
+    "settings": {
+      "slot": "MEDIUM",
+      "temperature": 0.6,
+      "thinking": true,
+      "max_tokens": 4000
+    },
+    "seed": 42,
+    "subset": {
+      "path": "evals/subsets/qasper_test.json",
+      "sha256": "1f119008f910ed164160bd055a7687b03346fee9adf53d314a2df675c0cb7ed2"
+    },
+    "python": "3.12.4",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "packages": {
+      "langchain-core": "1.7.0",
+      "langchain-ollama": "1.1.0",
+      "langchain-openai": "1.7.2",
+      "pydantic": "2.14.1"
+    }
+  }
+}
