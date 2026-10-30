@@ -1,0 +1,28 @@
+# Ingestion settings (A1).
+
+qasper:
+  # QASPER is a frozen download, so every QASPER paper gets this as its fetched_at.
+  # Taken from the download time of data/qasper/qasper-train-dev-v0.3.tgz.
+  # (The JSON files inside keep the authors' 2022 timestamps from the archive.)
+  fetched_at: "2026-10-20T22:57:37+00:00"
+
+arxiv:
+  # Categories to poll. The product focuses on NLP papers.
+  categories: ["cs.CL"]
+  # arXiv API terms: at most one request every 3 seconds, one connection at a time.
+  request_interval_seconds: 3
+  # Results per request (arXiv allows up to 2000; 100 keeps each response small).
+  page_size: 100
+
+queue:
+  db_path: "data/ingest/queue.db"
+  # Total tries per event; after the last failed one it is dead-lettered as "exhausted".
+  max_attempts: 3
+  # Wait before retry n = base * 2^(n-1), scaled by a random factor in [1 - jitter, 1 + jitter].
+  backoff_base_seconds: 5
+  backoff_jitter: 0.2
+  # A "processing" row older than this is presumed abandoned by a dead worker.
+  # Arbitrary for now; to be replaced by a value based on measured parse times.
+  lease_seconds: 300
+  # How long an idle worker sleeps before looking for due events again.
+  poll_interval_seconds: 0.5

@@ -26,3 +26,6 @@ data/
 .DS_Store
 .vscode/
 .idea/
+
+# Replay-eval queue databases: large (they hold every parsed paper) and regenerable from the run
+evals/results/*/queue.db*
