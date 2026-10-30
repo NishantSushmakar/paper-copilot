@@ -1,0 +1,119 @@
+{
+  "run_id": "20261030-012732_a1_replay",
+  "provenance": {
+    "git": {
+      "commit": "10cdc555aea0526fee756050f0b1a5b1da754cb0",
+      "branch": "master",
+      "dirty": true
+    },
+    "date": "2026-10-30T01:28:16.185196+00:00",
+    "fixture_sha256": "2d2a45c0e7c598da14193352ddcfa5e56524fdda33a3922d78bff4a1dd5c45d0",
+    "fixture_lines_used": 300,
+    "seed": 42,
+    "rates": {
+      "duplicate": 0.2,
+      "malformed": 0.05,
+      "transient": 0.1
+    },
+    "queue_config": {
+      "db_path": "data/ingest/queue.db",
+      "max_attempts": 3,
+      "backoff_base_seconds": 5.0,
+      "backoff_jitter": 0.2,
+      "lease_seconds": 10,
+      "poll_interval_seconds": 0.5
+    },
+    "crash_after_stores": 25,
+    "crash_exit_code": 1,
+    "kill_after_completed_calls": 150
+  },
+  "stream": {
+    "original": 300,
+    "malformed": 15,
+    "duplicate": 60
+  },
+  "malformed_kinds": {
+    "wrong_type": 2,
+    "version_zero": 3,
+    "missing_field": 3,
+    "truncated_json": 3,
+    "type_mismatch": 2,
+    "naive_time": 2
+  },
+  "enqueue": {
+    "enqueued": 300,
+    "malformed": 15,
+    "duplicate": 60
+  },
+  "final_status": {
+    "done": 296,
+    "dead": 4
+  },
+  "lost_events": 0,
+  "papers_rows": 296,
+  "done_without_paper": 0,
+  "redeliveries": 1,
+  "redelivered_keys": [
+    "2610.31895v2"
+  ],
+  "duplicate_processing": {
+    "keys_stored_more_than_once": 0,
+    "rate": 0.0
+  },
+  "transient": {
+    "injected_failures": 26,
+    "events_with_a_failure": 25,
+    "eventually_done": 25,
+    "eventual_success_rate": 1.0,
+    "expected_exhausted": 0.25
+  },
+  "dead_letters": {
+    "rows": 19,
+    "by_kind": {
+      "malformed": 15,
+      "permanent": 4
+    },
+    "precision": 0.7894736842105263,
+    "recall": 1.0,
+    "not_injected_malformed": [
+      {
+        "kind": "permanent",
+        "paper": "2407.18454v4",
+        "reason": "PermanentError('no HTML with text, and the PDF is missing (404)')"
+      },
+      {
+        "kind": "permanent",
+        "paper": "2605.18007v2",
+        "reason": "PermanentError('no HTML with text, and the PDF is missing (404)')"
+      },
+      {
+        "kind": "permanent",
+        "paper": "2603.03339v9",
+        "reason": "PermanentError('no HTML with text, and the PDF is missing (404)')"
+      },
+      {
+        "kind": "permanent",
+        "paper": "2606.24259v2",
+        "reason": "PermanentError('no HTML with text, and the PDF is missing (404)')"
+      }
+    ]
+  },
+  "parsed_from": {
+    "html": 277,
+    "pdf": 19
+  },
+  "worker_outcomes": {
+    "after_restart": {
+      "done": 147,
+      "retry": 14,
+      "dead": 2,
+      "lease_expired_retry": 1
+    }
+  },
+  "timings": {
+    "crash_after_store_seconds": 3.1,
+    "before_kill_seconds": 13.7,
+    "after_restart_seconds": 27.1
+  },
+  "throughput_events_per_second": 6.74
+}
