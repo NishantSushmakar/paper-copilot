@@ -37,6 +37,7 @@ You may write or edit these when I explicitly ask, and you must tell me which fi
 * Environment and serving setup: dependency files, Dockerfiles, docker-compose for Langfuse or Phoenix, model server launch commands, notebook setup cells for Kaggle or Colab.
 * Reports in `reports/aXX.md`: maintain them as a running lab notebook of our sessions (decisions and why, measured numbers, findings, surprises, open questions), written in first person and blog-ready. Record only what we actually measured or decided; mark anything not yet measured as TODO. Never invent numbers or conclusions.
 * Dataset download scripts (download only, not adapters or splits).
+* Unit tests under `tests/` that encode decisions I have already made (for example the expected outputs of a validator I designed). The tests check my code; they don't implement it. Cases I haven't decided stay out until I decide them. Eval harness logic and metrics stay core.
 * Plotting of results I have already computed, and formatting of results tables.
 * CI configuration files.
 * README formatting, but not the analysis in it.

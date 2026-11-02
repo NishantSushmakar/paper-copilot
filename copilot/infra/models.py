@@ -6,7 +6,7 @@ in by the caller.
 """
 
 from dataclasses import dataclass
-from typing import Callable
+from typing import Callable, Optional, Union
 
 from langchain_core.language_models import BaseChatModel
 from langchain_core.runnables import Runnable
@@ -30,6 +30,7 @@ def build_chat_model(
     thinking: bool,
     request_timeout: float,
     retry: RetryPolicy,
+    response_format: Optional[Union[str, dict]] = None,
 ) -> Runnable:
     """Return a chat model for `slot` (a validated chat slot from copilot.llm.slots).
 
@@ -42,6 +43,9 @@ def build_chat_model(
     Provider choice: "ollama" uses Ollama's native API, which returns the thinking
     text; "openai" uses any OpenAI-compatible server (for example vLLM). Slots
     without a `provider` field default to "ollama".
+
+    `response_format` turns on constrained decoding: "json" for any JSON object, or a
+    JSON schema (dict) that every generated token must fit. None means free text.
     """
     provider = getattr(slot, "provider", "ollama")
     base_url = str(slot.base_url).rstrip("/")
@@ -57,6 +61,8 @@ def build_chat_model(
             # length is enforced per request instead of relying on server env vars.
             num_ctx=slot.context_length,
             reasoning=thinking,
+            # Ollama applies the format as a grammar while sampling (structured outputs).
+            format=response_format,
             client_kwargs={"timeout": request_timeout},
         )
     elif provider == "openai":
@@ -71,6 +77,15 @@ def build_chat_model(
             # Retries come from `retry` below; disable the SDK's own so they don't stack.
             max_retries=0,
         )
+        if response_format == "json":
+            model = model.bind(response_format={"type": "json_object"})
+        elif isinstance(response_format, dict):
+            model = model.bind(
+                response_format={
+                    "type": "json_schema",
+                    "json_schema": {"name": "output", "schema": response_format, "strict": True},
+                }
+            )
     else:
         raise ValueError(f"Unknown provider {provider!r}; expected 'ollama' or 'openai'.")
 

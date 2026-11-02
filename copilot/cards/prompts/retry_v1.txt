@@ -1,0 +1,4 @@
+Your previous reply was rejected for these reasons:
+{errors}
+
+Fix every problem listed above and return the complete Paper Card again, as one JSON object and nothing else. All the rules from the system message still apply.

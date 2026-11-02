@@ -120,7 +120,8 @@ def chat_with_llm(
             retry=RetryPolicy(
                 max_attempts=4,
                 should_retry=should_retry,
-            )
+            ),
+            response_format=response_format,
         )
 
         start = monotonic()
