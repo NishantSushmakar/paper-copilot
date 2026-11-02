@@ -137,7 +137,7 @@ def test_messages_and_settings(fake_model):
     assert call["slot"] == "MEDIUM"
     assert call["messages"][0] == {"role": "system", "content": extract.load_prompt("v3")}
     assert call["messages"][1] == {"role": "user", "content": "passage text"}
-    assert (call["temperature"], call["max_tokens"], call["thinking"]) == (0.6, 4000, True)
+    assert (call["temperature"], call["max_tokens"], call["thinking"]) == (0.6, 10000, True)
 
 
 def test_outcome_is_one_json_line(fake_model):
@@ -160,7 +160,7 @@ BAD = {**GOOD, "results": [{**GOOD["results"][0], "raw_value": "high"}]}
 
 def run_s2(fake_model, responses, chunk="passage text"):
     calls = fake_model(responses)
-    outcome = extract.extract_s2(chunk, slot="MEDIUM", paper_id="p1", chunk_index=2)
+    outcome = extract.extract_s2(chunk, slot="MEDIUM_16K", paper_id="p1", chunk_index=2)
     return outcome, calls
 
 
@@ -186,16 +186,17 @@ def test_s2_retries_a_content_failure_with_the_errors(fake_model):
 
 
 def test_s2_retry_fits_in_the_context(fake_model):
-    # a full-size chunk: 2,600 tokens + the 1,540-token prompt leave no room for 4,000 on a retry
+    # a full-size chunk on the 16k slot (reports/a02.md §6): the retry adds the answer and the
+    # errors, so its max_tokens is whatever still fits, never more than the first attempt's
     chunk = " ".join(f"The model {i} reaches 85.3 F1 on SQuAD ." for i in range(135))
     assert 2400 < extract.count_tokens(chunk) <= 2600
     outcome, calls = run_s2(fake_model, [reply(json.dumps(BAD)), reply(json.dumps(GOOD))], chunk=chunk)
     retry = calls[1]
     used = sum(extract.count_tokens(m["content"]) for m in retry["messages"])
-    assert calls[0]["max_tokens"] == 4000  # the first attempt gets the full budget
-    assert retry["max_tokens"] < 4000
-    assert used + extract.TEMPLATE_MARGIN + retry["max_tokens"] <= 8192
-    assert [a.max_tokens for a in outcome.history] == [4000, retry["max_tokens"]]
+    assert calls[0]["max_tokens"] == 10000  # the first attempt gets the full budget
+    assert retry["max_tokens"] <= 10000
+    assert used + extract.TEMPLATE_MARGIN + retry["max_tokens"] <= 16384
+    assert [a.max_tokens for a in outcome.history] == [10000, retry["max_tokens"]]
 
 
 def test_s2_retries_a_format_failure(fake_model):
@@ -235,7 +236,7 @@ def test_s3_sends_the_card_schema_and_the_s1_prompt(fake_model):
     (call,) = calls
     assert call["response_format"] == extract.CARD_SCHEMA
     assert call["messages"] == extract.build_messages(extract.load_prompt("v3"), "passage text")  # same as S1
-    assert (call["temperature"], call["max_tokens"], call["thinking"]) == (0.6, 4000, True)
+    assert (call["temperature"], call["max_tokens"], call["thinking"]) == (0.6, 10000, True)
     assert (outcome.strategy, outcome.status, outcome.attempts) == ("S3", "valid", 1)
 
 

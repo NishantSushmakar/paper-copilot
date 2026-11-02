@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 PROMPT_DIR = Path(__file__).parent / "prompts"
 
 # The same settings for every strategy and both slots (reports/a02.md §3).
-GENERATION = {"temperature": 0.6, "max_tokens": 4000, "thinking": True}
+GENERATION = {"temperature": 0.6, "max_tokens": 10000, "thinking": True}
 
 # One code fence around the whole reply: ```json ... ``` or ``` ... ```
 FENCE = re.compile(r"^\s*```(?:json)?[ \t]*\n?(.*?)\n?\s*```\s*$", re.DOTALL | re.IGNORECASE)

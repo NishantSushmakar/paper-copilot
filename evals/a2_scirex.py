@@ -1,7 +1,8 @@
 """A2 eval: paper cards on SciREX, every strategy x slot, with CIs (reports/a02.md §6).
 
     uv run python -m evals.a2_scirex --split dev
-    uv run python -m evals.a2_scirex --split dev --limit 2 --slots MEDIUM --strategies S1   # smoke test
+    uv run python -m evals.a2_scirex --split dev --limit 2 --slots MEDIUM_16K --strategies S1   # smoke test
+    uv run python -m evals.a2_scirex --split dev --slots MEDIUM_16K --strategies S1 --chunk-size 4000   # ablation
     uv run python -m evals.a2_scirex --split test --confirm-test                            # once, at the end
 
 For each slot, then each strategy (S1 before S2, so S2's first attempt is S1's cached
@@ -43,15 +44,19 @@ from evals.metrics.scirex import FIELDS, Counts, bootstrap_scores, score_paper, 
 EVALS_DIR = Path(__file__).resolve().parent
 RESULTS_DIR = EVALS_DIR / "results"
 SEED = 42
+CHUNK_SIZE = 4000  # tokens (reports/a02.md §6); other sizes for an ablation with --chunk-size
+CHUNK_OVERLAP = 100
 
 STRATEGIES = {"S1": extract.extract_s1, "S2": extract.extract_s2, "S3": extract.extract_s3}
 
 logger = logging.getLogger("evals.a2_scirex")
 
 
-def run_paper(doc, strategy: str, slot: str, prompt_version: str, merge_rule: str, chunks_path: Path) -> dict:
+def run_paper(
+    doc, strategy: str, slot: str, prompt_version: str, merge_rule: str, chunk_size: int, chunks_path: Path
+) -> dict:
     """Chunk, extract and merge one paper; returns its papers.jsonl row."""
-    chunks = chunk_text(doc.text)
+    chunks = chunk_text(doc.text, chunk_size=chunk_size, chunk_overlap=CHUNK_OVERLAP)
     outcomes, errors = [], []
     for chunk in chunks:
         try:
@@ -149,10 +154,12 @@ def print_table(summaries: dict) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--split", required=True, choices=["train", "dev", "test"])
-    parser.add_argument("--slots", nargs="+", default=["SMALL", "MEDIUM"], choices=["SMALL", "MEDIUM"])
+    # 16k slots only: GENERATION's max_tokens is sized for a 16k box and overflows an 8k one.
+    parser.add_argument("--slots", nargs="+", default=["SMALL_16K", "MEDIUM_16K"], choices=["SMALL_16K", "MEDIUM_16K"])
     parser.add_argument("--strategies", nargs="+", default=["S1", "S2", "S3"], choices=sorted(STRATEGIES))
     parser.add_argument("--prompt-version", default="v3")
     parser.add_argument("--merge-rule", default="share_name", choices=["share_name", "agree2"])
+    parser.add_argument("--chunk-size", type=int, default=CHUNK_SIZE, help="chunk size in tokens (default %(default)s)")
     parser.add_argument("--limit", type=int, help="only the first N papers (smoke tests; not for reported numbers)")
     parser.add_argument("--confirm-test", action="store_true", help="required to run on the test split")
     parser.add_argument("--trace", action="store_true", help="send the model calls to LangSmith")
@@ -173,7 +180,7 @@ def main() -> None:
                "retry_prompt": extract.RETRY_PROMPT_VERSION, "template_margin": extract.TEMPLATE_MARGIN,
                "min_retry_tokens": extract.MIN_RETRY_TOKENS},
         "s3_schema": extract.CARD_SCHEMA,
-        "chunking": {"chunk_tokens": 2600, "overlap_tokens": 100},
+        "chunking": {"chunk_tokens": args.chunk_size, "overlap_tokens": CHUNK_OVERLAP},
         "prompt_version": args.prompt_version,
         "prompt_sha256": file_sha256(extract.PROMPT_DIR / f"extraction_{args.prompt_version}.txt"),
         "merge_rule": args.merge_rule,
@@ -192,7 +199,8 @@ def main() -> None:
     run_id = f"{stamp}_a2_scirex_{args.split}"
     run_dir = RESULTS_DIR / run_id
     chunks_path, papers_path = run_dir / "chunks.jsonl", run_dir / "papers.jsonl"
-    print(f"run {run_id}: {len(docs)} papers x {len(strategies)} strategies x {len(args.slots)} slots"
+    print(f"run {run_id}: {len(docs)} papers x {len(strategies)} strategies x {len(args.slots)} slots,"
+          f" {args.chunk_size}-token chunks, max_tokens {extract.GENERATION['max_tokens']}"
           f" -> {run_dir.relative_to(EVALS_DIR.parent)}")
 
     if args.trace:
@@ -207,7 +215,7 @@ def main() -> None:
                 chunk_start = sum(1 for _ in chunks_path.open()) if chunks_path.exists() else 0
                 paper_rows = []
                 for i, doc in enumerate(docs, 1):
-                    row = run_paper(doc, strategy, slot, args.prompt_version, args.merge_rule, chunks_path)
+                    row = run_paper(doc, strategy, slot, args.prompt_version, args.merge_rule, args.chunk_size, chunks_path)
                     append_jsonl(papers_path, row)
                     paper_rows.append(row)
                     print(f"  {key} {i}/{len(docs)} {doc.doc_id[:8]}: {row['chunks_valid']}/{row['chunks_total']} chunks valid",
@@ -223,6 +231,7 @@ def main() -> None:
         "run_id": run_id,
         "split": args.split,
         "limit": args.limit,
+        "chunk_size": args.chunk_size,
         "wall_seconds": round(wall_seconds, 1),
         "summaries": summaries,
         "provenance": provenance,

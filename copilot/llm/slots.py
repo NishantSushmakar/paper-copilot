@@ -31,6 +31,8 @@ class ModelSlots(StrictModel):
     RERANK: InProcessModelConfig
     NLI: InProcessModelConfig
     JUDGE: JudgeConfig
+    SMALL_16K: ChatAPIConfig
+    MEDIUM_16K: ChatAPIConfig
 
 
 def get_chat_slot( config: ModelSlots,name: str) -> ChatAPIConfig:
@@ -45,12 +47,12 @@ def get_chat_slot( config: ModelSlots,name: str) -> ChatAPIConfig:
             "it is an in-process model."
         )
 
-    if name in {"SMALL", "MEDIUM"}:
+    if name in {"SMALL", "MEDIUM", "SMALL_16K", "MEDIUM_16K"}:
         return getattr(config, name)
 
     raise ValueError(
         f"Unknown chat slot {name!r}. "
-        "Valid slots: SMALL, MEDIUM, JUDGE."
+       "Valid slots: SMALL, MEDIUM, SMALL_16K, MEDIUM_16K, JUDGE."
     )
 
 

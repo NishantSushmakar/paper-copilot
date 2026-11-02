@@ -24,6 +24,23 @@ MEDIUM:
   quantization: Q4_K_M
   context_length: 8192
 
+# Same models with a 16k box, for A2's paper cards: the 8k box cut off chunks while the
+# model was still thinking (reports/a02.md §6). Separate slots, so A0/A1 cache keys and
+# provenance stay unchanged. Memory: qwen3:8b at 16k measured 6.3 GB in `ollama ps`.
+SMALL_16K:
+  model: qwen3:4b-q4_K_M
+  digest: 2bfd38a7daaf
+  base_url: http://localhost:11434/v1
+  quantization: Q4_K_M
+  context_length: 16384
+
+MEDIUM_16K:
+  model: qwen3:8b
+  digest: 500a1f067a9f
+  base_url: http://localhost:11434/v1
+  quantization: Q4_K_M
+  context_length: 16384
+
 EMBED:
   model: Qwen/Qwen3-Embedding-0.6B   # queries take an instruction prefix, documents do not
   device: mps
