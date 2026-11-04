@@ -29,3 +29,9 @@ data/
 
 # Replay-eval queue databases: large (they hold every parsed paper) and regenerable from the run
 evals/results/*/queue.db*
+
+# Working files of the design-taste-frontend skill
+.taste-skill/
+# Research Guru: the sample cards are committed so a clone can run the UI; the local reading list is not
+!ui/data/
+ui/data/reading_list.json

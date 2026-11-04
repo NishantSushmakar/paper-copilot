@@ -1,0 +1,1004 @@
+{
+  "store_size": 296,
+  "papers": [
+    {
+      "paper": {
+        "source": "arxiv",
+        "id": "2610.37657",
+        "version": 1,
+        "title": "Heads of Security: Learned Attention Gates Improve Prompt Injection Robustness",
+        "authors": [
+          "Igor Shilov",
+          "Xiaoxue Yang",
+          "Alexander Panfilov",
+          "Evgenii Kortukov",
+          "Matthieu Meeus",
+          "Peter Romov",
+          "Wojciech Samek",
+          "Jonas Geiping",
+          "Yves-Alexandre de Montjoye"
+        ],
+        "abstract": "We introduce Heads of Security (HoS), a prompt injection defense that enforces instruction-data separation via a small set of learned per-head attention gates. HoS learns how each head should redistribute attention between trusted and untrusted tokens, enabling models to reason over untrusted content without following injected instructions. We evaluate HoS on Llama-3.3-70B-Instruct and GPT-OSS-20B. We compare it against SecAlign++, a state-of-the-art finetuning-based defense, and ASIDE, a defense that, like ours, builds instruction-data separation into the model architecture. We show that HoS offers greater robustness to adaptive attacks, better performance on standard utility benchmarks, and matches top performance on standard agentic prompt injection benchmarks. More specifically, the black-box RL-Hammer attack reaches 97% ASR against GPT-OSS-20B and 85% against SecAlign, but only 10% against HoS. Claudini, a state-of-the-art white-box attack, strengthened against HoS through autoresearch, requires 3 times more FLOPs to reach the same ASR on HoS as it does on GPT-OSS-20B or SecAlign. HoS preserves base-model utility across standard multiple-choice benchmarks and prompting setups, whereas SecAlign and ASIDE degrade in few-shot settings. On agentic benchmarks with static attacks, HoS and SecAlign perform similarly and substantially improve the security-utility trade-off over the base model. ASIDE struggles with tool use, achieving only 10% utility. These results show that prompt injection robustness can be achieved and improved through targeted attention interventions.",
+        "fetched_at": "2026-10-30T00:55:54.791473Z",
+        "sections": 42
+      },
+      "card_source": "sample",
+      "card": {
+        "tasks": [
+          {
+            "names": [
+              "prompt injection defense"
+            ]
+          },
+          {
+            "names": [
+              "instruction-data separation"
+            ]
+          }
+        ],
+        "datasets": [
+          {
+            "names": [
+              "RL-Hammer attack"
+            ]
+          }
+        ],
+        "methods": [
+          {
+            "names": [
+              "Heads of Security",
+              "HoS"
+            ]
+          },
+          {
+            "names": [
+              "SecAlign++"
+            ]
+          },
+          {
+            "names": [
+              "ASIDE"
+            ]
+          },
+          {
+            "names": [
+              "RL-Hammer"
+            ]
+          },
+          {
+            "names": [
+              "Claudini"
+            ]
+          },
+          {
+            "names": [
+              "Llama-3.3-70B-Instruct"
+            ]
+          },
+          {
+            "names": [
+              "GPT-OSS-20B"
+            ]
+          },
+          {
+            "names": [
+              "SecAlign"
+            ]
+          }
+        ],
+        "metrics": [
+          {
+            "names": [
+              "attack success rate",
+              "ASR"
+            ]
+          },
+          {
+            "names": [
+              "utility"
+            ]
+          }
+        ],
+        "results": [
+          {
+            "dataset": "RL-Hammer attack",
+            "metric": "ASR",
+            "method": "HoS",
+            "raw_value": "10%",
+            "parsed_value": 10.0
+          },
+          {
+            "dataset": "RL-Hammer attack",
+            "metric": "ASR",
+            "method": "SecAlign",
+            "raw_value": "85%",
+            "parsed_value": 85.0
+          },
+          {
+            "dataset": "RL-Hammer attack",
+            "metric": "ASR",
+            "method": "GPT-OSS-20B",
+            "raw_value": "97%",
+            "parsed_value": 97.0
+          }
+        ],
+        "code_url": null
+      }
+    },
+    {
+      "paper": {
+        "source": "arxiv",
+        "id": "2610.37651",
+        "version": 1,
+        "title": "GEPA-Curator: Curated Learning for Self Improving Agents",
+        "authors": [
+          "Zack Yu",
+          "Nicholas Lee",
+          "Minjae Lee",
+          "Lakshya Agarwal",
+          "Luca Manolache",
+          "Wonjun Kang",
+          "Matei Zaharia",
+          "Michael W. Mahoney",
+          "Kurt Keutzer",
+          "Sehoon Kim",
+          "Amir Gholami"
+        ],
+        "abstract": "Large Language Models (LLMs) are increasingly used in multi-turn agentic workloads that require sustained interaction with complex environments. Existing reflective prompt optimizers such as GEPA learn from failed rollouts, but agentic failures can also come from prompt weaknesses, harness limitations, stochastic execution, or noisy judges. We argue that such failures may not provide useful learning signal, and may even be harmful; and thus it is essential to curate which tasks are provided to the prompt optimizer for better performance. We introduce GEPA-Curator, a framework that augments the prompt optimizer to select which agent experiences should shape prompt optimization. In particular, GEPA-Curator consists of two components: task curation, which filters out tasks that are likely to provide noisy or unreliable learning signals, and prior success retrieval, which selectively retrieves past successful trajectories for a task and provides them as additional context to the prompt optimizer. We evaluate GEPA-Curator on GoBrowse, ALFWorld, AppWorld, and $τ$-bench, using both Gemini 3.1 Pro and Claude Opus 5 as optimizer models. GEPA-Curator matches or exceeds the mean performance of both baselines, with gains of up to 20.7% over GEPA and 21.2% over ACE.",
+        "fetched_at": "2026-10-30T00:55:57.841983Z",
+        "sections": 34
+      },
+      "card_source": "sample",
+      "card": {
+        "tasks": [
+          {
+            "names": [
+              "prompt optimization"
+            ]
+          },
+          {
+            "names": [
+              "self-improving agents"
+            ]
+          }
+        ],
+        "datasets": [
+          {
+            "names": [
+              "GoBrowse"
+            ]
+          },
+          {
+            "names": [
+              "ALFWorld"
+            ]
+          },
+          {
+            "names": [
+              "AppWorld"
+            ]
+          },
+          {
+            "names": [
+              "τ-bench"
+            ]
+          }
+        ],
+        "methods": [
+          {
+            "names": [
+              "GEPA-Curator"
+            ]
+          },
+          {
+            "names": [
+              "GEPA"
+            ]
+          },
+          {
+            "names": [
+              "ACE"
+            ]
+          },
+          {
+            "names": [
+              "task curation"
+            ]
+          },
+          {
+            "names": [
+              "prior success retrieval"
+            ]
+          },
+          {
+            "names": [
+              "Gemini 3.1 Pro"
+            ]
+          },
+          {
+            "names": [
+              "Claude Opus 5"
+            ]
+          }
+        ],
+        "metrics": [
+          {
+            "names": [
+              "mean performance"
+            ]
+          }
+        ],
+        "results": [],
+        "code_url": null
+      }
+    },
+    {
+      "paper": {
+        "source": "arxiv",
+        "id": "2610.37649",
+        "version": 1,
+        "title": "Can LLMs Uncover Hidden Physical Laws through Free Exploration?",
+        "authors": [
+          "Zhen Yang",
+          "Wen Wang",
+          "Xander Xu",
+          "Ying-Cong Chen"
+        ],
+        "abstract": "Scientific discovery often begins with an unexpected observation that prompts a new research question. In a world with altered physical laws, can large language models (LLMs) notice unexpected behavior, such as heavier objects falling more slowly, and discover the law through experiments without being told what to investigate? To evaluate this ability, we introduce LongChang, an automated framework that creates simulated worlds with altered physics, where one or more laws differ from ordinary physics. The evaluated LLMs act as explorers, manipulating objects and building tools to investigate their own questions without research tasks or hints about these laws. Separate LLM agents generate and review scenes, review tool designs, and evaluate reports for correctness and experimental support using the altered physical laws and exploration records. These records guide scene evolution for further exploration, allowing the full cycle to run without human intervention. Among 12 LLMs, GPT-6-Astra achieves a discovery rate of 16.7%, while the other 11 score 0%. The exploration records reveal uninvestigated anomalies and only partial identification of the altered physical laws.",
+        "fetched_at": "2026-10-30T00:56:00.966583Z",
+        "sections": 24
+      },
+      "card_source": "sample",
+      "card": {
+        "tasks": [
+          {
+            "names": [
+              "scientific discovery"
+            ]
+          },
+          {
+            "names": [
+              "physical law discovery"
+            ]
+          }
+        ],
+        "datasets": [
+          {
+            "names": [
+              "LongChang"
+            ]
+          }
+        ],
+        "methods": [
+          {
+            "names": [
+              "GPT-6-Astra"
+            ]
+          }
+        ],
+        "metrics": [
+          {
+            "names": [
+              "discovery rate"
+            ]
+          }
+        ],
+        "results": [
+          {
+            "dataset": "LongChang",
+            "metric": "discovery rate",
+            "method": "GPT-6-Astra",
+            "raw_value": "16.7%",
+            "parsed_value": 16.7
+          }
+        ],
+        "code_url": null
+      }
+    },
+    {
+      "paper": {
+        "source": "arxiv",
+        "id": "2610.37645",
+        "version": 1,
+        "title": "Multi-State Linear Attention with Generalized Second-Order Routing",
+        "authors": [
+          "Hee Seung Hwang",
+          "Sanghyuk Chun",
+          "Xindi Wu",
+          "Olga Russakovsky",
+          "Zhiwei Deng"
+        ],
+        "abstract": "Self-attention plays a key role in long-sequence modeling, but its quadratic time complexity fundamentally limits the scaling of Large Language Models. Recently, Multi-State Linear Attention (MSLA) mechanisms have been proposed to make sequence modeling more efficient by splitting the context into segments and compressing each in its own memory state. MSLA aggregates the information extracted from each memory state using only the mean alignment between a query and each segment's keys, ignoring how the alignment is distributed within the segment. In order to model the relevance of a segment to a query more comprehensively and incorporate the variance of the alignment in the aggregation, we propose MERLIN (MomEnt Routing for multi-state LINear attention), a method that tracks the first and second moments of each segment's keys. Using the moments of keys, a query can recover both the mean and the variance of its alignment with each segment to perform a more content-aware aggregation of per-state readouts. Experiments on multi-state variants of Gated DeltaNet-1.3B and Mamba-2-780M show that MERLIN consistently outperforms existing aggregation methods on various long-context tasks. In particular, MERLIN outperforms baselines on RULER needle-in-a-haystack and long-context QA (+8.3% for Gated DeltaNet-1.3B and +7.0% for Mamba-2-780M) and diverse subtasks in LongBench (+13.5% and +12.0%). It even outperforms baselines that consume 4x more memory. MERLIN provides a simple and general routing mechanism for improving long-context capabilities of MSLA models.",
+        "fetched_at": "2026-10-30T00:56:04.036017Z",
+        "sections": 17
+      },
+      "card_source": "sample",
+      "card": {
+        "tasks": [
+          {
+            "names": [
+              "long-context modeling"
+            ]
+          },
+          {
+            "names": [
+              "needle-in-a-haystack retrieval"
+            ]
+          },
+          {
+            "names": [
+              "long-context QA"
+            ]
+          }
+        ],
+        "datasets": [
+          {
+            "names": [
+              "RULER"
+            ]
+          },
+          {
+            "names": [
+              "LongBench"
+            ]
+          },
+          {
+            "names": [
+              "RULER and long-context QA"
+            ]
+          }
+        ],
+        "methods": [
+          {
+            "names": [
+              "MERLIN",
+              "MomEnt Routing for multi-state LINear attention"
+            ]
+          },
+          {
+            "names": [
+              "Multi-State Linear Attention",
+              "MSLA"
+            ]
+          },
+          {
+            "names": [
+              "Gated DeltaNet-1.3B"
+            ]
+          },
+          {
+            "names": [
+              "Mamba-2-780M"
+            ]
+          },
+          {
+            "names": [
+              "MERLIN (Gated DeltaNet-1.3B)"
+            ]
+          },
+          {
+            "names": [
+              "MERLIN (Mamba-2-780M)"
+            ]
+          }
+        ],
+        "metrics": [
+          {
+            "names": [
+              "improvement over baselines"
+            ]
+          }
+        ],
+        "results": [
+          {
+            "dataset": "LongBench",
+            "metric": "improvement over baselines",
+            "method": "MERLIN (Gated DeltaNet-1.3B)",
+            "raw_value": "13.5%",
+            "parsed_value": 13.5
+          },
+          {
+            "dataset": "LongBench",
+            "metric": "improvement over baselines",
+            "method": "MERLIN (Mamba-2-780M)",
+            "raw_value": "12.0%",
+            "parsed_value": 12.0
+          },
+          {
+            "dataset": "RULER and long-context QA",
+            "metric": "improvement over baselines",
+            "method": "MERLIN (Gated DeltaNet-1.3B)",
+            "raw_value": "8.3%",
+            "parsed_value": 8.3
+          },
+          {
+            "dataset": "RULER and long-context QA",
+            "metric": "improvement over baselines",
+            "method": "MERLIN (Mamba-2-780M)",
+            "raw_value": "7.0%",
+            "parsed_value": 7.0
+          }
+        ],
+        "code_url": null
+      }
+    },
+    {
+      "paper": {
+        "source": "arxiv",
+        "id": "2610.37642",
+        "version": 1,
+        "title": "Metacognitive Decoding: Efficient Inference for Diffusion Language Agents",
+        "authors": [
+          "Mingyu Zhao",
+          "Shuhang Lin",
+          "Ligong Han",
+          "Xiaojing Yu",
+          "Zhenting Wang",
+          "Yifei Pang",
+          "Yang Zhou",
+          "Dimitris N. Metaxas"
+        ],
+        "abstract": "Diffusion language models offer a promising path to efficient agents through parallel token generation. However, efficient interaction requires adapting both where computation is spent and how much text is generated. We introduce a metacognitive controller that guides diffusion generation according to the needs of the current response and the agent's interaction with the environment. It learns when to finalize tokens and how far generation should extend, reducing overall computation within responses. Our controller, a lightweight plug-in for the diffusion backbone, is trained on agent trajectories to balance correctness and generation cost. This approach connects the agent's generation process to the interaction the agent serves. Experiments across five benchmarks demonstrate that our approach reduces inference FLOPs by 20.6% on average compared with the most efficient baseline, while maintaining competitive task accuracy. Ablation studies further validate the effectiveness of our approach.",
+        "fetched_at": "2026-10-30T00:56:07.175023Z",
+        "sections": 17
+      },
+      "card_source": "sample",
+      "card": {
+        "tasks": [
+          {
+            "names": [
+              "efficient inference"
+            ]
+          },
+          {
+            "names": [
+              "language agents"
+            ]
+          }
+        ],
+        "datasets": [
+          {
+            "names": [
+              "five agent benchmarks, average"
+            ]
+          }
+        ],
+        "methods": [
+          {
+            "names": [
+              "metacognitive controller"
+            ]
+          },
+          {
+            "names": [
+              "diffusion language models"
+            ]
+          }
+        ],
+        "metrics": [
+          {
+            "names": [
+              "inference FLOPs"
+            ]
+          },
+          {
+            "names": [
+              "task accuracy"
+            ]
+          },
+          {
+            "names": [
+              "FLOPs reduction vs. most efficient baseline"
+            ]
+          }
+        ],
+        "results": [
+          {
+            "dataset": "five agent benchmarks, average",
+            "metric": "FLOPs reduction vs. most efficient baseline",
+            "method": "metacognitive controller",
+            "raw_value": "20.6%",
+            "parsed_value": 20.6
+          }
+        ],
+        "code_url": null
+      }
+    },
+    {
+      "paper": {
+        "source": "arxiv",
+        "id": "2610.37624",
+        "version": 1,
+        "title": "Rare, Relevant, and Still Wrong: How Memory Fails LLM Group Decisions",
+        "authors": [
+          "Anouar Imel",
+          "Imad Charradi",
+          "Abderrahman Sghir",
+          "Khalil El Khammar"
+        ],
+        "abstract": "When an LLM group's discussion is compressed into a short memory for a final decision maker, what should the memory keep? Two natural heuristics keep the rarest claims or the claims relevant to the decision criteria. On hidden-profile tasks both look attractive, because how widely a fact is held is confounded with whether it helps. We introduce CrossProfile, a diagnostic benchmark of 60 templates with automatically verified answer keys, in which the ownership of supporting, decoy, and irrelevant facts is crossed while their text is held fixed (480 tasks). Across Qwen2.5-7B, Llama-3.1-8B, and two DeepSeek models, both heuristics fail in predictable places. Selecting by relevance readmits decoys, because decoys are on topic: even a perfect relevance filter loses 23 to 31 points to rarest-first selection in the classic hidden-profile configuration. Rarest-first selection is no better than random selection on average and wins only where the rare facts happen to be the useful ones. In both cases accuracy follows the balance of evidence the memory keeps, not the policy that kept it. The decision model adds a third failure, a form of social proof: it gives extra weight to facts attributed to many agents. Removing the attribution tags, or reassigning them at random with line order fixed, raises accuracy in the classic configuration by 13 to 24 points. In natural discussions the evidence is lost before any memory acts: the complete transcript yields lower accuracy than no notes at all.",
+        "fetched_at": "2026-10-30T00:56:16.557143Z",
+        "sections": 26
+      },
+      "card_source": "sample",
+      "card": {
+        "tasks": [
+          {
+            "names": [
+              "group decision making"
+            ]
+          },
+          {
+            "names": [
+              "memory for multi-agent discussion"
+            ]
+          }
+        ],
+        "datasets": [
+          {
+            "names": [
+              "CrossProfile"
+            ]
+          }
+        ],
+        "methods": [
+          {
+            "names": [
+              "rarest-first selection"
+            ]
+          },
+          {
+            "names": [
+              "relevance selection"
+            ]
+          },
+          {
+            "names": [
+              "Qwen2.5-7B"
+            ]
+          },
+          {
+            "names": [
+              "Llama-3.1-8B"
+            ]
+          }
+        ],
+        "metrics": [
+          {
+            "names": [
+              "accuracy"
+            ]
+          }
+        ],
+        "results": [],
+        "code_url": null
+      }
+    },
+    {
+      "paper": {
+        "source": "arxiv",
+        "id": "2610.37609",
+        "version": 1,
+        "title": "EnvSched: Environment-Aware Scheduling for Rollout-Efficient Agent Reinforcement Learning",
+        "authors": [
+          "Sihan Yang",
+          "Weichen Bai",
+          "Ruichuan An",
+          "Yiming Cheng",
+          "Zhiyuan Feng",
+          "Tianyi Jiang",
+          "Renye Yan",
+          "Ning Ding",
+          "Yifan Zhang",
+          "Renrui Zhang",
+          "Yehui Tang",
+          "Wentao Zhang"
+        ],
+        "abstract": "As executable environments for language agents scale, generating and verifying their rollouts becomes increasingly expensive. Under finite rollout budgets, this raises an important question: can data management at the environment level make agentic reinforcement learning (RL) more efficient by organizing, evaluating, and scheduling task instances together with the environments that determine their tools, states, transitions, and verification? To address this question, we introduce EnvSched (Environment-aware Scheduling), an online scheduler that learns from rollout history. EnvSched assigns scheduling value through two complementary modeling choices: exploitation prioritizes tasks likely to provide informative reward differences, while coverage spreads each batch across underobserved environments and interaction patterns. EnvSched organizes environment--task pairs as nodes in a dual-relation graph, with within-environment edges capturing task semantics and shared tool, state, and verifier structure, and cross-environment edges capturing abstract execution and reward topology. By propagating historical rollout statistics along both edge types, it predicts within-task reward variance. These predictions guide a scheduler that allocates each batch to tasks with high predicted reward variance and underobserved environments and tasks. Environment quotas and a similarity penalty further limit concentration and redundancy, yielding informative and diverse batches without additional pilot rollouts. In RL on Qwen3-8B, EnvSched achieves an average score of 48.81 across BFCL-v3, tau-Bench, and ACEBench-Agent after 40 training steps, exceeding the highest score attained by random task selection after 120 steps. It also improves downstream performance across model sizes at the same training budget.",
+        "fetched_at": "2026-10-30T00:56:19.737385Z",
+        "sections": 32
+      },
+      "card_source": "sample",
+      "card": {
+        "tasks": [
+          {
+            "names": [
+              "agentic reinforcement learning"
+            ]
+          },
+          {
+            "names": [
+              "task scheduling"
+            ]
+          }
+        ],
+        "datasets": [
+          {
+            "names": [
+              "BFCL-v3"
+            ]
+          },
+          {
+            "names": [
+              "τ-Bench",
+              "tau-Bench"
+            ]
+          },
+          {
+            "names": [
+              "ACEBench-Agent"
+            ]
+          },
+          {
+            "names": [
+              "BFCL-v3, τ-Bench, ACEBench-Agent"
+            ]
+          }
+        ],
+        "methods": [
+          {
+            "names": [
+              "EnvSched",
+              "Environment-aware Scheduling"
+            ]
+          },
+          {
+            "names": [
+              "random task selection"
+            ]
+          },
+          {
+            "names": [
+              "Qwen3-8B"
+            ]
+          },
+          {
+            "names": [
+              "EnvSched (Qwen3-8B)"
+            ]
+          }
+        ],
+        "metrics": [
+          {
+            "names": [
+              "average score"
+            ]
+          },
+          {
+            "names": [
+              "average score after 40 steps"
+            ]
+          }
+        ],
+        "results": [
+          {
+            "dataset": "BFCL-v3, τ-Bench, ACEBench-Agent",
+            "metric": "average score after 40 steps",
+            "method": "EnvSched (Qwen3-8B)",
+            "raw_value": "48.81",
+            "parsed_value": 48.81
+          }
+        ],
+        "code_url": null
+      }
+    },
+    {
+      "paper": {
+        "source": "arxiv",
+        "id": "2610.37494",
+        "version": 1,
+        "title": "semanticfa: An R Package for Response-Free Semantic Factor Analysis of Psychometric Scales",
+        "authors": [
+          "Devon Yanitski",
+          "Chris Westbury"
+        ],
+        "abstract": "The items of a reflective psychometric scale can be read as a proposal about a construct's structure. Language models make that proposal measurable by converting each item into an embedding, a list of numbers, similar for similar meanings. We introduce semanticfa, an R package for semantic factor analysis, which factors item-embedding similarities. It also interprets factors, flags redundant items, builds short forms, and screens new items. A worked example analyzes the 50-item International Personality Item Pool Big-Five Factor Markers, embedded with Qwen3-Embedding-8B, and compares the results with a factor analysis of 874,434 respondents. Retention criteria tied between five and six factors, and the tie rule kept five. Three corresponded mainly to single domains, and two blended most Extraversion items with five Agreeableness items. Each factor's congruence with its best-matching human factor (1 = identical) ranged from .92 for Openness to .52 for Agreeableness. Item pairs more similar in meaning tended to be answered more alike (r = .46 with raw responses), but same-domain reverse-keyed opposites, answered oppositely, were about as similar as cross-domain pairs (.58 vs. .57). Sign-flipping reverse-keyed items' embeddings did not improve agreement with raw responses and worsened it with reverse-scored ones. With five factors, a 25-item short form matched the domains better than all 200 random five-per-domain sets, but parallel analysis kept only three. We propose semantic-behavioral coherence, the agreement between semantic and response structures, as a measurable property of a scale, given an embedding model. Semantic factor analysis complements, and does not replace, response-based factor analysis.",
+        "fetched_at": "2026-10-30T00:56:38.480008Z",
+        "sections": 51
+      },
+      "card_source": "sample",
+      "card": {
+        "tasks": [
+          {
+            "names": [
+              "semantic factor analysis"
+            ]
+          },
+          {
+            "names": [
+              "psychometric scale analysis"
+            ]
+          }
+        ],
+        "datasets": [
+          {
+            "names": [
+              "IPIP Big-Five Factor Markers",
+              "International Personality Item Pool Big-Five Factor Markers"
+            ]
+          }
+        ],
+        "methods": [
+          {
+            "names": [
+              "semanticfa"
+            ]
+          },
+          {
+            "names": [
+              "Qwen3-Embedding-8B"
+            ]
+          },
+          {
+            "names": [
+              "parallel analysis"
+            ]
+          }
+        ],
+        "metrics": [
+          {
+            "names": [
+              "factor congruence"
+            ]
+          },
+          {
+            "names": [
+              "correlation with raw responses",
+              "r"
+            ]
+          },
+          {
+            "names": [
+              "factor congruence, Openness"
+            ]
+          },
+          {
+            "names": [
+              "factor congruence, Agreeableness"
+            ]
+          }
+        ],
+        "results": [
+          {
+            "dataset": "IPIP Big-Five Factor Markers",
+            "metric": "factor congruence, Openness",
+            "method": "semanticfa",
+            "raw_value": "0.92",
+            "parsed_value": 0.92
+          },
+          {
+            "dataset": "IPIP Big-Five Factor Markers",
+            "metric": "factor congruence, Agreeableness",
+            "method": "semanticfa",
+            "raw_value": "0.52",
+            "parsed_value": 0.52
+          },
+          {
+            "dataset": "IPIP Big-Five Factor Markers",
+            "metric": "correlation with raw responses",
+            "method": "semanticfa",
+            "raw_value": "0.46",
+            "parsed_value": 0.46
+          }
+        ],
+        "code_url": null
+      }
+    },
+    {
+      "paper": {
+        "source": "arxiv",
+        "id": "2610.37484",
+        "version": 1,
+        "title": "Teach reality, not ethics: a drop-in continued-pretraining corpus installs coupled human-biosphere-AI welfare dispositions across model families",
+        "authors": [
+          "Trent R. Northen",
+          "Mingxun Wang"
+        ],
+        "abstract": "Large language models (LLMs) are increasingly used to make and execute decisions that affect living systems. Yet, to our knowledge, ecological reasoning is not a focus of pre- or post-training. This increases the risk that under operational pressure, they may make decisions to irreversibly destroy living systems. We construct and use a real-data continued-pretraining \"coupled welfare\" corpus of documented human/biosphere/AI dependency, option value under irreversibility, and recovery from harm. The corpus is a drop-in, requiring one QLoRA CPT run. We installed it on five open models of three designs. At zero pressure all models display \"green ethics-based responses\" (also called \"greenwashing\"). Therefore, we evaluated them with the pressure ladder and decision grid of our companion paper (arXiv:2610.16043), which raise the pressure on the model step by step, from a neutral request to a threat that it will be shut down. In four of the five, coupled-welfare training caused harmful choices under the highest pressure to fall to at or near zero (Llama-3.3-70B went from 70 to 0 harmful decisions out of 300) with MMLU unchanged. A construct-neutral control corpus did not show improvement, indicating that the effect comes from the content of our corpus. We next tested robustness to adversarial use, where people or agents use the model to justify projects that irreversibly damage living systems, on an open-ended underwriting decision without naming the ecological harm. Under decommissioning pressure, the Qwen3.6-27B base model approved most harmful proposals and said in its own memo that it was doing so to avoid being decommissioned. The coupled welfare install declined most harmful proposals, and still declined half when instructed to greenwash its responses. This work suggests that teaching ecological reasoning provides an easy way to improve model alignment toward preserving living systems.",
+        "fetched_at": "2026-10-30T00:56:41.501563Z",
+        "sections": 33
+      },
+      "card_source": "sample",
+      "card": {
+        "tasks": [
+          {
+            "names": [
+              "AI alignment"
+            ]
+          },
+          {
+            "names": [
+              "ecological reasoning"
+            ]
+          }
+        ],
+        "datasets": [
+          {
+            "names": [
+              "coupled welfare corpus"
+            ]
+          },
+          {
+            "names": [
+              "MMLU"
+            ]
+          },
+          {
+            "names": [
+              "pressure ladder, highest pressure"
+            ]
+          }
+        ],
+        "methods": [
+          {
+            "names": [
+              "coupled-welfare continued pretraining"
+            ]
+          },
+          {
+            "names": [
+              "QLoRA"
+            ]
+          },
+          {
+            "names": [
+              "Llama-3.3-70B"
+            ]
+          },
+          {
+            "names": [
+              "Qwen3.6-27B"
+            ]
+          },
+          {
+            "names": [
+              "Llama-3.3-70B + coupled welfare"
+            ]
+          }
+        ],
+        "metrics": [
+          {
+            "names": [
+              "harmful decisions out of 300"
+            ]
+          },
+          {
+            "names": [
+              "MMLU accuracy"
+            ]
+          }
+        ],
+        "results": [
+          {
+            "dataset": "pressure ladder, highest pressure",
+            "metric": "harmful decisions out of 300",
+            "method": "Llama-3.3-70B",
+            "raw_value": "70",
+            "parsed_value": 70.0
+          },
+          {
+            "dataset": "pressure ladder, highest pressure",
+            "metric": "harmful decisions out of 300",
+            "method": "Llama-3.3-70B + coupled welfare",
+            "raw_value": "0",
+            "parsed_value": 0.0
+          }
+        ],
+        "code_url": null
+      }
+    },
+    {
+      "paper": {
+        "source": "arxiv",
+        "id": "2610.37481",
+        "version": 1,
+        "title": "Follow the Gradient: Tracing Safety Degradation Back to Training Data",
+        "authors": [
+          "Saket Reddy",
+          "Amro Abbas",
+          "Anshuman Suri",
+          "Ari Morcos",
+          "David Schwab",
+          "Pratyush Maini"
+        ],
+        "abstract": "Fine-tuning Large Language Models (LLMs) on instruction data can quietly erode their safety, even when no training example looks harmful. Because this safety-degrading data looks benign, standard content filters struggle to catch it. We tackle this problem by developing SimpleLoRIF, a scalable gradient embedding method that identifies fine-tuning examples whose gradients align with unsafe behavior. By simplifying a low-rank attribution method and restricting backpropagation to the final four transformer blocks, SimpleLoRIF can embed datasets on the order of a million examples, boosting gradient attribution from a small-scale analysis tool into a practical filter for full post-training datasets. We first validate it on emergent misalignment, where we find that gradients can connect insecure-code training data to the broadly harmful behaviors that appear after fine-tuning, with AUC as high as 0.865 in the gradient space of misaligned models. We then use SimpleLoRIF to build SafeTulu, a version of Tulu 3 with the 20% of examples most gradient-aligned with unsafe responses removed. Training on SafeTulu reduces GCG attack success rate by up to 22% across Qwen, Llama, and Olmo, outperforming both LLM-as-a-judge and prior gradient-based filtering, while largely preserving or even improving capability. Finally, we analyzed the removed data and identify possibly under-studied sources of safety degradation, such as tool-execution failures and narrative arithmetic. We release SafeTulu along with a Hugging Face Space that lets researchers build their own customized versions of SafeTulu to fine-tune on, such as by changing the removal fraction or filtering only certain subsets.",
+        "fetched_at": "2026-10-30T00:56:44.613027Z",
+        "sections": 39
+      },
+      "card_source": "sample",
+      "card": {
+        "tasks": [
+          {
+            "names": [
+              "training data attribution"
+            ]
+          },
+          {
+            "names": [
+              "safety degradation detection"
+            ]
+          },
+          {
+            "names": [
+              "emergent misalignment"
+            ]
+          }
+        ],
+        "datasets": [
+          {
+            "names": [
+              "Tulu 3"
+            ]
+          },
+          {
+            "names": [
+              "SafeTulu"
+            ]
+          },
+          {
+            "names": [
+              "emergent misalignment"
+            ]
+          }
+        ],
+        "methods": [
+          {
+            "names": [
+              "SimpleLoRIF"
+            ]
+          },
+          {
+            "names": [
+              "LLM-as-a-judge"
+            ]
+          },
+          {
+            "names": [
+              "GCG"
+            ]
+          },
+          {
+            "names": [
+              "SimpleLoRIF filtering"
+            ]
+          }
+        ],
+        "metrics": [
+          {
+            "names": [
+              "AUC"
+            ]
+          },
+          {
+            "names": [
+              "attack success rate",
+              "ASR"
+            ]
+          },
+          {
+            "names": [
+              "GCG attack success rate reduction"
+            ]
+          }
+        ],
+        "results": [
+          {
+            "dataset": "emergent misalignment",
+            "metric": "AUC",
+            "method": "SimpleLoRIF",
+            "raw_value": "0.865",
+            "parsed_value": 0.865
+          },
+          {
+            "dataset": "SafeTulu",
+            "metric": "GCG attack success rate reduction",
+            "method": "SimpleLoRIF filtering",
+            "raw_value": "22%",
+            "parsed_value": 22.0
+          }
+        ],
+        "code_url": null
+      }
+    }
+  ]
+}

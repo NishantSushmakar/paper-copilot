@@ -1,0 +1,17 @@
+# Streamlit settings for the Research Guru UI (ui/app.py). The look itself lives in ui/style.css.
+[theme]
+base = "light"
+primaryColor = "#0284c7"
+backgroundColor = "#eef7fd"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#0b2540"
+
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"
+
+[server]
+# Only this machine can open the app.
+address = "localhost"
