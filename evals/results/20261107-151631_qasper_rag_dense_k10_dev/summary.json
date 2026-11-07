@@ -1,0 +1,98 @@
+{
+  "run_id": "20261107-151631_qasper_rag_dense_k10_dev",
+  "task": "qasper",
+  "system": "rag_dense_k10",
+  "subset": "dev",
+  "limit": 10,
+  "traced": false,
+  "wall_seconds": 285.94,
+  "summary": {
+    "n": 10,
+    "mean_f1": 0.6733558069692523,
+    "by_type": {
+      "extractive": {
+        "n": 8,
+        "mean_f1": 0.5916947587115654,
+        "ci": {
+          "n": 8,
+          "mean": 0.5916947587115654,
+          "lower": 0.38792688792688795,
+          "upper": 0.7988215488215489
+        }
+      },
+      "yes_no": {
+        "n": 2,
+        "mean_f1": 1.0,
+        "ci": {
+          "n": 2,
+          "mean": 1.0,
+          "lower": 1.0,
+          "upper": 1.0
+        }
+      }
+    },
+    "unanswerable_on_answerable": 0.0,
+    "errors": 0,
+    "error_types": {},
+    "n_with_response": 10,
+    "truncation_rate": 0.0,
+    "cache_hit_rate": 0.0,
+    "mean_latency_ms": 27885.4553,
+    "total_prompt_tokens": 33203,
+    "total_completion_tokens": 4747,
+    "mean_f1_ci": {
+      "n": 10,
+      "mean": 0.6733558069692523,
+      "lower": 0.4725243632806658,
+      "upper": 0.8624338624338626
+    }
+  },
+  "provenance": {
+    "date_utc": "2026-11-07T15:16:31+00:00",
+    "git": {
+      "commit": "eefa0ddfafb77924bec6e16fe8ea4e0fd0030529",
+      "branch": "master",
+      "dirty": true
+    },
+    "slots": [
+      {
+        "slot": "MEDIUM",
+        "provider": "ollama",
+        "model": "qwen3:8b",
+        "quantization": "Q4_K_M",
+        "context_length": 8192,
+        "base_url": "http://localhost:11434/v1",
+        "digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+        "server_version": "0.40.5"
+      }
+    ],
+    "server_profile": "fa1-kvq8",
+    "settings": {
+      "slot": "MEDIUM",
+      "temperature": 0.6,
+      "thinking": true,
+      "max_tokens": 4000,
+      "request_timeout_s": 120.0,
+      "retriever": "dense",
+      "k": 10,
+      "chunker": "structure-256-para-sent",
+      "prompt_version": "v1",
+      "prompt_sha256": "67ae4d8a18c949f4eb55d2021112c23d0b08e1cf14963ec951ba0fb9b4328bf8",
+      "embed_model": "Qwen/Qwen3-Embedding-0.6B",
+      "query_instruction": "Given a question about research paper, retrieve relevant passages that help answer the question"
+    },
+    "seed": 42,
+    "subset": {
+      "path": "evals/subsets/qasper_dev.json",
+      "sha256": "3b29d868216a1b5ae44c5670507cefefb4355cc9f52578e2e6626b765908c3af"
+    },
+    "python": "3.12.4",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "packages": {
+      "langchain-core": "1.7.0",
+      "langchain-ollama": "1.1.0",
+      "langchain-openai": "1.7.2",
+      "pydantic": "2.14.1"
+    }
+  }
+}

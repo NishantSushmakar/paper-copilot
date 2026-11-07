@@ -1,4 +1,11 @@
 from copilot.llm.llm_client import LLMResponse, chat_with_llm
+from copilot.answer.grounded import PROMPT_VERSION as GROUNDED_PROMPT, answer_question, prompt_path
+from copilot.infra.provenance import file_sha256
+from copilot.ingest.qasper_source import load_qasper_papers
+from copilot.retrieval.chunking import STRUCTURE, structure_chunks
+from copilot.retrieval.dense import EMBED, QUERY_INSTRUCTION, dense_search
+from copilot.retrieval.hybrid import FUSION_DEPTH, RRF_K, hybrid_search
+from functools import cache, partial
 from evals.adapters.qasper import QASPERQuestion
 from pydantic import BaseModel
 from typing import Optional
@@ -10,6 +17,7 @@ class SystemOutputModel(BaseModel):
 
     prediction:str
     response:Optional[LLMResponse]=None
+    details:Optional[dict]=None  # system-specific extras saved with the row (A3: citations, retrieved chunks)
 
 
 def oracle_copy(question:QASPERQuestion):
@@ -173,12 +181,38 @@ Answer: yes
 
 
 
+@cache
+def qasper_papers() -> dict:
+    return {paper.id: paper for paper in load_qasper_papers()}
+
+
+def rag(question: QASPERQuestion, name: str):
+    """A3: structure-aware chunks of the question's paper, the top k from one retriever, a cited answer."""
+    settings = system_settings[name]
+    chunks = structure_chunks(qasper_papers()[question.paper_id])
+    grounded, answer = answer_question(
+        question.question, chunks, RETRIEVERS[settings["retriever"]], settings["k"],
+        slot=settings["slot"], temperature=settings["temperature"],
+        max_tokens=settings["max_tokens"], thinking=settings["thinking"],
+        prompt_version=settings["prompt_version"], request_timeout=settings["request_timeout_s"],
+    )
+    return SystemOutputModel.model_validate({
+        "prediction": grounded.answer,
+        "response": answer,
+        "details": grounded.model_dump(),
+    })
+
+
+RETRIEVERS = {"dense": dense_search, "hybrid": hybrid_search}
+
+
 system_dict = {
     "oracle_copy": oracle_copy,
     "always_unanswerable": always_unanswerable,
     "closed_book": closed_book,
-    "oracle": oracle
-
+    "oracle": oracle,
+    **{f"rag_{retriever}_k{k}": partial(rag, name=f"rag_{retriever}_k{k}")
+       for retriever in ("dense", "hybrid") for k in (5, 10)},
 }
 
 
@@ -194,6 +228,16 @@ system_settings = {
         "temperature":0.6,
         "thinking":True,
         "max_tokens":4000
-    }
+    },
+    # A3 (reports/a03.md §7): the oracle's settings, so answer F1 lines up with A0.
+    **{f"rag_{retriever}_k{k}": {
+        "slot": "MEDIUM", "temperature": 0.6, "thinking": True, "max_tokens": 4000,
+        "request_timeout_s": 120.0,  # the smoke run averaged 29.5 s against the client's 30 s default
+        "retriever": retriever, "k": k, "chunker": STRUCTURE, "prompt_version": GROUNDED_PROMPT,
+        # The prompt file was edited after the first smoke run, so the hash, not the version, names the text.
+        "prompt_sha256": file_sha256(prompt_path(GROUNDED_PROMPT)),
+        "embed_model": EMBED.model, "query_instruction": QUERY_INSTRUCTION,
+        **({"rrf_k": RRF_K, "fusion_depth": FUSION_DEPTH} if retriever == "hybrid" else {}),
+    } for retriever in ("dense", "hybrid") for k in (5, 10)},
 }
 

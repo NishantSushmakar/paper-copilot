@@ -66,7 +66,8 @@ def chat_with_llm(
     max_tokens: int,
     thinking: bool,
     response_format:Optional[Union[str, dict]]=None,
-    sample_index: int=0
+    sample_index: int=0,
+    request_timeout: float=30.0,  # seconds per attempt; not in the cache key (it doesn't change the reply)
 ) -> LLMResponse:
 
 
@@ -116,7 +117,7 @@ def chat_with_llm(
             temperature=temperature,
             max_tokens=max_tokens,
             thinking=thinking,
-            request_timeout=30.0,
+            request_timeout=request_timeout,
             retry=RetryPolicy(
                 max_attempts=4,
                 should_retry=should_retry,

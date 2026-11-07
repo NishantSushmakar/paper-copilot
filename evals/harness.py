@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional
 from evals.systems.qasper import system_dict,SystemOutputModel
 from evals.adapters.qasper import QASPERQuestion
-from evals.metrics.qasper_f1 import compare_scores
+from evals.metrics.qasper_f1 import compare_scores, normalize_answer
 from collections import Counter, defaultdict
 from pathlib import Path
 from statistics import mean
@@ -38,6 +38,7 @@ class ResultModel(BaseModel):
     outcome: OutcomeModel
     response: Optional[ResponseModel]=None
     failure: Optional[FailureModel]=None
+    details: Optional[dict]=None
 
 def get_input(input:dict):
 
@@ -131,7 +132,8 @@ def run_one_question(system_name:str,question:QASPERQuestion):
             "prediction": system_response.prediction
         },
         "response": llm_response,
-        "failure": error_response
+        "failure": error_response,
+        "details": system_response.details
     }
     
     return ResultModel.model_validate(result)
@@ -172,6 +174,11 @@ def summarise(rows: list[ResultModel]) -> dict:
             question_type: {"n": len(scores), "mean_f1": mean(scores)}
             for question_type, scores in sorted(f1_by_type.items())
         },
+        # Gave up on a question that has an answer (A0's oracle did this on 17-18% of them).
+        "unanswerable_on_answerable": _rate(
+            sum(row.identity.question_type != "unanswerable"
+                and normalize_answer(row.outcome.prediction) == "unanswerable" for row in rows),
+            sum(row.identity.question_type != "unanswerable" for row in rows)),
         "errors": len(failures),
         "error_types": dict(Counter(f.failure_code for f in failures)),
         "n_with_response": len(responses),
