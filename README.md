@@ -4,13 +4,15 @@
 
 It runs entirely on local open-weight models (Qwen3 4B and 8B on a laptop), and every component is measured on a public benchmark.
 
-<p align="center"><a href="https://github.com/NishantSushmakar/paper-copilot/blob/master/docs/demo.webm"><b>▶ Watch the 1-minute demo</b></a></p>
+**Swipe** through the newest papers and keep the ones worth your time:
 
-<p align="center">
-  <img src="docs/images/demo-welcome.png" width="32%" alt="Welcome screen">
-  <img src="docs/images/demo-swipe.png" width="32%" alt="Swiping through paper cards">
-  <img src="docs/images/demo-chat.png" width="32%" alt="Chatting with a saved paper, with cited sources">
-</p>
+<p align="center"><img src="docs/images/demo-swipe.gif" width="100%" alt="Swiping through paper cards: right to save, left to skip"></p>
+
+**Chat** with a paper you kept. Answers cite the passages they come from, and the paper itself is one click away:
+
+<p align="center"><img src="docs/images/demo-chat.gif" width="100%" alt="Asking a saved paper a question and getting an answer with cited passages"></p>
+
+<p align="center"><a href="https://github.com/NishantSushmakar/paper-copilot/blob/master/docs/demo.webm"><b>▶ Watch the full 1-minute demo</b></a></p>
 
 > The demo app (`ui/demo.py`) runs on the 10 newest arXiv cs.CL papers in the paper store. The answers come from the real pipeline, and every cited passage links back to the paper. The cards are written by hand from each abstract for now, until model-extracted cards are ready.
 
@@ -79,6 +81,7 @@ OLLAMA_CONTEXT_LENGTH=8192 OLLAMA_KEEP_ALIVE=30m OLLAMA_FLASH_ATTENTION=1 OLLAMA
 uv run --with streamlit streamlit run ui/demo.py
 uv run python -m ui.build_demo_answers                    # re-compute the suggested answers
 uv run --with playwright python scripts/record_demo.py docs/demo.webm   # re-record the video
+uv run --with playwright --with pillow python scripts/demo_gifs.py docs/demo.webm   # and the GIFs
 
 # Data for the evals
 uv run python scripts/download_qasper.py
