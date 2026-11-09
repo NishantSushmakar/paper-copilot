@@ -14,8 +14,6 @@ It runs entirely on local open-weight models (Qwen3 4B and 8B on a laptop), and 
 
 <p align="center"><a href="https://github.com/NishantSushmakar/paper-copilot/blob/master/docs/demo.webm"><b>▶ Watch the full 1-minute demo</b></a></p>
 
-> The demo app (`ui/demo.py`) runs on the 10 newest arXiv cs.CL papers in the paper store. The answers come from the real pipeline, and every cited passage links back to the paper. The cards are written by hand from each abstract for now, until model-extracted cards are ready.
-
 ## How it works
 
 ![Architecture: papers are ingested through an event queue into a paper store; cards are extracted for swiping; papers are chunked, embedded and indexed so questions get cited answers](docs/architecture.svg)
