@@ -4,7 +4,7 @@
 
 It runs entirely on local open-weight models (Qwen3 4B and 8B on a laptop), and every component is measured on a public benchmark.
 
-<p align="center"><a href="docs/demo.webm"><b>▶ Watch the 1-minute demo</b></a></p>
+<p align="center"><a href="https://github.com/NishantSushmakar/paper-copilot/blob/master/docs/demo.webm"><b>▶ Watch the 1-minute demo</b></a></p>
 
 <p align="center">
   <img src="docs/images/demo-welcome.png" width="32%" alt="Welcome screen">
