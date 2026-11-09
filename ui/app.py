@@ -11,7 +11,7 @@ then its first reported figure); the paper screen is for reading. Everything sho
 from the paper or its card; nothing is summarised by a model on the fly.
 
 The data is ui/data/sample_papers.json (built by ui/build_sample_data.py): real arXiv metadata
-from the A1 store, with sample cards until the A2 extraction runs on these papers. The reading
+from the paper store, with sample cards until card extraction runs on these papers. The reading
 list is kept in ui/data/reading_list.json (local, not committed).
 """
 
@@ -41,7 +41,7 @@ def esc(text: object) -> str:
 
 @st.cache_data
 def load_data() -> dict:
-    """{"store_size": arXiv papers in the A1 store, "papers": the latest ones with their cards}"""
+    """{"store_size": arXiv papers in the paper store, "papers": the latest ones with their cards}"""
     return json.loads(DATA_PATH.read_text(encoding="utf-8"))
 
 
@@ -171,7 +171,7 @@ def paper_card(item: dict, saved: list[str]) -> None:
 def sample_notice(items: list[dict]) -> None:
     if any(item["card_source"] == "sample" for item in items):
         st.html('<div class="rg-notice"><b>Sample cards.</b> Written by hand from each abstract, with every figure '
-                "quoted from it. The model-extracted cards replace them once the A2 extraction runs on these papers.</div>")
+                "quoted from it. The model-extracted cards replace them once card extraction runs on these papers.</div>")
 
 
 # ---------- screens ----------

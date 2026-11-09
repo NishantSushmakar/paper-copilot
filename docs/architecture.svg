@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="992" viewBox="0 0 1400 992" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>Paper Copilot architecture</title>
+  <desc>Papers flow from arXiv and QASPER through an event-driven ingest pipeline into a paper store. From there, paper cards are extracted for swiping, and papers are chunked, embedded and indexed so questions get answers with citations. Shared model slots and an evaluation harness sit underneath.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#0369a1"/>
+    </marker>
+    <style>
+      .title { font: 600 27px Georgia, 'Times New Roman', serif; fill: #0b2540; }
+      .subtitle { font-size: 14px; fill: #47627a; }
+      .group { fill: #f0f9ff; stroke: #cde6f6; stroke-width: 1.2; }
+      .group-ui { fill: #e0f2fe; stroke: #bae6fd; stroke-width: 1.2; }
+      .box { fill: #ffffff; stroke: #bae6fd; stroke-width: 1.2; }
+      .measured { fill: #fffbeb; stroke: #fcd34d; stroke-width: 1.2; }
+      .found { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; }
+      .pill { fill: #0284c7; }
+      .pill-text { font-size: 11px; font-weight: 700; fill: #ffffff; }
+      .gtitle { font: 600 17px Georgia, 'Times New Roman', serif; fill: #0b2540; }
+      .label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; fill: #47627a; }
+      .h { font-size: 14px; font-weight: 600; fill: #0b2540; }
+      .t { font-size: 12px; fill: #47627a; }
+      .m { font-size: 12px; fill: #92400e; }
+      .mh { font-size: 12px; font-weight: 700; fill: #92400e; }
+      .p { font-size: 13px; fill: #334155; }
+      .ph { font-size: 13px; font-weight: 700; fill: #334155; }
+      .flow { fill: none; stroke: #0369a1; stroke-width: 1.6; }
+      .flow-label { font-size: 11px; fill: #0369a1; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="992" fill="#ffffff"/>
+
+  <!-- Header and legend -->
+  <text x="30" y="50" class="title">Paper Copilot · how it works</text>
+  <text x="30" y="78" class="subtitle">Local open-weight models on one laptop (Apple M3 Pro, 18 GB). Every stage is measured on a public benchmark.</text>
+  <rect x="1060" y="34" width="26" height="16" rx="4" class="box"/>
+  <text x="1094" y="47" class="t">component</text>
+    <rect x="1190" y="34" width="26" height="16" rx="4" class="measured"/>
+  <text x="1224" y="47" class="t">measured result</text>
+
+  <!-- Sources -->
+  <text x="30" y="130" class="label">SOURCES</text>
+  <rect x="30" y="148" width="170" height="96" rx="10" class="box"/>
+  <text x="46" y="174" class="h">arXiv cs.CL</text>
+  <text x="46" y="196" class="t">new papers, polled</text>
+  <text x="46" y="214" class="t">one request every 3 s</text>
+  <text x="46" y="232" class="t">HTML or PDF</text>
+
+  <rect x="30" y="392" width="170" height="96" rx="10" class="box"/>
+  <text x="46" y="418" class="h">QASPER</text>
+  <text x="46" y="440" class="t">1,585 NLP papers</text>
+  <text x="46" y="458" class="t">with gold questions,</text>
+  <text x="46" y="476" class="t">answers and evidence</text>
+
+  <!-- 1 Ingest -->
+  <rect x="240" y="110" width="230" height="530" rx="16" class="group"/>
+  <rect x="256" y="124" width="24" height="20" rx="10" class="pill"/>
+  <text x="268" y="138" class="pill-text" text-anchor="middle">1</text>
+  <text x="290" y="140" class="gtitle">Ingest papers</text>
+
+  <rect x="256" y="162" width="198" height="104" rx="10" class="box"/>
+  <text x="272" y="188" class="h">Event queue</text>
+  <text x="272" y="208" class="t">SQLite, one key per</text>
+  <text x="272" y="224" class="t">(source, id, version)</text>
+  <text x="272" y="242" class="t">retries with backoff + jitter</text>
+  <text x="272" y="258" class="t">dead letters + replay</text>
+
+  <rect x="256" y="296" width="198" height="80" rx="10" class="box"/>
+  <text x="272" y="322" class="h">Worker + parser</text>
+  <text x="272" y="344" class="t">arXiv HTML first,</text>
+  <text x="272" y="362" class="t">PDF fallback; keeps sections</text>
+
+  <rect x="256" y="406" width="198" height="80" rx="10" class="box"/>
+  <text x="272" y="432" class="h">Paper store</text>
+  <text x="272" y="454" class="t">one record per version,</text>
+  <text x="272" y="472" class="t">sections and headings</text>
+
+  <rect x="256" y="516" width="198" height="108" rx="10" class="measured"/>
+  <text x="272" y="540" class="mh">Replay eval</text>
+  <text x="272" y="560" class="m">375 events: duplicates,</text>
+  <text x="272" y="577" class="m">malformed, failures, a crash</text>
+  <text x="272" y="594" class="m">and a kill</text>
+  <text x="272" y="613" class="mh">0 lost · 0 duplicated</text>
+
+  <!-- 2 Paper cards -->
+  <rect x="510" y="110" width="600" height="222" rx="16" class="group"/>
+  <rect x="526" y="124" width="24" height="20" rx="10" class="pill"/>
+  <text x="538" y="138" class="pill-text" text-anchor="middle">2</text>
+  <text x="560" y="140" class="gtitle">Paper cards: structured output</text>
+
+  <rect x="530" y="162" width="170" height="96" rx="10" class="box"/>
+  <text x="546" y="188" class="h">Split the paper</text>
+  <text x="546" y="210" class="t">~4,000-token pieces,</text>
+  <text x="546" y="228" class="t">so long papers fit</text>
+
+  <rect x="725" y="162" width="170" height="96" rx="10" class="box"/>
+  <text x="741" y="188" class="h">Extract a card</text>
+  <text x="741" y="210" class="t">SMALL (qwen3:4b), one</text>
+  <text x="741" y="228" class="t">call per piece; validated,</text>
+  <text x="741" y="246" class="t">retried with the errors</text>
+
+  <rect x="920" y="162" width="170" height="96" rx="10" class="box"/>
+  <text x="936" y="188" class="h">Merge</text>
+  <text x="936" y="210" class="t">one card per paper: tasks,</text>
+  <text x="936" y="228" class="t">datasets, methods,</text>
+  <text x="936" y="246" class="t">metrics, results</text>
+
+  <rect x="530" y="274" width="560" height="44" rx="10" class="measured"/>
+  <text x="546" y="301" class="m"><tspan class="mh">SciREX test:</tspan> entity F1 0.262 (0.219 – 0.306) · 100% valid chunks after retries</text>
+
+  <!-- 3 Questions with citations -->
+  <rect x="510" y="358" width="600" height="364" rx="16" class="group"/>
+  <rect x="526" y="372" width="24" height="20" rx="10" class="pill"/>
+  <text x="538" y="386" class="pill-text" text-anchor="middle">3</text>
+  <text x="560" y="388" class="gtitle">Questions answered with citations</text>
+
+  <text x="530" y="420" class="label">INDEX · ONCE PER PAPER</text>
+  <rect x="530" y="430" width="170" height="86" rx="10" class="box"/>
+  <text x="546" y="456" class="h">Chunk</text>
+  <text x="546" y="478" class="t">whole paragraphs within</text>
+  <text x="546" y="496" class="t">a section, 256 tokens</text>
+
+  <rect x="725" y="430" width="170" height="86" rx="10" class="box"/>
+  <text x="741" y="456" class="h">Embed</text>
+  <text x="741" y="478" class="t">Qwen3-Embedding-0.6B</text>
+  <text x="741" y="496" class="t">(EMBED slot)</text>
+
+  <rect x="920" y="430" width="170" height="86" rx="10" class="box"/>
+  <text x="936" y="456" class="h">Vector index</text>
+  <text x="936" y="478" class="t">FAISS, exact search</text>
+  <text x="936" y="496" class="t">(BM25 + hybrid compared)</text>
+
+  <text x="600" y="558" class="label">ANSWER · PER QUESTION</text>
+  <rect x="530" y="568" width="170" height="86" rx="10" class="box"/>
+  <text x="546" y="594" class="h">Retrieve</text>
+  <text x="546" y="616" class="t">top 5 chunks for the</text>
+  <text x="546" y="634" class="t">question (dense)</text>
+
+  <rect x="725" y="568" width="170" height="86" rx="10" class="box"/>
+  <text x="741" y="594" class="h">Grounded answer</text>
+  <text x="741" y="616" class="t">MEDIUM (qwen3:8b) cites</text>
+  <text x="741" y="634" class="t">every claim as [n]</text>
+
+  <rect x="920" y="568" width="170" height="86" rx="10" class="box"/>
+  <text x="936" y="594" class="h">Citation parser</text>
+  <text x="936" y="616" class="t">[n] → chunk IDs;</text>
+  <text x="936" y="634" class="t">uncited sentences flagged</text>
+
+  <rect x="530" y="666" width="560" height="44" rx="10" class="measured"/>
+  <text x="546" y="685" class="m"><tspan class="mh">QASPER test:</tspan> answer F1 0.490, between closed-book 0.212 and gold-evidence 0.598</text>
+  <text x="546" y="702" class="m">citation recall 0.81 · precision 0.77 (ALCE, NLI judge) · evidence F1 0.51</text>
+
+  <!-- Research Guru UI -->
+  <rect x="1150" y="110" width="220" height="612" rx="16" class="group-ui"/>
+  <text x="1166" y="140" class="gtitle">Research Guru</text>
+  <text x="1166" y="160" class="t">the app (Streamlit)</text>
+
+  <rect x="1166" y="180" width="188" height="120" rx="10" class="box"/>
+  <text x="1182" y="206" class="h">Discover</text>
+  <text x="1182" y="228" class="t">one card at a time:</text>
+  <text x="1182" y="246" class="t">swipe right to save,</text>
+  <text x="1182" y="264" class="t">left to skip</text>
+  <text x="1182" y="286" class="flow-label">cards from step 2</text>
+
+  <rect x="1166" y="540" width="188" height="140" rx="10" class="box"/>
+  <text x="1182" y="566" class="h">Chats</text>
+  <text x="1182" y="588" class="t">each saved paper answers</text>
+  <text x="1182" y="606" class="t">your questions, with</text>
+  <text x="1182" y="624" class="t">its passages as sources</text>
+  <text x="1182" y="646" class="flow-label">question → Retrieve</text>
+  <text x="1182" y="664" class="flow-label">answer ← Citation parser</text>
+
+  <!-- Flows -->
+  <path d="M200 196 H 256" class="flow" marker-end="url(#arrow)"/>
+  <path d="M200 440 H 228 V 446 H 256" class="flow" marker-end="url(#arrow)"/>
+  <text x="206" y="466" class="flow-label">loaded</text>
+  <text x="206" y="480" class="flow-label">directly</text>
+  <path d="M355 266 V 296" class="flow" marker-end="url(#arrow)"/>
+  <path d="M355 376 V 406" class="flow" marker-end="url(#arrow)"/>
+  <path d="M454 446 H 490 V 210 H 530" class="flow" marker-end="url(#arrow)"/>
+  <path d="M490 446 V 473 H 530" class="flow" marker-end="url(#arrow)"/>
+  <path d="M700 210 H 725" class="flow" marker-end="url(#arrow)"/>
+  <path d="M895 210 H 920" class="flow" marker-end="url(#arrow)"/>
+  <path d="M1090 210 H 1166" class="flow" marker-end="url(#arrow)"/>
+  <path d="M700 473 H 725" class="flow" marker-end="url(#arrow)"/>
+  <path d="M895 473 H 920" class="flow" marker-end="url(#arrow)"/>
+  <path d="M1005 516 V 536 H 575 V 568" class="flow" marker-end="url(#arrow)"/>
+  <path d="M700 611 H 725" class="flow" marker-end="url(#arrow)"/>
+  <path d="M895 611 H 920" class="flow" marker-end="url(#arrow)"/>
+  <path d="M1090 611 H 1166" class="flow" marker-end="url(#arrow)"/>
+
+  <!-- Shared foundations -->
+  <rect x="30" y="752" width="1340" height="104" rx="16" class="found"/>
+  <text x="50" y="780" class="gtitle">Shared foundations</text>
+  <text x="50" y="806" class="ph">Model slots</text>
+  <text x="50" y="826" class="p">SMALL qwen3:4b · MEDIUM qwen3:8b on Ollama (Q4)</text>
+  <text x="50" y="844" class="p">EMBED Qwen3-Embedding-0.6B · NLI DeBERTa-v3-large</text>
+  <text x="510" y="806" class="ph">LLM client</text>
+  <text x="510" y="826" class="p">LangChain chat models, retries and timeouts,</text>
+  <text x="510" y="844" class="p">a disk cache so repeated calls are free</text>
+  <text x="900" y="806" class="ph">Tracing and provenance</text>
+  <text x="900" y="826" class="p">LangSmith / Phoenix traces; every run records model</text>
+  <text x="900" y="844" class="p">digests, prompt hashes, commit and seed</text>
+
+  <!-- Evaluation -->
+  <rect x="30" y="868" width="1340" height="104" rx="16" class="found"/>
+  <text x="50" y="896" class="gtitle">Evaluation harness (evals/)</text>
+  <text x="50" y="922" class="ph">Benchmarks</text>
+  <text x="50" y="942" class="p">QASPER (answers, evidence, retrieval) · SciREX (cards)</text>
+  <text x="50" y="960" class="p">ingest replay with injected faults</text>
+  <text x="510" y="922" class="ph">Metrics I implemented</text>
+  <text x="510" y="942" class="p">answer F1, evidence F1, recall@k, MRR, ALCE citation</text>
+  <text x="510" y="960" class="p">recall and precision, judge agreement (Cohen's kappa)</text>
+  <text x="900" y="922" class="ph">Rules</text>
+  <text x="900" y="942" class="p">design on dev, run test once with the system frozen,</text>
+  <text x="900" y="960" class="p">95% bootstrap CIs and paired comparisons</text>
+
+</svg>

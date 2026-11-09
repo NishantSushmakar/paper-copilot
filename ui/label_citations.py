@@ -1,4 +1,4 @@
-"""A3 citation labeller: one sentence per page, its cited chunks beside it, labels saved on every click.
+"""Citation labeller: one sentence per page, its cited chunks beside it, labels saved on every click.
 
     uv run --with streamlit streamlit run ui/label_citations.py
 

@@ -1,9 +1,9 @@
-"""Build ui/data/sample_papers.json: the 10 latest arXiv papers in the A1 store, with sample cards.
+"""Build ui/data/sample_papers.json: the 10 latest arXiv papers in the paper store, with sample cards.
 
     uv run python -m ui.build_sample_data
 
-The paper metadata (title, authors, abstract, sections) is read from the A1 store as it is.
-The cards are hand-written placeholders until the A2 extraction runs on these papers: each
+The paper metadata (title, authors, abstract, sections) is read from the paper store as it is.
+The cards are hand-written placeholders until card extraction runs on these papers: each
 lists only entities named in the paper's abstract, and only result figures the abstract
 states word for word. Every card is validated against PaperCardModel, so the real cards
 (MergedPaper rows) can replace these without changing the UI.
@@ -144,7 +144,7 @@ def main() -> None:
             "paper": {key: paper[key] for key in ("source", "id", "version", "title", "authors", "abstract",
                                                   "fetched_at")}
                      | {"sections": len(paper["sections"])},
-            "card_source": "sample",  # "sample": hand-written from the abstract; "model": A2 extraction
+            "card_source": "sample",  # "sample": hand-written from the abstract; "model": card extraction
             "card": card.model_dump(mode="json"),
         })
     store_size = conn.execute("SELECT COUNT(*) FROM papers WHERE source = 'arxiv'").fetchone()[0]

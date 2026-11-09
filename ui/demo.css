@@ -1,0 +1,150 @@
+/* Research Guru demo (ui/demo.py), on top of style.css: the welcome screen, the swipe deck and the chats. */
+
+/* Streamlit's icon font, which style.css's font rule would otherwise replace */
+[data-testid="stIconMaterial"], [data-testid="stExpanderIcon"], .material-symbols-rounded {
+  font-family: "Material Symbols Rounded" !important; }
+
+.gs-demo { background: var(--notice-bg); border: 1px solid var(--notice-border); color: var(--notice-ink) !important;
+  border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 500; margin-right: 10px; }
+
+/* ---------- Welcome ---------- */
+.gs-welcome { padding: 36px 0 18px; max-width: 720px; }
+.gs-kicker { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--sky-700) !important; }
+.gs-welcome h1 { font-family: var(--serif); font-size: 46px; line-height: 52px; font-weight: 600; letter-spacing: -0.02em;
+  color: var(--ink); margin: 8px 0 0 !important; padding: 0 !important; }
+.gs-welcome > p:not(.gs-kicker) { font-size: 18px; line-height: 28px; color: var(--muted) !important; margin-top: 14px !important; }
+.gs-peek { list-style: none; display: grid; gap: 8px; margin-top: 22px !important; }
+.gs-peek li { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px !important;
+  display: flex; gap: 10px; align-items: center; font-family: var(--serif); font-size: 16px; color: var(--ink);
+  animation: gs-rise .5s ease both; }
+.gs-peek li:nth-child(2) { animation-delay: .08s; }
+.gs-peek li:nth-child(3) { animation-delay: .16s; }
+.gs-peek li.more { font-family: var(--sans); font-size: 14px; color: var(--muted); background: transparent; border-style: dashed;
+  animation-delay: .24s; }
+.st-key-start button { min-height: 48px !important; padding: 0 28px !important; font-size: 16px; }
+.gs-steps { list-style: none; counter-reset: step; display: grid; gap: 8px; margin: 20px 0 22px !important; }
+.gs-steps li { counter-increment: step; display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--muted); }
+.gs-steps li::before { content: counter(step); width: 24px; height: 24px; flex: none; border-radius: 999px;
+  background: var(--sky-600); color: #fff; font-size: 13px; font-weight: 600; display: grid; place-items: center; }
+.gs-steps b { color: var(--ink); font-weight: 600; }
+
+/* The fanned cards beside the welcome text */
+.gs-fan { position: relative; height: 300px; }
+.gs-fan-card { position: absolute; left: 50%; top: 40px; width: 250px; margin-left: -125px; height: 200px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 18px !important;
+  box-shadow: 0 14px 30px rgba(11, 37, 64, .12); display: flex; flex-direction: column; gap: 10px; align-items: flex-start;
+  animation: gs-fade .6s ease both; }
+@keyframes gs-fade { from { opacity: 0; } }
+.gs-fan-card b { font-family: var(--serif); font-size: 19px; line-height: 24px; font-weight: 600; color: var(--ink); }
+.stApp .gs-fan-fig { margin-top: auto; font-size: 30px; font-weight: 600; color: var(--sky-700); font-variant-numeric: tabular-nums; }
+.gs-fan-card.f2 { transform: rotate(-11deg) translate(-58px, 12px); opacity: .85; }
+.gs-fan-card.f1 { transform: rotate(9deg) translate(58px, 6px); opacity: .92; animation-delay: .08s; }
+.gs-fan-card.f0 { transform: rotate(-1deg); animation-delay: .16s; }
+
+/* Shortcut hints inside primary buttons stay readable */
+.stApp [data-testid="stBaseButton-primary"] * { color: #fff !important; }
+.stApp [data-testid="stBaseButton-primary"] kbd, .stApp [data-testid="stBaseButton-primary"] [class*="hortcut"] { opacity: .75; }
+
+/* ---------- Navigation ---------- */
+.st-key-nav { gap: 8px !important; padding-top: 4px; }
+.st-key-nav button { border-radius: 999px !important; }
+
+/* ---------- The deck ---------- */
+.st-key-stage { max-width: 600px; margin: 0 auto; width: 100%; }
+.gs-progress { display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: var(--muted);
+  padding: 8px 2px 0; }
+.gs-dots { display: flex; gap: 5px; }
+.gs-dots span { width: 18px; height: 4px; border-radius: 4px; background: var(--sky-200); }
+.gs-dots span.done { background: var(--sky-600); }
+.gs-dots span.now { background: var(--ink); }
+
+.gs-deck { position: relative; padding-bottom: 22px; margin-top: 6px; }
+.gs-card { position: relative; z-index: 2; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 18px; padding: 24px 26px 22px !important; box-shadow: 0 12px 32px rgba(11, 37, 64, .10); }
+.gs-card h3 { font-family: var(--serif); font-size: 24px; line-height: 30px; font-weight: 600; letter-spacing: -0.01em;
+  color: var(--ink); margin: 12px 0 0 !important; padding: 0 !important; }
+.gs-behind { position: absolute; left: 0; right: 0; top: 0; bottom: 22px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 18px; }
+.gs-behind.b1 { transform: translateY(13px) scale(.95); z-index: 1; box-shadow: 0 6px 16px rgba(11, 37, 64, .06); }
+.gs-behind.b2 { transform: translateY(26px) scale(.90); z-index: 0; opacity: .8; }
+
+.gs-card.enter { animation: gs-enter .35s ease-out both; }
+.gs-card.ghost { position: absolute; left: 0; right: 0; top: 0; z-index: 3; pointer-events: none; }
+.gs-card.ghost.out-right { animation: gs-out-right .55s ease-in both; }
+.gs-card.ghost.out-left { animation: gs-out-left .55s ease-in both; }
+.gs-stamp { position: absolute; top: 26px; padding: 4px 14px; border: 3px solid; border-radius: 10px;
+  font-size: 22px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: rgba(255, 255, 255, .85); }
+.gs-stamp.right { left: 22px; color: var(--sky-600); border-color: var(--sky-600); transform: rotate(-12deg); }
+.gs-stamp.left { right: 22px; color: #9f1239; border-color: #9f1239; transform: rotate(12deg); }
+
+@keyframes gs-enter { from { transform: translateY(12px) scale(.96); opacity: .6; } to { transform: none; opacity: 1; } }
+@keyframes gs-out-right { from { transform: none; opacity: 1; } to { transform: translate(115%, -24px) rotate(16deg); opacity: 0; } }
+@keyframes gs-out-left { from { transform: none; opacity: 1; } to { transform: translate(-115%, -24px) rotate(-16deg); opacity: 0; } }
+@keyframes gs-rise { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.st-key-swipe_actions, .st-key-done_actions { gap: 18px !important; margin-top: 4px; }
+.st-key-swipe_actions button { min-width: 150px; min-height: 52px !important; border-radius: 999px !important; font-size: 16px; }
+.st-key-skip button { color: #9f1239 !important; border-color: #fecdd3 !important; }
+.st-key-skip button p { color: #9f1239 !important; }
+.st-key-skip button:hover { border-color: #9f1239 !important; }
+.gs-hint { text-align: center; font-size: 13px; color: var(--muted) !important; margin-top: 6px !important; }
+
+.gs-done { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 36px 28px !important;
+  text-align: center; animation: gs-rise .4s ease both; }
+.gs-done h2 { font-family: var(--serif); font-size: 28px; font-weight: 600; color: var(--ink); margin: 0 0 8px !important; padding: 0 !important; }
+.gs-done p { font-size: 16px; line-height: 25px; color: var(--muted) !important; }
+.gs-done .gs-peek { text-align: left; max-width: 420px; margin: 18px auto 0 !important; }
+
+/* ---------- Chats ---------- */
+.gs-list-title { font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--ink); margin: 4px 0 8px !important; padding: 0 !important; }
+.st-key-chat_list { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card);
+  padding: 14px !important; gap: 4px !important; }
+.st-key-chat_list button { justify-content: flex-start !important; text-align: left; border-radius: 10px !important;
+  min-height: 46px !important; }
+.st-key-chat_list button > div, .st-key-chat_list button [data-testid="stMarkdownContainer"] {
+  justify-content: flex-start !important; width: 100%; }
+.st-key-chat_list button p { text-align: left !important; }
+
+.st-key-chat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card);
+  padding: 20px 22px !important; gap: 10px !important; }
+.gs-chat-head { border-bottom: 1px solid var(--rule); padding-bottom: 12px !important; }
+.gs-chat-head h2 { font-family: var(--serif); font-size: 21px; line-height: 27px; font-weight: 600; color: var(--ink);
+  margin: 8px 0 0 !important; padding: 0 !important; }
+.gs-chat-head p { font-size: 13px; color: var(--muted) !important; margin-top: 4px !important; }
+[data-testid="stChatMessage"] { background: transparent; padding: 6px 0; }
+[data-testid="stChatMessageContent"] p { font-size: 15.5px; line-height: 25px; }
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) [data-testid="stChatMessageContent"] {
+  background: var(--sky-50); border-radius: 12px; padding: 8px 12px; }
+
+.gs-sources { margin-top: 8px; border: 1px solid var(--border); border-radius: 12px; background: var(--sky-50); }
+.gs-sources summary { cursor: pointer; font-size: 13px; font-weight: 500; color: var(--sky-800); padding: 8px 12px; list-style: none; }
+.gs-sources summary::before { content: "▸ "; }
+.gs-sources[open] summary::before { content: "▾ "; }
+.gs-sources ol { list-style: none; display: grid; gap: 10px; padding: 0 12px 12px !important; }
+.gs-sources li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 10px; align-items: start; }
+.gs-src-n { background: var(--sky-600); color: #fff !important; border-radius: 6px; font-size: 12px; font-weight: 600;
+  text-align: center; line-height: 22px; }
+.gs-sources b { font-size: 12px; color: var(--muted); font-weight: 500; }
+.gs-sources li p { font-family: var(--serif); font-size: 15px; line-height: 23px; color: var(--ink) !important; margin-top: 2px !important; }
+
+.st-key-suggestions { gap: 8px !important; flex-wrap: wrap; padding-top: 6px; }
+.st-key-suggestions button { border-radius: 999px !important; font-size: 14px; min-height: 36px !important; }
+
+/* Links to the paper itself */
+.gs-card-link { font-size: 12px; font-weight: 500; color: var(--sky-700) !important; text-decoration: none; white-space: nowrap;
+  padding-top: 3px; }
+.gs-card-link:hover { text-decoration: underline; }
+.gs-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px !important; }
+.gs-link { font-size: 13px; font-weight: 500; color: var(--sky-800) !important; text-decoration: none; background: var(--sky-50);
+  border: 1px solid var(--sky-200); border-radius: 999px; padding: 4px 12px; }
+.gs-link:hover { border-color: var(--sky-600); }
+.gs-src-link { display: inline-block; margin: 0 12px 12px; font-size: 13px; font-weight: 500; color: var(--sky-700) !important; }
+
+.gs-footer { text-align: center; font-size: 12px; color: var(--muted) !important; margin-top: 28px !important; }
+
+@media (max-width: 760px) {
+  .gs-welcome h1 { font-size: 34px; line-height: 40px; }
+  .gs-card { padding: 20px 18px !important; }
+  .gs-card h3 { font-size: 20px; line-height: 26px; }
+  .st-key-swipe_actions button { min-width: 120px; }
+}

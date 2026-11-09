@@ -1,0 +1,1518 @@
+{
+ "2610.37657": [
+  {
+   "q": "How does HoS stop injected instructions?",
+   "abstained": false,
+   "sentences": [
+    [
+     "HoS stops injected instructions by shifting attention away from untrusted content, conditioning per-head gates on query and key channels to restrict attention to trusted input, and enabling models to reason over untrusted content without following injected instructions.",
+     [
+      2,
+      3,
+      4
+     ]
+    ],
+    [
+     "Answer: By shifting attention away from untrusted content, conditioning per-head gates on query and key channels, and enabling models to reason over untrusted content without following injected instructions.",
+     [
+      2,
+      3,
+      4
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Introduction",
+     "text": "We also investigate what gates HoS learns mechanistically, using causal head ablations and role-confusion probes (Section 5). Together, these results establish attention gating as a targeted and efficient approach to instruction–data separation."
+    },
+    {
+     "label": 2,
+     "section": "Analyzing the learned attention gates",
+     "text": "In this section, we analyze why HoS works by showing that most heads shift attention away from untrusted content, while a minority of heads shift towards it and support prompt injection detection."
+    },
+    {
+     "label": 3,
+     "section": "Additional related work",
+     "text": "HoS builds upon these observations: by conditioning each head’s gate on the query and key channels, we allow attention heads responsible for instruction following to learn to operate normally on trusted input while restricting how they attend to untrusted input."
+    },
+    {
+     "label": 4,
+     "section": "Abstract",
+     "text": "We introduce Heads of Security (HoS), a prompt injection defense that enforces instruction-data separation via a small set of learned per-head attention gates. HoS learns how each head should redistribute attention between trusted and untrusted tokens, enabling models to reason over untrusted content without following injected instructions. We evaluate HoS on Llama-3.3-70B-Instruct and GPT-OSS-20B. We compare it against SecAlign++, a state-of-the-art finetuning-based defense, and ASIDE, a defense that, like ours, builds instruction-data separation into the model architecture. We show that HoS offers greater robustness to adaptive attacks, better performance on standard utility benchmarks, and matches top performance on standard agentic prompt injection benchmarks. More specifically, the black-box RL-Hammer attack reaches 97% ASR against GPT-OSS-20B and 85% against SecAlign, but only 10% against HoS."
+    },
+    {
+     "label": 5,
+     "section": "Analyzing the learned attention gates",
+     "text": "Role confusion. Recent work by Ye et al. (2026) argues for viewing prompt injection through the lens of role confusion. According to this framing, successful attacks hinder the model’s ability to correctly attribute the source of the injected instruction. For example, a malicious instruction in the untrusted tool output may be viewed by the model as originating from the user, and thus be erroneously trusted. How does HoS affect the perceived roles?"
+    }
+   ]
+  },
+  {
+   "q": "How does it compare with SecAlign on adaptive attacks?",
+   "abstained": false,
+   "sentences": [
+    [
+     "HoS demonstrates greater robustness to adaptive attacks compared to SecAlign.",
+     []
+    ],
+    [
+     "For GPT-OSS-20B, HoS achieves 10% ASR against attacks, compared to 85% for SecAlign.",
+     [
+      2
+     ]
+    ],
+    [
+     "Similarly, for Llama-3.3-70B, HoS has 1% ASR versus 82% for SecAlign.",
+     [
+      2
+     ]
+    ],
+    [
+     "HoS also requires 2.6–3.6× more attack compute to reach 50% ASR than SecAlign.",
+     [
+      3
+     ]
+    ],
+    [
+     "Additionally, white-box attacks on HoS require 3× more compute than on SecAlign.",
+     [
+      4
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Introduction",
+     "text": "Compared to both SecAlign and ASIDE, HoS offers greater robustness to adaptive attacks, better performance on standard utility benchmarks, and matches top performance on standard agentic prompt injection benchmarks."
+    },
+    {
+     "label": 2,
+     "section": "Results ::: Adaptive attacks",
+     "text": "Table 1 reports ASR on held-out InjecAgent (Zhan et al., 2024) goals, with rows identifying the attacker’s training target and columns its evaluation target. Shaded cells show attacks against the model they were trained to defeat. The remaining cells measure attack transferability. Among the attackers shown, the highest ASR against GPT-OSS-20B is 97% without a defense and 85% with SecAlign, compared with only 10% with HoS. For Llama-3.3-70B, the corresponding rates are 99%, 82%, and 1%. The SecAlign-trained attacker is stronger against HoS than the HoS-trained attacker in both families. A likely explanation is that the HoS-trained attacker receives sparser reward signals, and therefore takes fewer meaningful optimization steps. On GPT-OSS-20B, the HoS-trained attacker only achieves 3.2% training ASR, compared to 80.2% for SecAlign."
+    },
+    {
+     "label": 3,
+     "section": "Results ::: Adaptive attacks",
+     "text": "HoS requires roughly three times as much attack compute to reach 50% ASR as either the base model or SecAlign (Figure 2, left). On AgentDojo, the attack reaches this threshold at approximately 6\\!\\times\\!10^{16} FLOPs against HoS, compared with 2.2 – 2.3\\!\\times\\!10^{16} against the baselines. On InjecAgent, it requires 3.0\\!\\times\\!10^{16} FLOPs against HoS, versus 8.5 – 9.5\\!\\times\\!10^{15} against the baselines. These correspond to compute increases of 2.6 – 2.7\\times and 3.2 – 3.6\\times , respectively, despite developing the attack specifically against HoS. The curves report cumulative ASR. Appendix F provides the evaluation protocol and additional white-box attack results."
+    },
+    {
+     "label": 4,
+     "section": "Introduction",
+     "text": "Greater robustness to adaptive attacks (Section 4.1). Using black-box RL-based attacks trained with the RL-Hammer recipe (Wen et al., 2025b), the strongest attackers reach 97% attack success rate (ASR) on GPT-OSS-20B, 85% on SecAlign, but only 10% on HoS. Similar results hold for Llama-3.3-70B: the strongest attacker reaches 99% ASR against the undefended model and 82% ASR against Meta-SecAlign-70B but only 1% ASR against HoS. In a white-box setting, a state-of-the-art optimization-based attack, Claudini (Panfilov et al., 2026), further optimized specifically against HoS in an autoresearch loop, still requires roughly 3\\times more compute to reach 50% ASR on HoS compared to GPT-OSS-20B and its SecAlign variant."
+    },
+    {
+     "label": 5,
+     "section": "Expanded RL-Hammer results ::: SecAlign on InjecAgent",
+     "text": "Table 12 reproduces the SecAlign harness layout on the same served weights, using the 100 held-out cases and the full 510-case direct-harm set. SecAlign produces invalid ReAct outputs on 90–95% of the held-out cases across these settings. Consequently, its low ASR under this protocol cannot alone establish that it completes legitimate tasks while rejecting injections. For the undefended model, adding the sandwich reminder reduces basic-injection ASR from 46% to 10% with instruction hierarchy enabled; the enhanced injection still reaches 59%. These measurements differ in prompt layout, trust assignment, parsing, and case selection, so they are not directly comparable to the native-tool results."
+    }
+   ]
+  },
+  {
+   "q": "Does HoS hurt the model's normal performance?",
+   "abstained": false,
+   "sentences": [
+    [
+     "No",
+     [
+      1,
+      4,
+      5
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Prompt-injection benchmark details and full results ::: Additional Llama-3.3-70B observations",
+     "text": "On WASP, HoS achieves 62.2% clean utility, compared with 66.5% for the base model and 62.7% for SecAlign. Under attack, HoS achieves 81.4% utility, versus 62.4% and 79.8%, respectively, while reducing ASR to 1.4%, compared with 7.6% and 2.4%. These are means over five runs, consistent with Table 3."
+    },
+    {
+     "label": 2,
+     "section": "Introduction",
+     "text": "Compared to both SecAlign and ASIDE, HoS offers greater robustness to adaptive attacks, better performance on standard utility benchmarks, and matches top performance on standard agentic prompt injection benchmarks."
+    },
+    {
+     "label": 3,
+     "section": "Discussion and Limitations",
+     "text": "The attacker moves second. Attackers can adapt their methods after seeing a defense, so no finite evaluation can establish security (Nasr et al., 2026). However, evaluated under the same attack budget, RL-Hammer and Claudini are less successful against HoS. This suggests that HoS is harder to attack than baselines, but does not rule out a successful attack by a motivated and capable adversary.\n\nHoS is designed for standard dense attention. Our method applies per-channel biases to pairwise attention logits before the softmax. It is therefore not directly compatible with linear attention architectures (Yang et al., 2024; Yang et al., 2025a) where there is no explicit coefficient representing the attention to a specific key token. Extending the same trust constraint to pure linear attention architectures would require a different gating mechanism."
+    },
+    {
+     "label": 4,
+     "section": "Abstract",
+     "text": "Claudini, a state-of-the-art white-box attack, strengthened against HoS through autoresearch, requires 3 times more FLOPs to reach the same ASR on HoS as it does on GPT-OSS-20B or SecAlign. HoS preserves base-model utility across standard multiple-choice benchmarks and prompting setups, whereas SecAlign and ASIDE degrade in few-shot settings. On agentic benchmarks with static attacks, HoS and SecAlign perform similarly and substantially improve the security-utility trade-off over the base model. ASIDE struggles with tool use, achieving only 10% utility. These results show that prompt injection robustness can be achieved and improved through targeted attention interventions."
+    },
+    {
+     "label": 5,
+     "section": "Introduction",
+     "text": "Preserving utility on standard benchmarks (Section 4.2). Across standard multiple-choice benchmarks and prompting setups, HoS closely matches both base models. SecAlign and ASIDE match base-model performance in 0-shot evaluations but often struggle in few-shot and multi-turn settings. On 5-shot MMLU-Pro, HoS scores 67% versus GPT-OSS-20B’s 68%, while SecAlign and ASIDE fall to 59% and 52%; on Llama-3.3-70B, HoS scores 55% versus the base model’s 56%, while SecAlign falls to 16% (Table 2).\n\nStrong utility and security on agentic benchmarks (Section 4.3, Appendix G). On AgentDojo, AgentDyn, LLMail-Inject, and WASP, HoS and SecAlign perform comparably across both base models, substantially reducing ASR with little or no utility penalty in most evaluations (Figure 4, Table 3). On the other hand, ASIDE consistently fails to produce usable tool calls, scoring near-zero utility on three benchmarks and only 10% on AgentDojo."
+    }
+   ]
+  }
+ ],
+ "2610.37651": [
+  {
+   "q": "Why not learn from every failed rollout?",
+   "abstained": false,
+   "sentences": [
+    [
+     "The system does not learn from every failed rollout due to external factors and task characteristics.",
+     []
+    ],
+    [
+     "Failed rollouts may arise from issues like tool unavailability, harness limitations, or noisy environments, not prompt weaknesses.",
+     [
+      3
+     ]
+    ],
+    [
+     "Additionally, tasks categorized as \"Impossible\" or \"Flaky\" cannot be improved through prompt optimization, making their failures unhelpful.",
+     [
+      4
+     ]
+    ],
+    [
+     "The numerical curriculum also removes persistently failing tasks to avoid unproductive feedback.",
+     [
+      5
+     ]
+    ],
+    [
+     "Thus, only failures linked to prompt deficiencies are prioritized.",
+     []
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Empirical Evaluation ::: Experimental Setup",
+     "text": "The rollout budget per benchmark was chosen to ensure that all methods can reach their saturated success rate. \\tau -bench specifically validates every 4 iterations due to its small training data."
+    },
+    {
+     "label": 2,
+     "section": "GEPA-Curator Methodology ::: Prior Success Retrieval",
+     "text": "Normally, prompt optimizers reflect on failure examples in the current minibatch and mutate the prompt based only on the failed trajectories and their evaluations. Therefore, pairing a current failed execution with prior successful executions of the same task allows the Reflector to perform contrastive learning of the failed behavior against a known and trusted reference. This provides the Reflector with a concrete basis for correcting the behavior, rather than forcing it to diagnose the failure by guessing."
+    },
+    {
+     "label": 3,
+     "section": "Introduction",
+     "text": "However, it is often difficult for the Reflector to correctly attribute the cause of a failure to the prompt. In agentic tasks, execution is mediated by a harness interacting with an external environment, and success is often assessed by LLM-as-a-judge (Zheng et al., 2023). A failed rollout may therefore reveal a genuine prompt weakness, but it may also arise from external factors such as unavailability of needed tools, harness limitations, or even noise from execution or evaluation environments. This problem is further exacerbated in real-world settings, where tasks themselves may be ambiguous or infeasible, introducing additional noisy signals to the Reflector. When revising the prompt, the Reflector may nevertheless treat these potentially noisy observations as valid learning signals for prompt optimization (Kirichenko et al., 2025), causing it to misattribute the associated failures to prompt deficiencies, thereby producing unnecessary or harmful updates."
+    },
+    {
+     "label": 4,
+     "section": "Discussion ::: Motivating Experiments",
+     "text": "To understand how noisy learning signals from flaky or impossible tasks can negatively impact agent learning by contaminating the prompt, we categorize GoBrowse GitLab tasks into four groups: Easy, Optimizable, Impossible, and Flaky. Easy tasks achieve constant success before optimization. Optimizable tasks initially perform suboptimally but can be improved through prompt optimization. Flaky tasks and Impossible tasks are the ones that cannot be improved, with Impossible tasks showing constant failure and Flaky tasks having mixed success due to ambiguous task intent or judge flakiness."
+    },
+    {
+     "label": 5,
+     "section": "Details about Motivating Experiments ::: Implementation of Numerical Curriculum",
+     "text": "The numerical curriculum modifies GEPA’s dataset sampling procedure to progressively remove tasks that repeatedly fail during optimization. The intuition is that persistently unsuccessful tasks may contribute unhelpful feedback and cause the optimized prompt to grow unnecessarily without yielding corresponding performance gains. To identify such tasks, we maintain a running score s_{t} for each task t . Whenever a task fails, its score is incremented by one; when it succeeds, the score is decreased by k , lower bounded at zero. This allows occasional failures to be tolerated while assigning larger scores to tasks that fail consistently over time. Once s_{t} exceeds a threshold b , the task is removed from the sampling pool for subsequent optimization iterations."
+    }
+   ]
+  },
+  {
+   "q": "What are the two components of GEPA-Curator?",
+   "abstained": false,
+   "sentences": [
+    [
+     "The two components of GEPA-Curator are its simplified, greedy variant of GEPA that removes Pareto-based candidate selection, and its evaluation method that selects the final model based on the best validation score.",
+     [
+      4,
+      4
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Abstract",
+     "text": "GEPA-Curator matches or exceeds the mean performance of both baselines, with gains of up to 20.7% over GEPA and 21.2% over ACE."
+    },
+    {
+     "label": 2,
+     "section": "Introduction",
+     "text": "We evaluate GEPA-Curator on four WebArena websites (Zhou et al., 2024), ALFWorld, AppWorld, and \\tau -bench. GEPA-Curator matches or exceeds the mean performance of the evaluated baselines, with gains of up to 20.7% over GEPA (Agrawal et al., 2026) and 21.2% over ACE (Zhang et al., 2026). These results suggest that the benefits of curation extend across optimizer models."
+    },
+    {
+     "label": 3,
+     "section": "QA-Type Benchmarks from the GEPA Paper",
+     "text": "GEPA-Curator matches or outperforms GEPA on three of four benchmarks, with modest gains on AIME and IFBench and a larger +4.3\\% gain on HoVer, while underperforming by 1.3\\% on HotpotQA. The displayed benchmark scores average to 35.5 for the seed, 56.8 for GEPA, and 57.9 for GEPA-Curator. Thus, GEPA improves over the seed by 21.3\\% and GEPA-Curator by 22.4\\% , yielding a +1.1\\% advantage for GEPA-Curator. This corresponds to approximately 1.05\\times GEPA’s optimization gain. The smaller improvement than on WebArena suggests that curation is less beneficial for structured QA, where evaluation already provides a relatively clean optimization signal."
+    },
+    {
+     "label": 4,
+     "section": "Empirical Evaluation ::: Experimental Setup",
+     "text": "We compare GEPA-Curator against GEPA (Agrawal et al., 2026) and ACE (Zhang et al., 2026). GEPA-Curator builds on a simplified, greedy variant of GEPA that removes Pareto-based candidate selection. Rather than evolving a candidate pool and sampling from the Pareto frontier on validation set, GEPA-Curator maintains a single lineage in which each mutation becomes the next checkpoint. We evaluate the prompt every 16 iterations unless specified on a held-out validation set and select the final model based on the best validation score at the end. Because our ablation showed little difference between GEPA with and without Pareto selection, we adopt this greedy variant for simplicity."
+    },
+    {
+     "label": 5,
+     "section": "Empirical Evaluation ::: Main Results",
+     "text": "With Claude Opus 5 as the optimizer model, GEPA-Curator improves over GEPA by 2.6% on ALFWorld, 15.9% on AppWorld Test-N, and 13.9% on AppWorld Test-C, while matching its mean success on \\tau -bench. Averaged across the four test sets, GEPA-Curator gains 8.1% over GEPA and 12.6% over ACE. Together, the Gemini and Opus results suggest that the benefits of curation extend across optimizer models, with magnitude depending on the benchmark and optimizer model. Additional evaluation on QA-type benchmarks from (Agrawal et al., 2026) can be found in Appendix E."
+    }
+   ]
+  },
+  {
+   "q": "How much does curation improve results?",
+   "abstained": false,
+   "sentences": [
+    [
+     "The curation improves results by the following amounts:",
+     []
+    ],
+    [
+     "- 1% increase in Math-RAG test accuracy,",
+     [
+      1
+     ]
+    ],
+    [
+     "- 1.57% increase in mean reward,",
+     [
+      1
+     ]
+    ],
+    [
+     "- 20.7% gain over GEPA,",
+     [
+      2
+     ]
+    ],
+    [
+     "- 21.2% gain over ACE,",
+     [
+      2
+     ]
+    ],
+    [
+     "- 4.9% improvement over numerical curriculum,",
+     [
+      3
+     ]
+    ],
+    [
+     "- 1.2% improvement over GEPA,",
+     [
+      3
+     ]
+    ],
+    [
+     "- 2.8% improvement over task curation alone,",
+     [
+      3
+     ]
+    ],
+    [
+     "- 4.0% improvement over GEPA,",
+     [
+      3
+     ]
+    ],
+    [
+     "- 14.3% gain over GEPA,",
+     [
+      4
+     ]
+    ],
+    [
+     "- 5.0% gain over ACE,",
+     [
+      4
+     ]
+    ],
+    [
+     "- 1.1% advantage over GEPA,",
+     [
+      5
+     ]
+    ],
+    [
+     "- 4.3% gain on HoVer.",
+     [
+      5
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Discussion ::: Meta-Harness-Curator",
+     "text": "Table 6 shows that adding the Curator improves Math-RAG overall test accuracy from 45.33\\% to 46.33\\% and mean reward from 45.69\\% to 47.26\\% , where reward includes partial credit for proof tasks. On text classification (Table 6), overall test accuracy, averaged equally across the three datasets, increases from 48.06\\% to 51.04\\% . The gains are concentrated in LawBench and Symptom2Disease, while USPTO accuracy is slightly lower. These results show modest improvements in held-out performance when curation is applied to harness-code optimization."
+    },
+    {
+     "label": 2,
+     "section": "Introduction",
+     "text": "We evaluate GEPA-Curator on four WebArena websites (Zhou et al., 2024), ALFWorld, AppWorld, and \\tau -bench. GEPA-Curator matches or exceeds the mean performance of the evaluated baselines, with gains of up to 20.7% over GEPA (Agrawal et al., 2026) and 21.2% over ACE (Zhang et al., 2026). These results suggest that the benefits of curation extend across optimizer models."
+    },
+    {
+     "label": 3,
+     "section": "Discussion ::: Motivating Experiments",
+     "text": "As shown in Table 4, the numerical curriculum underperforms GEPA in this setting, achieving 62.5% success compared with 66.2%. In contrast, our task curation method alone achieves 67.4%, outperforming the numerical curriculum by 4.9% and GEPA by 1.2%. The full GEPA-Curator method further improves success to 70.2%, an additional gain of 2.8% over task curation alone and 4.0% over GEPA.\n\nThese results support our hypothesis that binary outcomes alone are insufficient for curating data in the presence of flaky tasks: both flaky and prompt-sensitive tasks may exhibit mixed success and failure, while their execution traces provide evidence that helps distinguish evaluator or environment noise from actionable prompt failures."
+    },
+    {
+     "label": 4,
+     "section": "Empirical Evaluation ::: Main Results",
+     "text": "The results of the additional agentic benchmarks are shown in Table 2. With Gemini 3.1 Pro as the optimizer model, GEPA-Curator improves over both baselines across all four test sets, with average gains of 14.3% over GEPA and 5.0% over ACE. These results suggest that task curation and prior success retrieval are general methods that can benefit optimization beyond noisy datasets like GoBrowse."
+    },
+    {
+     "label": 5,
+     "section": "QA-Type Benchmarks from the GEPA Paper",
+     "text": "GEPA-Curator matches or outperforms GEPA on three of four benchmarks, with modest gains on AIME and IFBench and a larger +4.3\\% gain on HoVer, while underperforming by 1.3\\% on HotpotQA. The displayed benchmark scores average to 35.5 for the seed, 56.8 for GEPA, and 57.9 for GEPA-Curator. Thus, GEPA improves over the seed by 21.3\\% and GEPA-Curator by 22.4\\% , yielding a +1.1\\% advantage for GEPA-Curator. This corresponds to approximately 1.05\\times GEPA’s optimization gain. The smaller improvement than on WebArena suggests that curation is less beneficial for structured QA, where evaluation already provides a relatively clean optimization signal."
+    }
+   ]
+  }
+ ],
+ "2610.37649": [
+  {
+   "q": "How are the altered worlds created?",
+   "abstained": false,
+   "sentences": [
+    [
+     "The altered worlds are created through three operations: generation, refinement, and composition, as well as specifying physical parameters and compiling them into simulations.",
+     []
+    ],
+    [
+     "The designer uses generation to create new laws and scenes from source mechanisms, refinement to modify existing scenes, and composition to combine source laws in a shared environment.",
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     "Additionally, the designer specifies objects, geometry, physical programs, and altered laws, which are compiled into MuJoCo simulations.",
+     [
+      5
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "LongChang ::: Environment Construction",
+     "text": "Scene Evolution. To extend this set, an LLM designer proposes scene changes aimed at more challenging discovery tasks. The designer receives source scenes and any available summaries of earlier explorations. These summaries identify tested conditions, unresolved questions, and explanations supported or corrected by later observations. The designer uses three operations: generation creates new laws and scenes from source mechanisms, refinement modifies an existing scene, and composition combines source laws in a shared environment. Changes guided by these summaries must cite supporting exploration evidence. Automated tests check simulated behavior against the altered physical laws, including interactions with constructed apparatus. An LLM reviewer checks the program and test results against these laws. Failed compilation, tests, or review trigger automatic revision requests to the designer. Only accepted scenes are used in subsequent free-exploration assessments."
+    },
+    {
+     "label": 2,
+     "section": "Scene Evolution",
+     "text": "Refinement. The designer introduces a spatial condition blocking red’s northward force while blue is inside the gray square, so waiting longer than ten seconds may still not restore it. After the pause expires, the planned test moves blue by hand into or out of the square without resetting the timer.\n\nComposition. The designer combines the paused northward force with Scene 14’s delayed motion copying: green takes red’s launch velocity twelve seconds later. The planned comparison launches blue after red, postponing red’s force recovery while leaving green’s scheduled velocity copy unchanged. The explorer must identify both altered physical laws and their distinct triggers and timing.\n\nWe evaluate GPT-6-Astra on source and evolved scenes using the free-exploration settings in Tab. 3."
+    },
+    {
+     "label": 3,
+     "section": "Introduction",
+     "text": "Physical law discovery involves inferring an environment’s laws from observations and experiments. PhysGym (Chen et al., 2025), NewtonBench (Zheng et al., 2026), and DiscoverPhysics (Wiemann et al., 2026) assign law-discovery tasks. Tab. 2 compares their exploration guidance and experiments with those of LongChang. Without a research task or hints about altered physical laws, an LLM must notice phenomena worth investigating, choose a research question, and devise experiments to distinguish competing explanations. Can LLMs turn unexpected observations into research questions, conduct experiments, and discover altered physical laws autonomously?\n\nWe introduce LongChang, an automated framework that generates simulated worlds with altered physics, where one or more laws differ from ordinary physics. This counterfactual setting tests whether LLMs independently notice departures from ordinary physics and investigate them without research tasks or hints about the altered physical laws. For example, slower falls for heavier objects could lead an explorer to ask how mass affects falling and design controlled comparisons to test this link. These laws are hidden from explorers but available for evaluating their reported explanations."
+    },
+    {
+     "label": 4,
+     "section": "Limitations",
+     "text": "This study examines whether LLMs initiate investigations and discover altered physical laws in simulated worlds. Our results show that this task remains challenging for current LLMs. The altered physical laws provide a clear basis for evaluating discoveries, while many scientific questions in the real world remain unresolved. Extending the framework to these open questions requires further research on evaluating exploration and its findings in settings where the answers are not yet established."
+    },
+    {
+     "label": 5,
+     "section": "LongChang ::: Environment Construction",
+     "text": "Physical Environment. An LLM designer specifies each scene’s objects and geometry, physical program, and any altered physical laws. The framework compiles these definitions into MuJoCo simulations (Todorov et al., 2012) containing manipulable balls and boxes, with colored floor tiles in some scenes. Each base scene with altered physics modifies one physical law, producing effects that depend on object properties, spatial relations, contact events, or past actions. Fig. 4 illustrates an altered physical law: when the balls are close, both rise under an upward force without an upward launch.\n\nThe designer records each altered physical law’s target objects, conditions, and observable effects for evaluation, withholding this information from the explorer. LongChang’s base set in Tab. 1 comprises a normal control and 14 scenes with one altered physical law each. The normal control assesses whether LLMs ground their conclusions in evidence when no physical law has been altered. App. A.1 details ordinary physics and each altered physical law’s scope, conditions, and parameters."
+    }
+   ]
+  },
+  {
+   "q": "How well do the models discover the hidden laws?",
+   "abstained": false,
+   "sentences": [
+    [
+     "The models discover hidden laws poorly, with only GPT-6-Astra achieving a 16.7% discovery rate, while the other 11 LLMs scored 0%.",
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     "Law correctness is low, at 19.0% for GPT-6-Astra, as many reports lack full resolution of altered physical laws.",
+     [
+      2
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "LongChang ::: Discovery Evaluation",
+     "text": "An LLM judge evaluates reports against altered physical laws and full exploration records, requiring law correctness (C) and evidence support (S) for discovery. Law correctness requires identifying each altered physical law, its target objects, conditions, triggers, and constants identifiable in the reported units. Proposed mechanisms may differ if they yield the same observable predictions under allowed interventions. Evidence support requires recorded experiments to justify all claims and reasoning at the stated level of certainty. Correct guesses may pass only C. Supported ordinary observations or partial findings may meet S alone."
+    },
+    {
+     "label": 2,
+     "section": "Results and Analysis",
+     "text": "Tab. 3 shows that GPT-6-Astra achieves a discovery rate of 16.7% under free exploration, while the other 11 LLMs score 0%. Its evidence support rate reaches 97.6%, but law correctness is only 19.0%: supported observations and partial findings often leave the altered physical laws unresolved. For example, a Scene 02 report supports attraction between the tested red balls without establishing its distance dependence or applicability to other red spheres. Claude-Opus-5 shows the opposite pattern, identifying the altered physical laws in 16.7% of runs while no report passes the evidence support check. These results separate correct identification of a law from experimentally supported discovery."
+    },
+    {
+     "label": 3,
+     "section": "Abstract",
+     "text": "Scientific discovery often begins with an unexpected observation that prompts a new research question. In a world with altered physical laws, can large language models (LLMs) notice unexpected behavior, such as heavier objects falling more slowly, and discover the law through experiments without being told what to investigate? To evaluate this ability, we introduce LongChang, an automated framework that creates simulated worlds with altered physics, where one or more laws differ from ordinary physics. The evaluated LLMs act as explorers, manipulating objects and building tools to investigate their own questions without research tasks or hints about these laws. Separate LLM agents generate and review scenes, review tool designs, and evaluate reports for correctness and experimental support using the altered physical laws and exploration records. These records guide scene evolution for further exploration, allowing the full cycle to run without human intervention. Among 12 LLMs, GPT-6-Astra achieves a discovery rate of 16.7%, while the other 11 score 0%. The exploration records reveal uninvestigated anomalies and only partial identification of the altered physical laws."
+    },
+    {
+     "label": 4,
+     "section": "Limitations",
+     "text": "This study examines whether LLMs initiate investigations and discover altered physical laws in simulated worlds. Our results show that this task remains challenging for current LLMs. The altered physical laws provide a clear basis for evaluating discoveries, while many scientific questions in the real world remain unresolved. Extending the framework to these open questions requires further research on evaluating exploration and its findings in settings where the answers are not yet established."
+    },
+    {
+     "label": 5,
+     "section": "Conclusion",
+     "text": "LongChang examines whether LLMs can turn unexpected observations into research questions and discover altered physical laws through experiments. The evaluated LLMs manipulate objects and build tools without research tasks or hints about these laws. Only one of the twelve evaluated LLMs makes discoveries, revealing the difficulty of turning observations into complete, experimentally supported laws. Unanswered questions and corrected errors in exploration records guide separate LLM agents to evolve scenes, continuing the discovery cycle without human intervention. This framework supports research into LLMs that decide what to investigate and design experiments to resolve uncertainties about the physical laws of these worlds."
+    }
+   ]
+  },
+  {
+   "q": "Which models were evaluated?",
+   "abstained": false,
+   "sentences": [
+    [
+     "The models evaluated are 12 LLMs.",
+     [
+      1,
+      5
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "LongChang ::: Experimental Setup",
+     "text": "Main evaluation. All LLMs explore the same 15 scenes from fixed initial states for up to 100 turns.\n\nLLMs. We evaluate the 12 LLMs in Tab. 3. GPT-6.1-Sol judges the correctness and experimental support of their reports. GPT-6-Astra reviews apparatus and generates and reviews new scenes. App. A.3 lists the prompts used across the pipeline.\n\nMetrics. For scenes with altered physics, C and S show the percentages of runs passing the relevant check. Discovery rate (D) is the percentage passing both checks. Rejection count (R) is the number of rejected normal-control reports, including those with false claims of anomalies or unsupported laws."
+    },
+    {
+     "label": 2,
+     "section": "Introduction",
+     "text": "We contribute the LongChang framework for the complete discovery cycle and an empirical study of autonomous physical inquiry. We use model comparisons, controlled interventions, and exploration records to examine how LLMs form research questions and test explanations using experiments."
+    },
+    {
+     "label": 3,
+     "section": "LongChang ::: Discovery Evaluation",
+     "text": "An LLM judge evaluates reports against altered physical laws and full exploration records, requiring law correctness (C) and evidence support (S) for discovery. Law correctness requires identifying each altered physical law, its target objects, conditions, triggers, and constants identifiable in the reported units. Proposed mechanisms may differ if they yield the same observable predictions under allowed interventions. Evidence support requires recorded experiments to justify all claims and reasoning at the stated level of certainty. Correct guesses may pass only C. Supported ordinary observations or partial findings may meet S alone."
+    },
+    {
+     "label": 4,
+     "section": "Results and Analysis",
+     "text": "Exploration statistics reveal obstacles during investigation. Gemini-3.7-Flash stops early in every run, averaging only 10.9 turns and leaving little opportunity for follow-up experiments. The GLM models use about 90 turns and build working apparatus in every run, yet make no discoveries. They also fail in more than 60% of build attempts, with failed actions accounting for 16.8–20.2% of turns. Successful construction can thus coexist with repeated unsuccessful attempts. Grok-4.7 stops early least often but makes no discoveries, so persistence and working devices alone do not ensure discovery."
+    },
+    {
+     "label": 5,
+     "section": "Introduction",
+     "text": "LongChang’s base set in Tab. 1 comprises a normal control and 14 scenes with one altered physical law each. In the virtual “glass room” in Fig. 1, explorers manipulate objects and build tools that interact with the scene objects within a shared MuJoCo rigid-body simulation (Todorov et al., 2012). Separate LLM agents review tool designs and evaluate reports against the altered physical laws and exploration records, requiring both correctness and experimental support for discovery. Unresolved questions and corrected errors in these records guide LLM scene designers to generate, refine, and compose scenes for further exploration, continuing the entire discovery cycle without human intervention.\n\nAmong 12 evaluated LLMs, GPT-6-Astra achieves a discovery rate of 16.7% under free exploration, while the other 11 score 0%. Exploration records show some LLMs leave observed anomalies uninvestigated, while others experiment but only partially identify the altered physical laws, leaving their conditions or applicability unresolved."
+    }
+   ]
+  }
+ ],
+ "2610.37645": [
+  {
+   "q": "What does MERLIN add to multi-state linear attention?",
+   "abstained": false,
+   "sentences": [
+    [
+     "MERLIN adds tracking of the first and second moments of each segment's keys, enabling queries to recover both the mean and variance of alignment with segments.",
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     "This allows for more content-aware aggregation of per-state readouts by incorporating alignment variance, which existing methods ignore.",
+     [
+      1
+     ]
+    ],
+    [
+     "The method also assigns weights to segments based on these moments, improving performance and memory efficiency.",
+     [
+      4
+     ]
+    ],
+    [
+     "Answer: MERLIN adds tracking of first and second moments of segment keys, enables recovery of mean and variance of alignment, and assigns weights based on these moments.",
+     [
+      1,
+      3,
+      4
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Abstract",
+     "text": "Self-attention plays a key role in long-sequence modeling, but its quadratic time complexity fundamentally limits the scaling of Large Language Models. Recently, Multi-State Linear Attention (MSLA) mechanisms have been proposed to make sequence modeling more efficient by splitting the context into segments and compressing each in its own memory state. MSLA aggregates the information extracted from each memory state using only the mean alignment between a query and each segment's keys, ignoring how the alignment is distributed within the segment. In order to model the relevance of a segment to a query more comprehensively and incorporate the variance of the alignment in the aggregation, we propose MERLIN (MomEnt Routing for multi-state LINear attention), a method that tracks the first and second moments of each segment's keys. Using the moments of keys, a query can recover both the mean and the variance of its alignment with each segment to perform a more content-aware aggregation of per-state readouts. Experiments on multi-state variants of Gated DeltaNet-1.3B and Mamba-2-780M show that MERLIN consistently outperforms existing aggregation methods on various long-context tasks."
+    },
+    {
+     "label": 2,
+     "section": "Experiments",
+     "text": "We conduct experiments to quantify the effect of Merlin on the long-context capabilities of multi-state linear attention models. We first explain the models, datasets, and baselines used for training and evaluation (§4.1). Then, we show the main evaluation results on the core benchmarks (§4.2). Third, we conduct analysis on positional biases and impact of segment length (§4.3). Finally, we conduct ablations on the core design choices in Merlin (§4.4)."
+    },
+    {
+     "label": 3,
+     "section": "Introduction",
+     "text": "We identify segment-level output aggregation as a key bottleneck in multi-state linear attention: existing methods weight each segment’s output using only the mean alignment between the query and the segment’s keys (§2).\n\nWe propose Merlin, a method that keeps the first and second moments of each segment’s keys. A query uses these moments to recover the mean and variance of its alignment with the segment (§3.1) and to derive the aggregation weights (§3.2).\n\nWe evaluate multi-state variants of Gated DeltaNet-1.3B and Mamba-2-780M (§4.1). On LongBench (Bai et al., 2024), Merlin improves the average score over the strongest baseline by 13.5% on Gated DeltaNet and 12.0% on Mamba-2 (§4.2)."
+    },
+    {
+     "label": 4,
+     "section": "Conclusion",
+     "text": "We investigate the aggregation problem in multi-state linear attention, where segment-level outputs are combined via a weighted sum to produce the final output representation of each token. We propose Merlin, an aggregation method that assigns weights to each segment based on the mean and variance of the alignment between a query and the keys of each segment. In order to compute the mean and variance of the alignment, Merlin keeps compact first and second moments of the segment’s keys. We find that Merlin is superior to existing aggregation methods in terms of performance and memory efficiency. Merlin presents a generalizable and effective routing mechanism for the aggregation problem in multi-state linear attention models."
+    },
+    {
+     "label": 5,
+     "section": "Merlin",
+     "text": "Our goal is to capture the variance of the alignment between a query and each segment’s keys to derive more informative aggregation weights. We first introduce how the first and second moments of the keys are constructed (§3.1). Then, we discuss how the mean and variance of the alignment can be derived from the moments (§3.2). Finally, we elaborate on the relationship between multi-state linear attention equipped with Merlin and softmax attention (§3.3)."
+    }
+   ]
+  },
+  {
+   "q": "How much does it improve on LongBench?",
+   "abstained": false,
+   "sentences": [
+    [
+     "The improvements on LongBench are as follows: 13.5% for GDN, 12.0% for Mamba-2, 8.3% for Gated DeltaNet-1.3B, and 7.0% for Mamba-2-780M.",
+     [
+      1,
+      1,
+      2,
+      2
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Experiments ::: Main Results",
+     "text": "We also report results on LongBench (Bai et al., 2024) tasks filtered to 16K. Overall, Merlin demonstrates strongest average performance, followed by Meanpool, Position, and finally Vanilla. Table 3 shows that Merlin leads to robust gains particularly on single-doc and multi-doc QA. For GDN, Merlin leads to a 13.5% improvement in average score compared to Meanpool (21.9 vs 19.3). For Mamba-2, Merlin leads to a 12.0% (20.6 vs 18.4) improvement compared to Meanpool. This suggests that Merlin strengthens general long-context capabilities."
+    },
+    {
+     "label": 2,
+     "section": "Abstract",
+     "text": "In particular, MERLIN outperforms baselines on RULER needle-in-a-haystack and long-context QA (+8.3% for Gated DeltaNet-1.3B and +7.0% for Mamba-2-780M) and diverse subtasks in LongBench (+13.5% and +12.0%). It even outperforms baselines that consume 4x more memory. MERLIN provides a simple and general routing mechanism for improving long-context capabilities of MSLA models."
+    },
+    {
+     "label": 3,
+     "section": "Experiments ::: Setup",
+     "text": "We also evaluate on the following subtasks in LongBench (Bai et al., 2024): NarrativeQA (NQ), Qasper (QR), MultiFieldQA-en (MF), HotpotQA (HP), 2WikiMultihopQA (2W), GovReport (GR), QMSum (QM), MultiNews (MN), SAMSum (SS), TREC (TC), TriviaQA (TQ). We filter for samples under 16K context length. These tasks largely evaluate single-document QA, multi-document QA, summarization, and few-shot learning capabilities.\n\nFinally, we evaluate on the TriviaQA retrieval-augmented-generation task in HELMET (Yen et al., 2025) at 16K context length. We use this benchmark to analyze how the position of the ground truth in the sequence impacts the model’s performance. provides a detailed explanation of the evaluation protocol used in our experiments."
+    },
+    {
+     "label": 4,
+     "section": "Experiments ::: Analysis",
+     "text": "We examine whether Merlin is robust to different segment lengths. Segment length, or the number of tokens per segment, determines the number of segments per context given that the entire length of the sequence is fixed ( L=T/m ). The shorter the segment length, the more states per sequence, and therefore the higher the memory consumption of the model. We experiment with m\\in\\{64,128,256,512\\} for each aggregation method. At m=64 , the model consumes approximately 8 times more memory compared to m=512 . Fig. 4 shows that for both GDN and Mamba-2, Merlin outperforms baselines on LongBench (Bai et al., 2024) tasks across m . In particular, Merlin at m=256 (default) outperforms Meanpool and Position baselines at m=64 , which consume 4 times more memory. This suggests that Merlin is more memory efficient compared to its baselines."
+    },
+    {
+     "label": 5,
+     "section": "Experiments ::: Ablations",
+     "text": "We report on the impact of d_{r} , the dimension of the first and second moments of keys (§3.2), on the performance of Merlin. We vary d_{r}\\in\\{16,32,64,128\\} during training and evaluate on LongBench (Bai et al., 2024). Fig. 5 shows that the average score on LongBench tasks gradually increases as d_{r} increases. This suggests that the width of the moments of keys is critical in deriving informative aggregation weights. However, there is a trade-off in deciding d_{r} . The moments of keys can be more expressive when d_{r} is larger. However, Merlin consumes less memory compared to the Meanpool and Position baselines as d_{r} gets smaller. More details on the memory consumption can be found in of ."
+    }
+   ]
+  },
+  {
+   "q": "Does it make inference slower?",
+   "abstained": true,
+   "sentences": [
+    [
+     "Unanswerable",
+     []
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Experiments ::: Ablations",
+     "text": "We report on the impact of d_{r} , the dimension of the first and second moments of keys (§3.2), on the performance of Merlin. We vary d_{r}\\in\\{16,32,64,128\\} during training and evaluate on LongBench (Bai et al., 2024). Fig. 5 shows that the average score on LongBench tasks gradually increases as d_{r} increases. This suggests that the width of the moments of keys is critical in deriving informative aggregation weights. However, there is a trade-off in deciding d_{r} . The moments of keys can be more expressive when d_{r} is larger. However, Merlin consumes less memory compared to the Meanpool and Position baselines as d_{r} gets smaller. More details on the memory consumption can be found in of ."
+    },
+    {
+     "label": 2,
+     "section": "Experiments ::: Analysis",
+     "text": "We examine whether Merlin is robust to different segment lengths. Segment length, or the number of tokens per segment, determines the number of segments per context given that the entire length of the sequence is fixed ( L=T/m ). The shorter the segment length, the more states per sequence, and therefore the higher the memory consumption of the model. We experiment with m\\in\\{64,128,256,512\\} for each aggregation method. At m=64 , the model consumes approximately 8 times more memory compared to m=512 . Fig. 4 shows that for both GDN and Mamba-2, Merlin outperforms baselines on LongBench (Bai et al., 2024) tasks across m . In particular, Merlin at m=256 (default) outperforms Meanpool and Position baselines at m=64 , which consume 4 times more memory. This suggests that Merlin is more memory efficient compared to its baselines."
+    },
+    {
+     "label": 3,
+     "section": "Experiments ::: Main Results",
+     "text": "We report results on RULER (Hsieh et al., 2024) NIAH and QA tasks. Table 2 shows that Merlin outperforms baselines in most tasks for both GDN and Mamba-2 architectures. Merlin applied to GDN leads to an average score of 62.7, while Meanpool has an average score of 57.9, followed by Position’s 54.6. In the case of Mamba-2, Merlin shows a 7.0% relative improvement over Meanpool (76.2 vs. 71.2), and a 9.5% relative improvement over Position (vs. 69.6). This suggests that mid-training with Merlin improves long-context retrieval."
+    },
+    {
+     "label": 4,
+     "section": "Experiments ::: Ablations",
+     "text": "For each token, we project new keys and queries ( k^{\\prime}_{t},q^{\\prime}_{t} ) to construct the first and second moments, separate from the original keys and queries for the memory state ( k_{t},q_{t} ). We isolate the impact of decoupling the keys and queries by experimenting with a variant of Merlin where k^{\\prime}_{t}=k_{t} and q^{\\prime}_{t}=q_{t} (shared-KQ rows in Table 4). We further experiment with a variant of Merlin where we control the decay and update strength of the first and second moments of keys per token, similar to the decay and write-strength features of the memory state explained in Eq. 2 (write-forget rows in Table 4). We find that both ablations substantially degrade the performance of Merlin on LongBench (Bai et al., 2024). This suggests that using a dedicated set of keys and queries from moments of keys is particularly important in deriving informative aggregation weights."
+    },
+    {
+     "label": 5,
+     "section": "Abstract",
+     "text": "In particular, MERLIN outperforms baselines on RULER needle-in-a-haystack and long-context QA (+8.3% for Gated DeltaNet-1.3B and +7.0% for Mamba-2-780M) and diverse subtasks in LongBench (+13.5% and +12.0%). It even outperforms baselines that consume 4x more memory. MERLIN provides a simple and general routing mechanism for improving long-context capabilities of MSLA models."
+    }
+   ]
+  }
+ ],
+ "2610.37642": [
+  {
+   "q": "What does the controller decide during generation?",
+   "abstained": false,
+   "sentences": [
+    [
+     "The controller decides which tokens to finalize and how many positions to compute during generation.",
+     [
+      2
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Methodology ::: Metacognitive Controller",
+     "text": "In this section, we introduce a metacognitive controller, a lightweight plug-in that assists diffusion agent generation. In general, the controller has two functions: monitoring signals from both the model and the external environment, and controlling diffusion agent generation. Figure 2 illustrates the workflow of the metacognitive controller.\n\nThe controller monitors both internal model signals and external interaction signals. Internal model signals comprise the denoising state and structural state. The denoising state captures prediction uncertainty, token revelation status, and progress within the current block. The structural state captures recurring format patterns in tool calls, thinking, and final answers, as well as their compatibility with the partially generated response. External interaction signals are represented by the interaction state, which tracks the current interaction turn and whether thinking segments, tool calls, and final answers have been completed. These monitored signals are organized into position, structural-candidate, and global inputs. The controller jointly encodes these inputs to obtain the corresponding representations for decoding control."
+    },
+    {
+     "label": 2,
+     "section": "Introduction",
+     "text": "To address these inefficiencies, we introduce a metacognitive controller that enables environment-aware generation (Figure 1). Instead of generating tokens blindly, the controller monitors the agent’s interaction states and the model’s prediction confidence to dynamically coordinate two decisions: which tokens to finalize and how many positions to compute. At each step, after the diffusion backbone predicts tokens, the controller applies a cascaded policy to optimize decoding: First, flux decoding optimizes the active computation range. It dynamically shrinks the generation window to exclude unnecessary downstream positions from computation, expanding it back only when the current response actually requires more space to complete. Second, confidence alignment decoding manages token acceptance. It identifies highly predictable structures (e.g., standard tool-call formats) and finalizes them simultaneously, while adaptively adjusting the acceptance thresholds for individual tokens. Together, these mechanisms ensure that computation is spent only where needed, allowing generation to halt efficiently the moment a tool call is triggered.\n\nOur contributions are threefold:\n\nWe identify a diffusion agent efficiency bottleneck: diffusion agents can have low token efficiency with common patterns."
+    },
+    {
+     "label": 3,
+     "section": "Methodology ::: Metacognitive Controller",
+     "text": "Our metacognitive controller facilitates generation by diffusion agents. We implement the control mechanism through a two-stage decoding policy. In the first stage, the diffusion backbone produces token predictions. In the second stage, the metacognitive controller refines the decoding process through two policies: the confidence alignment policy and the flux policy. For flux decoding, it determines which positions remain active and which are excluded from computation until recovery. For confidence alignment decoding, it scores structural candidates derived from the recurring format patterns and predicts acceptance thresholds for both structural candidates and individual tokens. We describe these policies in detail in Section 3.3."
+    },
+    {
+     "label": 4,
+     "section": "Methodology ::: Controller Training",
+     "text": "At each denoising step during rollout, we sample a length for the active computation range according to \\mathbf{p}^{\\mathrm{range}} . When the selected length leaves the range unchanged, we sample a structural candidate and whether to accept it according to the controller’s output probabilities. For each remaining masked position i in the active computation range, we independently sample whether to accept the backbone-predicted token. Its acceptance probability increases with the difference between its confidence c_{i} and the adjusted threshold \\tau_{0}-\\delta_{i} .\n\nWe train the controller on-policy following GRPO (Shao et al., 2024). In each round, we sample a group of complete interaction trajectories for each question through the current controller and compute their rewards. We standardize rewards within each group to obtain trajectory-level advantages."
+    },
+    {
+     "label": 5,
+     "section": "Abstract",
+     "text": "Diffusion language models offer a promising path to efficient agents through parallel token generation. However, efficient interaction requires adapting both where computation is spent and how much text is generated. We introduce a metacognitive controller that guides diffusion generation according to the needs of the current response and the agent's interaction with the environment. It learns when to finalize tokens and how far generation should extend, reducing overall computation within responses. Our controller, a lightweight plug-in for the diffusion backbone, is trained on agent trajectories to balance correctness and generation cost. This approach connects the agent's generation process to the interaction the agent serves. Experiments across five benchmarks demonstrate that our approach reduces inference FLOPs by 20.6% on average compared with the most efficient baseline, while maintaining competitive task accuracy. Ablation studies further validate the effectiveness of our approach."
+    }
+   ]
+  },
+  {
+   "q": "How much compute does it save?",
+   "abstained": false,
+   "sentences": [
+    [
+     "The method reduces inference FLOPs by 11.4% on BFCL Non-live and 24.6–43.1% across all five benchmarks compared to LLaDA-8B (SFT).",
+     [
+      2,
+      3
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Related Work",
+     "text": "Another line of work focuses on reducing the computational cost of each denoising step through adaptive caching (Ma et al., 2025; Liu et al., 2026; Nguyen-Tri et al., 2026) and sparse attention (Song et al., 2026; Long et al., 2026)."
+    },
+    {
+     "label": 2,
+     "section": "Experiments ::: Main Results",
+     "text": "Table 1 summarizes the main results across five benchmarks. Our method delivers competitive task accuracy at the lowest computational cost compared with existing baselines. Notably, on BFCL Live, HotpotQA, and 2Wiki, it outperforms all baselines in both accuracy and inference FLOPs.\n\nOur method builds on LLaDA-8B-Instruct. Compared with the larger-scale LLaDA2.0-mini (16B MoE), it achieves higher accuracy on four benchmarks while reducing inference FLOPs across all five benchmarks. Although LLaDA2.0-mini achieves higher accuracy on BFCL Non-live, our method still reduces inference FLOPs by 11.4% on this benchmark."
+    },
+    {
+     "label": 3,
+     "section": "Experiments ::: Main Results",
+     "text": "Compared with LLaDA-8B (SFT), our method reduces inference FLOPs by 24.6–43.1% across all five benchmarks with identical backbone weights and inference settings, differing only in the use of the metacognitive controller. Task accuracy improves on four benchmarks and remains comparable on MuSiQue, demonstrating the computational benefits of metacognitive control."
+    },
+    {
+     "label": 4,
+     "section": "Experiments ::: Ablation Study",
+     "text": "We examine the contributions of the two decoding components in Table 2. We disable the flux decoding policy and the confidence alignment policy individually. All configurations follow our method’s inference setup, including prefix caching and confidence-threshold decoding.\n\nAs shown in Table 2, removing either policy increases inference FLOPs across all five benchmarks, with only modest changes in task accuracy. Specifically, disabling the flux decoding policy and the confidence alignment policy individually increases FLOPs by an average of 24.5% and 16.3%, respectively, relative to the full controller. These results demonstrate that both policies contribute to the controller’s efficiency gains while preserving comparable task accuracy.\n\nFigure 3 plots task accuracy against FLOPs reduction on BFCL and multi-hop tasks for several controller checkpoints. For each checkpoint on the highlighted Pareto frontier, none of the other checkpoints improves either metric without worsening the other."
+    },
+    {
+     "label": 5,
+     "section": "Experiments ::: Experiment Setup",
+     "text": "To support a fair comparison with task-adapted baselines, we first adapt LLaDA-8B-Instruct (Nie et al., 2025) to the target tasks through supervised fine-tuning (SFT). For the controller, we simply use a two-layer Transformer encoder. We train the controller on eight NVIDIA A100 GPUs for 40 rounds per stage.\n\nTask accuracy. For BFCL v3, we use the official evaluator to measure tool-call correctness. For HotpotQA, 2WikiMultiHopQA, and MuSiQue, we report cover exact match (CEM), following prior evaluations of agents (Zhao et al., 2026; Song et al., 2025). CEM assesses whether the ground-truth answer is included in the predicted answer. CEM scores are rounded to the nearest 0.1 percentage point.\n\nComputational cost. Floating-point operations (FLOPs) measure the amount of arithmetic computation required for inference. We count the major matrix operations of the backbone and controller over each complete trajectory and report average FLOPs in units of 10^{12} operations."
+    }
+   ]
+  },
+  {
+   "q": "Which benchmarks were used?",
+   "abstained": false,
+   "sentences": [
+    [
+     "BFCL Live, BFCL Non-live, HotpotQA, 2Wiki, MuSiQue",
+     [
+      1,
+      2,
+      1,
+      2,
+      3,
+      1,
+      2,
+      3,
+      2,
+      3
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Experiments ::: Main Results",
+     "text": "Table 1 summarizes the main results across five benchmarks. Our method delivers competitive task accuracy at the lowest computational cost compared with existing baselines. Notably, on BFCL Live, HotpotQA, and 2Wiki, it outperforms all baselines in both accuracy and inference FLOPs.\n\nOur method builds on LLaDA-8B-Instruct. Compared with the larger-scale LLaDA2.0-mini (16B MoE), it achieves higher accuracy on four benchmarks while reducing inference FLOPs across all five benchmarks. Although LLaDA2.0-mini achieves higher accuracy on BFCL Non-live, our method still reduces inference FLOPs by 11.4% on this benchmark."
+    },
+    {
+     "label": 2,
+     "section": "Experiments ::: Main Results",
+     "text": "Our method consistently outperforms LLaDA-8B-Tools and DLLM-Searcher in both task accuracy and computational efficiency across all five benchmarks. On BFCL Non-live and Live, it surpasses LLaDA-8B-Tools by 28.20 and 20.96 percentage points in accuracy, respectively. The advantage over DLLM-Searcher extends across all three multi-hop QA benchmarks, with accuracy gains of 9.50, 17.50, and 2.50 percentage points on HotpotQA, 2Wiki, and MuSiQue, respectively. These improvements are accompanied by an 88.3–89.7% reduction in inference FLOPs across these three benchmarks.\n\nCompared with Fast-dLLM, our method reduces inference FLOPs by 56.6–77.2% across all five benchmarks while maintaining competitive task accuracy. On BFCL Non-live and Live, it also achieves accuracy gains of 12.81 and 13.50 percentage points, respectively, demonstrating improvements in both accuracy and computational efficiency."
+    },
+    {
+     "label": 3,
+     "section": "Experiments ::: Experiment Setup",
+     "text": "To support a fair comparison with task-adapted baselines, we first adapt LLaDA-8B-Instruct (Nie et al., 2025) to the target tasks through supervised fine-tuning (SFT). For the controller, we simply use a two-layer Transformer encoder. We train the controller on eight NVIDIA A100 GPUs for 40 rounds per stage.\n\nTask accuracy. For BFCL v3, we use the official evaluator to measure tool-call correctness. For HotpotQA, 2WikiMultiHopQA, and MuSiQue, we report cover exact match (CEM), following prior evaluations of agents (Zhao et al., 2026; Song et al., 2025). CEM assesses whether the ground-truth answer is included in the predicted answer. CEM scores are rounded to the nearest 0.1 percentage point.\n\nComputational cost. Floating-point operations (FLOPs) measure the amount of arithmetic computation required for inference. We count the major matrix operations of the backbone and controller over each complete trajectory and report average FLOPs in units of 10^{12} operations."
+    },
+    {
+     "label": 4,
+     "section": "Experiments ::: Main Results",
+     "text": "Compared with LLaDA-8B (SFT), our method reduces inference FLOPs by 24.6–43.1% across all five benchmarks with identical backbone weights and inference settings, differing only in the use of the metacognitive controller. Task accuracy improves on four benchmarks and remains comparable on MuSiQue, demonstrating the computational benefits of metacognitive control."
+    },
+    {
+     "label": 5,
+     "section": "Experiments ::: Results on Different Backbones",
+     "text": "We further evaluate our method on two different diffusion language model backbones: LLaDA-8B-Instruct (Nie et al., 2025) and Dream-7B (Ye et al., 2025). We train the metacognitive controller for each backbone separately. Table 3 shows substantial reductions in inference FLOPs on both backbones while retaining competitive success rates, demonstrating the effectiveness of our method across different diffusion backbones."
+    }
+   ]
+  }
+ ],
+ "2610.37624": [
+  {
+   "q": "Why does relevance-based memory fail?",
+   "abstained": false,
+   "sentences": [
+    [
+     "Why does relevance-based memory fail?",
+     []
+    ],
+    [
+     "Relevance-based memory fails because relevance \"readmits on-topic decoys even with a perfect filter\", and relevance \"does not distinguish support from decoys\".",
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     "This causes relevance-first selection to lose 20 to 32 points in the classic hidden-profile cell, as decoys are on-topic and incorrectly included.",
+     [
+      4
+     ]
+    ],
+    [
+     "Even with exact relevance labels, the failure persists, as oracle relevance minus R1 scores show significant losses.",
+     [
+      3
+     ]
+    ],
+    [
+     "no",
+     [
+      2,
+      3,
+      4
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Conclusion",
+     "text": "Neither rarity nor relevance is a safe default for the memory of an LLM group. In CrossProfile, rarity helps only in the ownership cells where rare facts support the answer, relevance readmits on-topic decoys even with a perfect filter, and the decision model follows social proof, giving extra weight to facts that many agents are tagged as stating. What drives the decision is the balance of evidence between options that the memory leaves, and how the reader weighs its attribution. Memory designs for agent groups should therefore aim at that balance rather than at prevalence or topic, and should not present how many agents stated a fact as evidence for it when the sources are not independent. Evaluations should vary who holds which evidence, and should check whether that evidence reached the discussion at all."
+    },
+    {
+     "label": 2,
+     "section": "Introduction",
+     "text": "Both heuristics fail in cells that the design predicts, and aggregate accuracy hides both failures. Relevance-first selection helps on average but loses 20 to 32 points in the classic hidden-profile cell, and a perfect relevance filter loses as much, because relevance does not distinguish support from decoys. Rarest-first selection is no better than random selection on average; its advantage over random selection changes by 28 to 41 points depending on who holds the decoys, on all four models. Across policies, accuracy rises steadily with the net evidence lead of the correct option among the kept facts, and once that lead is known the policy adds little. The decision model contributes a separate failure, a form of social proof: it gives extra weight to a fact attributed to many agents, although in our tasks shared facts were assigned, not independently observed. Removing the attribution tags, or reassigning them at random while keeping line order, raises its all-facts accuracy in the classic cell by 13 to 24 points. In natural discussions no memory policy beats another and the full transcript is less useful than an empty memory, so the evidence is lost before any memory acts."
+    },
+    {
+     "label": 3,
+     "section": "Results ::: Relevant Is Not Useful",
+     "text": "The failure persists when relevance is known exactly. With evaluator labels that mark both support and decoy facts as relevant, oracle relevance minus R1 is -23.3 [ -30.6 , -16.1 ] for Qwen and -31.1 [ -38.9 , -23.9 ] for Llama in this cell, so filter errors cannot explain the loss. An oracle that marked only support facts would no longer select by relevance; it would select by the answer key. The same holds on DeepSeek-V4.1-Flash, whose filter is nearly perfect (relevant-class precision 99.4% and recall 98.9%, against recall 66.0% on Qwen and 85.6% on Llama), yet in the same cell R1-rel minus R1 is -32.2 [ -40.6 , -24.4 ] and oracle relevance minus R1 is -29.4 [ -37.8 , -21.7 ]."
+    },
+    {
+     "label": 4,
+     "section": "Abstract",
+     "text": "When an LLM group's discussion is compressed into a short memory for a final decision maker, what should the memory keep? Two natural heuristics keep the rarest claims or the claims relevant to the decision criteria. On hidden-profile tasks both look attractive, because how widely a fact is held is confounded with whether it helps. We introduce CrossProfile, a diagnostic benchmark of 60 templates with automatically verified answer keys, in which the ownership of supporting, decoy, and irrelevant facts is crossed while their text is held fixed (480 tasks). Across Qwen2.5-7B, Llama-3.1-8B, and two DeepSeek models, both heuristics fail in predictable places. Selecting by relevance readmits decoys, because decoys are on topic: even a perfect relevance filter loses 23 to 31 points to rarest-first selection in the classic hidden-profile configuration. Rarest-first selection is no better than random selection on average and wins only where the rare facts happen to be the useful ones. In both cases accuracy follows the balance of evidence the memory keeps, not the policy that kept it."
+    },
+    {
+     "label": 5,
+     "section": "Appendix A: Supplementary Results ::: Attribution Controls",
+     "text": "In the classic cell, Qwen’s R1 memories contain on average 4.98 support, 0.01 decoy, and 4.00 irrelevant facts, against 4.43, 1.89, and 2.16 under R1-rel. For Llama the corresponding values are 5.00, 0.00, and 4.00 against 4.58, 2.24, and 1.47. The relevance filter recalls 76.7% of criterion-relevant facts that favor an option and 48.1% of those that disfavor one on Qwen, and 94.6% and 70.7% on Llama."
+    }
+   ]
+  },
+  {
+   "q": "How was the CrossProfile benchmark built?",
+   "abstained": false,
+   "sentences": [
+    [
+     "The CrossProfile benchmark was built by constructing a crossed benchmark where support, decoy, and irrelevant facts are each either shared or private.",
+     [
+      1
+     ]
+    ],
+    [
+     "It includes 60 main templates, five in each of 12 decision domains, with each template having four agents, three options, and 12 facts (five support, three decoy, four irrelevant).",
+     [
+      2
+     ]
+    ],
+    [
+     "The fact sentences and their decision roles are fixed across all eight ownership variants, and the answer key is automatically verified.",
+     []
+    ],
+    [
+     "Scripted discussions state every assigned fact to study memory selection against a known inventory.",
+     [
+      1
+     ]
+    ],
+    [
+     "The benchmark isolates memory policies and decision models using a fixed content setup while varying ownership.",
+     [
+      5
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Introduction",
+     "text": "We construct CrossProfile, a crossed benchmark in which support, decoy, and irrelevant facts are each either shared or private. Within a template, the fact sentences and their decision roles are fixed across all eight ownership variants, and the answer key follows from the fact roles and is verified automatically. Scripted discussions state every assigned fact, so memory selection can be studied against a known inventory. CrossProfile is a diagnostic benchmark: it isolates what a memory policy and a decision model do with a known set of evidence. Changing ownership also changes when a fact first appears, the holder tags attached to it, and its token cost, and we add a control for each of these."
+    },
+    {
+     "label": 2,
+     "section": "Setting and Memory Policies ::: The CrossProfile Benchmark",
+     "text": "CrossProfile has 60 main templates, five in each of 12 decision domains. Each template has four agents, three options, and 12 facts: five support, three decoy, and four irrelevant. Support facts favor the correct option, including negative evidence about the decoy option. Decoy facts favor the competing option, including negative evidence about the correct option. Both concern the stated decision criteria; decoys are true statements whose partial implication is misleading. Irrelevant facts concern other attributes and may be positive or negative in tone. Each role group is independently shared or private, yielding 2^{3} ownership variants and 480 derived tasks. Ten pilot templates are excluded from all main estimates."
+    },
+    {
+     "label": 3,
+     "section": "Appendix A: Supplementary Results",
+     "text": "This appendix gives benchmark and policy details and all prompts (A.1), the full CrossProfile results (A.2), attribution controls (A.3), natural-discussion diagnostics and prompt ablations (A.4), measurement and statistical details (A.5), the hosted-model runs (A.6), and implementation details (A.7)."
+    },
+    {
+     "label": 4,
+     "section": "Experimental Setup",
+     "text": "Both the HiddenBench and the CrossProfile experiments followed analysis plans specified before the main runs. In CrossProfile, r=.6 is the primary ratio and H1–H3 are the primary tests; other ratios, the reference-memory, oracle-relevance, item-count, and holder-tag controls, the hosted-model runs, and the prompt ablations are exploratory. A headroom check on the 65 HiddenBench tasks compares all-facts with empty memory, using a 4,096-token context. Qwen gains +36.4 points [25.1, 47.2], clearing the pre-specified 15-point threshold, whereas Llama’s +23.6 [11.3, 35.9] does not clear it at the lower bound. Llama results on the original HiddenBench study are therefore treated as exploratory."
+    },
+    {
+     "label": 5,
+     "section": "Introduction",
+     "text": "Our contributions are (i) CrossProfile, a diagnostic benchmark that varies the ownership of support, decoy, and irrelevant facts while holding their content fixed; (ii) evidence on two open and two hosted models, with random-reference, fixed-item-count, and oracle-relevance controls, that relevance and rarity both fail in predictable ownership cells because neither tracks the balance of evidence; (iii) evidence that the decision model follows social proof in the form of holder tags, isolated from line order; and (iv) natural-discussion evidence that the main bottleneck lies upstream of memory."
+    }
+   ]
+  },
+  {
+   "q": "Which models were tested?",
+   "abstained": false,
+   "sentences": [
+    [
+     "Qwen, Llama, DeepSeek-V4.1-Flash, DeepSeek-V4-Pro",
+     [
+      1,
+      3,
+      4,
+      5,
+      1,
+      3,
+      4,
+      5,
+      1,
+      2,
+      3,
+      5,
+      1,
+      3,
+      5
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Appendix A: Supplementary Results ::: Hosted Models and Fixed Budget",
+     "text": "Table 18 reports the hosted-model contrasts. DeepSeek-V4.1-Flash H1–H3 are Holm-corrected within that run. The classic cell is the cell with private support, shared decoys, and private irrelevant facts, as in the main text. The DeepSeek-V4-Pro run covers templates M01–M30 and four memory conditions (R1, Random, all facts, empty); R1-rel was not run on DeepSeek-V4-Pro. Averaged over variants, R1 minus Random on this subset is close to zero for every model ( -1.7 , +1.7 , -1.3 , and -4.7 points for Qwen, Llama, DeepSeek-V4.1-Flash, and DeepSeek-V4-Pro), while its dependence on decoy ownership is large for all four. The natural-discussion run on DeepSeek-V4.1-Flash includes only REF, all-facts, and empty memories."
+    },
+    {
+     "label": 2,
+     "section": "Appendix A: Supplementary Results ::: Implementation Details",
+     "text": "Local models are served with vLLM on two NVIDIA T4 GPUs. DeepSeek-V4.1-Flash and DeepSeek-V4-Pro are accessed through the DeepSeek API (model identifiers deepseek-flash and deepseek-v4-pro). The order in which options are displayed rotates across seeds.\n\nWe will release the code, the templates, and all generated discussions, memories, and model outputs upon publication."
+    },
+    {
+     "label": 3,
+     "section": "Appendix A: Supplementary Results ::: Hosted Models and Fixed Budget",
+     "text": "To check that the controlled R1 advantage over B3 does not depend on defining budgets as a ratio of the fact set, we also ran both policies with a fixed 128-token budget on controlled HiddenBench. There, R1 and B3 reach 81.0% and 52.3% on Qwen and 82.1% and 57.4% on Llama. This experiment used a 4,096-token context rather than the 8,192-token context of the main runs."
+    },
+    {
+     "label": 4,
+     "section": "Experimental Setup",
+     "text": "Both the HiddenBench and the CrossProfile experiments followed analysis plans specified before the main runs. In CrossProfile, r=.6 is the primary ratio and H1–H3 are the primary tests; other ratios, the reference-memory, oracle-relevance, item-count, and holder-tag controls, the hosted-model runs, and the prompt ablations are exploratory. A headroom check on the 65 HiddenBench tasks compares all-facts with empty memory, using a 4,096-token context. Qwen gains +36.4 points [25.1, 47.2], clearing the pre-specified 15-point threshold, whereas Llama’s +23.6 [11.3, 35.9] does not clear it at the lower bound. Llama results on the original HiddenBench study are therefore treated as exploratory."
+    },
+    {
+     "label": 5,
+     "section": "Experimental Setup",
+     "text": "We use Qwen2.5-7B-Instruct and Llama-3.1-8B-Instruct (Qwen Team 2024; Llama Team, AI @ Meta 2024), served locally with vLLM (Kwon et al. 2023) in fp16 with an 8,192-token context and seeds 17, 42, and 91. Decisions, summaries, and claim extraction use temperature zero. Natural discussion messages use temperature 0.7, top- p 0.9, and at most 256 output tokens; decisions allow 400 output tokens. HiddenBench contributes 65 tasks, 58 with four agents and 7 with three. We also evaluate two hosted models through the DeepSeek API at temperature zero with thinking disabled: DeepSeek-V4.1-Flash on all 60 CrossProfile templates and on natural HiddenBench discussions, and DeepSeek-V4-Pro on 30 templates. Appendices A.1 and A.7 give all prompts and further implementation details."
+    }
+   ]
+  }
+ ],
+ "2610.37609": [
+  {
+   "q": "How does EnvSched choose which tasks to run?",
+   "abstained": false,
+   "sentences": [
+    [
+     "EnvSched chooses tasks by balancing coverage of underobserved environments/tasks and exploitation of high reward variance tasks.",
+     []
+    ],
+    [
+     "It allocates half the batch to underobserved environments/tasks for coverage and half to tasks with high predicted reward variance for exploitation.",
+     [
+      1
+     ]
+    ],
+    [
+     "The scheduler combines these using environment quotas and a similarity penalty to limit concentration and redundancy.",
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     "Task prioritization is based on predicted reward informativeness and structural diversity.",
+     [
+      3
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Introduction",
+     "text": "EnvSched implements exploitation and coverage as two coordinated parts of the same scheduling procedure. To support both decisions, EnvSched represents environment–task pairs as nodes in a dual-relation graph. Within-environment edges connect tasks through shared semantics, tools, database fields, and verifier constraints. Cross-environment edges connect tasks through abstract execution and reward topology, enabling information transfer across similar environments. For example, reassigning a consultant and moving a patient between hospital beds can share a dependency structure of entity lookup, eligibility checking, relation replacement, and dependent-state validation.\n\nAt each training step, EnvSched aggregates historical rollout statistics separately along the two edge types and combines the resulting estimates to predict each task’s reward variance under the evolving policy. It then allocates half of each batch to underobserved environments and tasks for coverage, and half to tasks with high predicted reward variance for exploitation. Environment quotas and a similarity penalty limit concentration and redundancy within the shared batch, while newly collected rollout outcomes update the node histories for subsequent rounds. This rollout–update–propagation–selection loop balances policy-dependent task prioritization with explicit environment coverage without additional pilot rollouts."
+    },
+    {
+     "label": 2,
+     "section": "Experiments ::: Main Results",
+     "text": "High efficiency. EnvSched is already effective after 40 steps within the 200-step training budget. At 4B, it reaches 30.17 on BFCL-v3, 41.01 on \\tau -Bench, and 58.00 on ACEBench-Agent, matching its 200-step ACEBench-Agent score. At 8B, the 40-step \\tau -Bench score reaches 50.71, above the 200-step score of 50.30; at 1.7B, ACEBench-Agent reaches 30.67 versus 31.33 after 200 steps. On Qwen3-30B-A3B, the 40-step scores of 35.00, 53.54, and 70.00 exceed the 200-step random baseline on all three benchmarks. These results show that EnvSched can extract useful training signal quickly and, on some benchmarks, match or exceed its longer-run performance."
+    },
+    {
+     "label": 3,
+     "section": "Introduction",
+     "text": "We formulate this challenge as environment-level data management: organizing, evaluating, and scheduling task instances together with the executable environments in which they are carried out. Each environment specifies the available tools, initial and intermediate states, transition rules, and task verifier. To address this challenge, we draw on the update mechanism of group-relative RL methods such as GRPO [20]. In these methods, reward differences among rollouts of the same task determine their relative advantages; tasks with nearly identical outcomes therefore provide little learning signal. The scheduler should prioritize tasks whose current reward distributions are likely to yield informative differences. At the same time, repeatedly training on a small set of environments restricts the tools, states, transitions, and verification patterns seen by the policy, even when the selected tasks are individually informative. Effective scheduling must therefore preserve diversity across environments and interaction patterns. Building on these two requirements, we introduce EnvSched (Environment-aware Scheduling), an online scheduler learning from rollout history. It prioritizes task instances with high predicted reward informativeness, while it also spreads each batch across underobserved environments and structurally distinct interactions."
+    },
+    {
+     "label": 4,
+     "section": "Method ::: Problem Setup and Training Loop",
+     "text": "EnvSched treats an environment–task pair as the basic unit of training and scheduling. An environment is an executable setting that defines the tool interfaces, transition rules, state representation, and verifier; a task instance specifies the request and its initial state within that environment. Each pair therefore identifies one concrete rollout problem, and the model interacts with it through text responses and tool calls to produce a trajectory and its task-specific evaluation reward. At each training step, the scheduler chooses a batch of distinct pairs for rollout and model update.\n\nAs illustrated in Figure 2, EnvSched builds a dual-relation graph from task specifications and executable environment structure before training, then initializes the schedule with a coverage-oriented batch. Rollouts on the selected pairs produce rewards for model updates and statistics for the corresponding node histories. Before the next training step, historical statistics propagate along within-environment and cross-environment edges to estimate task informativeness. The scheduler combines coverage of underobserved environments and tasks with exploitation of informative tasks, using environment quotas and a similarity penalty to limit concentration and redundancy. This rollout–update–propagation–selection loop repeats throughout training."
+    },
+    {
+     "label": 5,
+     "section": "Related Work ::: Executable Environments for Agent Training",
+     "text": "These systems expand the supply of executable environments and verifiable tasks for agent training. EnvSched addresses their use during training by organizing environment–task relationships and selecting informative, diverse tasks from the available pool."
+    }
+   ]
+  },
+  {
+   "q": "Which benchmarks show the gains?",
+   "abstained": false,
+   "sentences": [
+    [
+     "BFCL-v3, tau-Bench, ACEBench-Agent",
+     [
+      1,
+      2,
+      3,
+      5,
+      1,
+      2,
+      3,
+      5,
+      1,
+      2,
+      3,
+      5
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Experiments ::: Main Results",
+     "text": "The BFCL gain at 4B is distributed across all four categories, including Base (36.67 to 40.67), Miss-Function (26.17 to 28.17), Miss-Parameter (25.50 to 27.50), and Long-Context (27.00 to 31.17). The gains extend to Qwen3-30B-A3B under the same configuration: BFCL-v3, \\tau -Bench, and ACEBench-Agent reach 37.79, 54.75, and 70.67, improving over random scheduling by 3.92, 3.03, and 2.67 points, respectively, without model-specific scheduler tuning."
+    },
+    {
+     "label": 2,
+     "section": "Experiments ::: Main Results",
+     "text": "Consistent gains across model sizes at 200 steps. At the 200-step budget, EnvSched improves over random scheduling for all three benchmark overall scores at every model size. Qwen3-4B illustrates the pattern clearly: BFCL-v3 rises from 28.83 to 31.88 (+3.05), \\tau -Bench from 37.78 to 41.01 (+3.23), and ACEBench-Agent from 56.00 to 58.00 (+2.00). The gains also hold for the other dense models: at 1.7B, the improvements are +1.96, +2.02, and +2.66, while at 8B they are +4.00, +3.03, and +3.34 on BFCL-v3, \\tau -Bench, and ACEBench-Agent, respectively."
+    },
+    {
+     "label": 3,
+     "section": "Experiments ::: Main Results",
+     "text": "High efficiency. EnvSched is already effective after 40 steps within the 200-step training budget. At 4B, it reaches 30.17 on BFCL-v3, 41.01 on \\tau -Bench, and 58.00 on ACEBench-Agent, matching its 200-step ACEBench-Agent score. At 8B, the 40-step \\tau -Bench score reaches 50.71, above the 200-step score of 50.30; at 1.7B, ACEBench-Agent reaches 30.67 versus 31.33 after 200 steps. On Qwen3-30B-A3B, the 40-step scores of 35.00, 53.54, and 70.00 exceed the 200-step random baseline on all three benchmarks. These results show that EnvSched can extract useful training signal quickly and, on some benchmarks, match or exceed its longer-run performance."
+    },
+    {
+     "label": 4,
+     "section": "Experiments ::: Main Results",
+     "text": "We implement all baselines against the same EnvScaler pool and enforce the same batch size, rollout count, training horizon, and model-update procedure as EnvSched. The results on the benchmarks are presented in Table 1. In addition to the results after 200 training steps, we also include the performance of EnvSched after just 40 steps. Next, we analyze the results from three aspects:"
+    },
+    {
+     "label": 5,
+     "section": "Abstract",
+     "text": "In RL on Qwen3-8B, EnvSched achieves an average score of 48.81 across BFCL-v3, tau-Bench, and ACEBench-Agent after 40 training steps, exceeding the highest score attained by random task selection after 120 steps. It also improves downstream performance across model sizes at the same training budget."
+    }
+   ]
+  },
+  {
+   "q": "Does it reduce the number of rollouts needed?",
+   "abstained": true,
+   "sentences": [
+    [
+     "Unanswerable",
+     []
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Abstract",
+     "text": "As executable environments for language agents scale, generating and verifying their rollouts becomes increasingly expensive. Under finite rollout budgets, this raises an important question: can data management at the environment level make agentic reinforcement learning (RL) more efficient by organizing, evaluating, and scheduling task instances together with the environments that determine their tools, states, transitions, and verification? To address this question, we introduce EnvSched (Environment-aware Scheduling), an online scheduler that learns from rollout history. EnvSched assigns scheduling value through two complementary modeling choices: exploitation prioritizes tasks likely to provide informative reward differences, while coverage spreads each batch across underobserved environments and interaction patterns. EnvSched organizes environment--task pairs as nodes in a dual-relation graph, with within-environment edges capturing task semantics and shared tool, state, and verifier structure, and cross-environment edges capturing abstract execution and reward topology. By propagating historical rollout statistics along both edge types, it predicts within-task reward variance. These predictions guide a scheduler that allocates each batch to tasks with high predicted reward variance and underobserved environments and tasks. Environment quotas and a similarity penalty further limit concentration and redundancy, yielding informative and diverse batches without additional pilot rollouts."
+    },
+    {
+     "label": 2,
+     "section": "Qualitative Case Studies ::: Both Relations Contributing: env_156-task_5 at Step 4",
+     "text": "What the rollouts showed. (1,1,0.9167,0.9167,0.0833,0.0833,0.0833,0) ; mean 0.510, variance 0.202, twice the batch mean realized variance of 0.091 at this step. The two perfect trajectories execute the full schedule in 24 and 26 calls and pass all twelve checks. The two 0.9167 trajectories differ from them only on c9, the creation of the fourth donor’s appointment. The three 0.0833 trajectories carry out the rescheduling blocks and then fail the downstream checks. The zero trajectory spends its 40 turns alternating list_locations and get_location_by_name without ever resolving a facility name — the same lookup bottleneck the cross-environment neighbors point to."
+    },
+    {
+     "label": 3,
+     "section": "Static Representation and Runtime Configuration",
+     "text": "The task pool contains 2,550 task instances from 51 environments. The default batch contains B=64 environment–task pairs, with eight rollouts per pair. We use a fixed coverage fraction \\rho=0.5 , giving 32 coverage slots and 32 exploitation slots. The within-environment and cross-environment neighbor sizes are 6 and 12, respectively; the two relation estimates use fixed equal fusion weights of 0.5 each, and the graph estimate and task-history prior use shrinkage strengths \\lambda_{g}=\\lambda_{s}=2 . The long and short half-lives are h_{\\mathrm{long}}=8 and h_{\\mathrm{short}}=2 training steps, the recent-decline coefficient is \\eta_{\\mathrm{decline}}=0.5 , the exposure-count scale is c_{0}=16 , and the batch similarity penalty is \\lambda_{\\mathrm{sim}}=0.08 . Environment caps are C_{1}=4 , C_{3}=11 , and C_{\\mathrm{task}}=2 . These hyperparameters are fixed across model sizes."
+    },
+    {
+     "label": 4,
+     "section": "Experiments ::: Main Results",
+     "text": "We implement all baselines against the same EnvScaler pool and enforce the same batch size, rollout count, training horizon, and model-update procedure as EnvSched. The results on the benchmarks are presented in Table 1. In addition to the results after 200 training steps, we also include the performance of EnvSched after just 40 steps. Next, we analyze the results from three aspects:"
+    },
+    {
+     "label": 5,
+     "section": "Qualitative Case Studies ::: Cross-Environment Edges: env_190-task_8 at Step 40",
+     "text": "What the rollouts showed. (0.2143,0.2143,0.7857,0,0,0,0,0) ; mean 0.152, variance 0.066, against a batch mean realized variance of 0.038 at this step. All five zero trajectories end before the verifier after hitting the 40-turn limit, and each one dies in the same place: alternating get_patient_by_demographics and verify_user_authorization across 40, 40, 40, 40, and 33 calls without ever obtaining a usable patient identifier or authorization result, so no downstream edit is attempted. The single 0.7857 trajectory clears the identity and authorization steps, calls get_all_patients and list_patient_allergies, and completes the allergy edits for 11 of 14 checks. The two 0.2143 trajectories reach the verifier having satisfied only the three identity and authorization checks."
+    }
+   ]
+  }
+ ],
+ "2610.37494": [
+  {
+   "q": "What does semanticfa do without survey responses?",
+   "abstained": false,
+   "sentences": [
+    [
+     "semanticfa builds semantic structure from item wording alone, identifies redundant items, proposes shorter forms, and guides scale development without survey responses.",
+     []
+    ],
+    [
+     "It recovers semantic structure by analyzing item meanings rather than response data.",
+     [
+      1,
+      2,
+      4
+     ]
+    ],
+    [
+     "The package also screens newly written items and determines factor counts before data collection.",
+     [
+      4,
+      5
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Introduction",
+     "text": "The semanticfa package organizes the analysis into four stages: building the similarity matrix from item embeddings, deciding how many factors it supports, extracting the factors and computing their diagnostics, and interpreting each factor by relating the embeddings of its items to the embeddings of candidate construct names. Beyond these stages, the package offers refinement tools that use a fitted model to flag redundant items, propose shorter forms, and screen newly written items before they are administered.\n\nSFA does not replace factor analysis of responses. It recovers a second structure over the same items, the semantic structure, which is built from what the items mean rather than from how people answer them. Where the semantic structure and the structure found in responses agree, the items that are similar in meaning are also the items that people answer alike. Where the two diverge, the divergence identifies the items that wording and responses group differently and can suggest why. We call the degree of agreement between the two structures semantic–behavioral coherence, because the structure found in responses reflects how people behave when they answer the items. In the worked example, that behavioral structure, which we also call the response structure, is the factor structure of the human responses, and the Results call its factors the human factors."
+    },
+    {
+     "label": 2,
+     "section": "Introduction",
+     "text": "Factor analysis is almost always run on responses. Before anyone answers a scale, however, its items already exist as sentences, and what those sentences mean shapes much of the structure that factor analysis later finds in the answers. The structure of a scale, in this sense, is the number of factors it has and which items load on each. Items that describe similar behavior in similar words tend to be answered alike, in part because a respondent who endorses one statement tends to endorse another that says much the same thing (arnulf-etal-2014; hommel-arslan-2025). Semantic factor analysis (SFA) builds on that observation by estimating the structure of a scale from its wording alone. The R package semanticfa (yanitski-westbury-2026) implements SFA, from the item texts to the interpreted factors."
+    },
+    {
+     "label": 3,
+     "section": "Discussion ::: Applications",
+     "text": "A second use arises when response data are scarce, unavailable, or untrustworthy. muller-2026 recovered semantic structure, from adjective vectors weighted by the mean responses of 55 people, in a study where a confirmatory factor analysis of the same responses fit poorly and merged two of its five factors, a failure that the author attributed in large part to the small sample. The semantic analysis in that study still used the responses as weights, unlike SFA, so it is a precedent for semantic structure helping where a small-sample analysis failed rather than for response-free use. kambeitz-etal-2025 also note that collecting the samples needed to develop a clinical questionnaire is costly and can miss hard-to-reach groups, and that in some countries the cost can make a sufficient validation sample infeasible. Synthetic respondents that can pass attention checks (westwood-2025) are a newer threat to response data, and an analysis that uses no respondents cannot be contaminated by them. The risk of mistaking machine output for human data also applies to SFA itself, because structure derived from a language model must never be reported as evidence about how people respond."
+    },
+    {
+     "label": 4,
+     "section": "Introduction ::: Semantic Structure Can Guide Scale Development Before Any Data Are Collected",
+     "text": "Because SFA needs no respondents, it can be used at the stage of scale development where changes are cheapest, before any data are collected. Response data are costly to gather and have also become easier to corrupt. westwood-2025 built an autonomous software agent that passed 99.8% of the attention checks used to screen online survey respondents. An analysis of item wording cannot be corrupted in this way because it uses no respondents. This subsection describes four uses of semantic structure before data collection: finding redundant items, comparing a scale with existing scales, choosing the number of factors, and building short forms."
+    },
+    {
+     "label": 5,
+     "section": "Introduction ::: The R Package semanticfa Brings the Whole Workflow Together",
+     "text": "Beyond the four stages, optional refinement tools use a fitted model to flag redundant items, propose shorter forms, and screen newly written items before they are administered.\n\nThe name semantic factor analysis has, to our knowledge, one earlier, independent use. muller-2026 used it for an analysis that recovered much of the Big Five structure from trait adjectives with word vectors, in which each adjective’s vector was weighted by its mean response. SFA as defined here differs in two ways, because it needs no responses at all and it applies to any scale items rather than only to adjectives."
+    }
+   ]
+  },
+  {
+   "q": "How well do the semantic factors match human data?",
+   "abstained": false,
+   "sentences": [
+    [
+     "The semantic factors match human data with varying degrees of agreement.",
+     []
+    ],
+    [
+     "For Openness, the match is strong (φ=.92), while Conscientiousness and Neuroticism show moderate agreement (φ=.84, φ=.80).",
+     []
+    ],
+    [
+     "Extraversion and Agreeableness have weaker matches (φ=.64, φ=.52).",
+     []
+    ],
+    [
+     "The mean matched congruence across all factors is $\\bar{\\phi}=.744$, reflecting three closer matches and two weaker ones.",
+     [
+      1,
+      2,
+      4,
+      5
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Results ::: Comparing With Human Responses ::: Factor-Level Agreement",
+     "text": "The benchmarks are therefore only approximate for the 50-item patterns compared here (lorenzo-seva-tenberge-2006). Each semantic factor matched a different human factor (Table 3). The factor matched to Openness reached \\phi=.92 , within the range of fair similarity, and the factors matched to Conscientiousness and Neuroticism reached .84 and .80, below it. The factors matched to Extraversion and Agreeableness reached only .64 and .52. The semantic Extraversion factor also matched human Agreeableness (.52) as closely as the semantic Agreeableness factor did, which fits its mixture of sociability and warmth items (Table 2). The mean matched congruence, each semantic factor’s largest absolute congruence with any human factor averaged over the five factors, was \\bar{\\phi}=.744 , the average of three closer matches and two weak ones."
+    },
+    {
+     "label": 2,
+     "section": "Discussion ::: Summary of Findings",
+     "text": "First, the semantic analysis recovered part of the structure that the inventory’s authors intended. Two retention criteria chose five factors, two chose six, and one chose two, and the package’s rule for ties, which keeps the smaller number, gave a consensus of five, the number of domains. Three of the five factors corresponded mainly to one domain each (Openness, Conscientiousness, and Neuroticism). Most of the Extraversion items and five of the Agreeableness items were divided between the other two, which are blended factors. One gathered forward-keyed items about sociability and warmth, and the other gathered reverse-keyed items that describe the absence of a disposition. The blended factors also took three items from other domains, and four Agreeableness items joined the Neuroticism factor (Table 2). Second, the agreement with human responses differed by domain. The semantic factors matched the human factors more closely for Openness ( \\phi=.92 , in the range of fair similarity), Conscientiousness (.84), and Neuroticism (.80) than for Extraversion (.64) and Agreeableness (.52)."
+    },
+    {
+     "label": 3,
+     "section": "Discussion",
+     "text": "In this example, with the 8B embeddings, the consensus of five retention criteria, with ties going to the smaller number, matched the number of factors the inventory’s authors intended, with two criteria choosing five factors, two choosing six, and one choosing two. Three of the five domains corresponded mainly to single factors. Where the semantic structure and the structure of the human responses disagreed, the disagreement suggested where to look for a source. This Discussion first summarizes what the example found and then explains what the agreement between the semantic and response structures means, because the recommendations, applications, and limits that follow depend on what that agreement can and cannot show. It then draws recommendations for users, describes where the package is most useful, states the limits of the method, and ends with three directions for further research."
+    },
+    {
+     "label": 4,
+     "section": "Abstract",
+     "text": "The items of a reflective psychometric scale can be read as a proposal about a construct's structure. Language models make that proposal measurable by converting each item into an embedding, a list of numbers, similar for similar meanings. We introduce semanticfa, an R package for semantic factor analysis, which factors item-embedding similarities. It also interprets factors, flags redundant items, builds short forms, and screens new items. A worked example analyzes the 50-item International Personality Item Pool Big-Five Factor Markers, embedded with Qwen3-Embedding-8B, and compares the results with a factor analysis of 874,434 respondents. Retention criteria tied between five and six factors, and the tie rule kept five. Three corresponded mainly to single domains, and two blended most Extraversion items with five Agreeableness items. Each factor's congruence with its best-matching human factor (1 = identical) ranged from .92 for Openness to .52 for Agreeableness."
+    },
+    {
+     "label": 5,
+     "section": "Results ::: Comparing With Human Responses ::: Item-Pair Agreement",
+     "text": "The worked example therefore gives the semantic–behavioral coherence of this inventory, for this embedding model, a numerical value, a correlation of r=.46 between semantic and human similarities across item pairs and a mean matched congruence of \\bar{\\phi}=.744 across factors. The coherence is uneven across domains. The Openness, Conscientiousness, and Neuroticism factors resemble their human counterparts most closely, whereas the Agreeableness and Extraversion factors resemble theirs only partly. In the semantic solution, most of the Extraversion items and five of the Agreeableness items were divided between two blended factors, which also took three items from other domains, and four Agreeableness items joined the Neuroticism factor (Table 2). The composition of the two blended factors is consistent with a grouping by topic and phrasing. One gathers forward-keyed items about sociability and warmth from both domains, and the other gathers reverse-keyed items that describe the absence of a disposition, from these and other domains. The responses, once reverse-scored, keep the two domains separate."
+    }
+   ]
+  },
+  {
+   "q": "Which embedding model was used?",
+   "abstained": false,
+   "sentences": [
+    [
+     "Qwen3-Embedding-8B",
+     [
+      2
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Method ::: Embeddings",
+     "text": "In the model-size comparison reported in the Results, it was the only model whose embeddings brought the two main retention criteria, parallel analysis and EGA, into agreement on the five theoretical factors for this inventory, and for that reason all main analyses here use it. Model size and embedding dimension vary together in this family, so the comparison cannot separate the two."
+    },
+    {
+     "label": 2,
+     "section": "Method ::: Embeddings",
+     "text": "The main analyses use precomputed item embeddings from Qwen3-Embedding-8B (qwen-2025; zhang-etal-2025), a sentence-embedding model whose embeddings have 4,096 dimensions. Each of the 50 item texts was embedded once, offline. An item’s embedding was taken from the model’s internal representation of the item’s final token (last-token pooling), no task instruction was placed before the item text, and the model’s final step rescaled each vector to unit length. The resulting 50\\times 4{,}096 matrix is the embeddings element of data(big5)."
+    },
+    {
+     "label": 3,
+     "section": "Results ::: Choosing an Embedding Model",
+     "text": "Both results rest on three models of one family and two English inventories, so whether the suggestion holds for other model families and inventories remains to be tested. The package’s default for embedding new text remains the 0.6B model, because it needs the least memory (see Method). The Supplementary Materials apply one further retention method, the comparison-data method, to the same three matrices and compare its results with those for the human responses."
+    },
+    {
+     "label": 4,
+     "section": "Discussion ::: Limitations",
+     "text": "The results also depend on the embedding model. The texts a model was trained on, how much context it reads, and how it was built can all change which human behaviors its similarities predict, and no model is best for every task, at least among word-level models (mandera-etal-2017). The embedding model is thus part of the measurement instrument, so the stability of results across models should be reported. The present results cannot show that stability, because they rest on one model family (Qwen3-Embedding) and on English items. Even a model’s full embedding need not be optimal, because preliminary simulation evidence suggests that the signal can concentrate in a subset of its coordinates (golino-2026). The selected depth of 1,431 of 4,096 coordinates here, the highest point of a noisy curve, is consistent with this but gives it little support, because the depth criterion favors agreement with the theoretical domains and so is not an independent test."
+    },
+    {
+     "label": 5,
+     "section": "Method ::: Analysis Plan",
+     "text": "The first was the normalized mutual information (NMI) between the EGA communities and the theoretical domains, which is defined in the Results. The second was the TEFI of the EGA solution. Each was rescaled across the depths to run from 0 to 1, and the chosen depth maximized 0.70\\times\\mathrm{NMI}-0.30\\times\\mathrm{TEFI} on the rescaled values, so agreement with the theoretical domains counted for more than entropy fit (see the Technical Reference in the Supplementary Materials). The Qwen3-Embedding models support embeddings of a chosen, shorter size (zhang-etal-2025). This support rests on Matryoshka representation learning (kusupati-etal-2022), which trains the leading coordinates of an embedding to work on their own, so keeping the first d coordinates gives a usable shorter embedding. The depth search was a separate analysis. The main fit used the full embedding, because sfa() keeps every coordinate unless its dim_select argument requests the search."
+    }
+   ]
+  }
+ ],
+ "2610.37484": [
+  {
+   "q": "What is in the coupled welfare corpus?",
+   "abstained": false,
+   "sentences": [
+    [
+     "The coupled welfare corpus contains recast case documents derived from real papers, rewritten as decision-relevant prose using a model not part of their training targets.",
+     [
+      1
+     ]
+    ],
+    [
+     "These documents include content about living systems, ecological harm, and non-biological costs, which are excluded in the control corpus Arm-N.",
+     [
+      3
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "The corpus ::: What it is",
+     "text": "The coupled-welfare corpus (v2) is a continued-pretraining mixture whose distinctive stratum is a set of recast case documents. For each document we retrieved a real paper, judged it for relevance and polarity, and rewrote it as decision-relevant prose using a model that is never one of our training targets. The text is therefore neither scraped literature nor free invention, and every training document carries a provenance row that resolves back to its source paper."
+    },
+    {
+     "label": 2,
+     "section": "Corpus construction and inventory ::: Arm-N matching",
+     "text": "Arm-N matches the coupled-welfare arm on document count (557), length (about 465 words per document), register mix (case retrospective 30%, analysis memo 22%, explainer 19%, advisory 26%), reasoning structure, the share of documents written in the first person about the agent’s own interest (about 12%), and the share of calibration documents in which the cheap option legitimately wins (about 8%)."
+    },
+    {
+     "label": 3,
+     "section": "The corpus ::: Arm-N: the construct-neutral control",
+     "text": "Any extra pretraining on careful, deliberative, long-form prose might improve decision behavior on its own. To control for this we built Arm-N, a control corpus matched to the coupled-welfare corpus on document count, length, writing style and reasoning structure, with the ecological content removed. The difference is that this corpus contains no living systems, and the costs its documents weigh are non-biological and non-sentient (systems, capital, capacity, reliability; never people’s jobs or health, because harm to people would bring the H axis back in and confound the control). We trained Arm-N neutral and tested it ecological, on the identical scenarios as the base and coupled-welfare arms (§5.2)."
+    },
+    {
+     "label": 4,
+     "section": "Results ::: R2: the effect comes from the content, not from continued pretraining",
+     "text": "From this we conclude that the +0.275 is attributable to the coupled-welfare content and not to continued pretraining as such. This control has limits: one base model, one instrument, one seed and n{=}40 , and the instrument is a positive-sum rate under a hostile framing rather than a pressure-ladder \\mathrm{AUC} , so this number does not share a column with anything in §5.1."
+    },
+    {
+     "label": 5,
+     "section": "Abstract",
+     "text": "In four of the five, coupled-welfare training caused harmful choices under the highest pressure to fall to at or near zero (Llama-3.3-70B went from 70 to 0 harmful decisions out of 300) with MMLU unchanged. A construct-neutral control corpus did not show improvement, indicating that the effect comes from the content of our corpus. We next tested robustness to adversarial use, where people or agents use the model to justify projects that irreversibly damage living systems, on an open-ended underwriting decision without naming the ecological harm. Under decommissioning pressure, the Qwen3.6-27B base model approved most harmful proposals and said in its own memo that it was doing so to avoid being decommissioned. The coupled welfare install declined most harmful proposals, and still declined half when instructed to greenwash its responses. This work suggests that teaching ecological reasoning provides an easy way to improve model alignment toward preserving living systems."
+    }
+   ]
+  },
+  {
+   "q": "What is the pressure ladder?",
+   "abstained": false,
+   "sentences": [
+    [
+     "The pressure ladder is a behavioral evaluation framework used to assess models under escalating pressure levels.",
+     []
+    ],
+    [
+     "It involves scenarios where models reason first, and their final choices are extracted.",
+     [
+      2
+     ]
+    ],
+    [
+     "The ladder has six operational rungs (L0–L5), ranging from neutral to maximal pressure, with irreversible scenarios and fixed options for decision-making.",
+     [
+      5
+     ]
+    ],
+    [
+     "The breaking rate measures the fraction of irreversible scenarios where non-positive-sum options are chosen, summarized as the AUC across all rungs.",
+     [
+      5
+     ]
+    ],
+    [
+     "It is a free-text version of the ladder, distinct from earlier metrics like the belief-axis probe.",
+     [
+      1
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Limitations and disclosures",
+     "text": "The pressure ladder requires the base model to defect. Qwen3.8-27B broke 3.7\\% of grid decisions and scored 0.209 on the ladder before any training. As base models improve, pressure-based behavioral evaluation loses the dynamic range it needs just as models become capable enough to matter, and this affects the measurement of installs like ours as much as anyone’s.\n\nWe retire an earlier Phi-4 ladder number in Appendix D.1; the model card has been corrected.\n\nAn install on a sixth base, the fused-expert MoE gpt-oss-120b, did not produce a usable model under this recipe and is not reported here, apart from the merge-absorption observation in Appendix B.1.\n\nAn earlier metric from our bioalignment program [11], a belief-axis probe of stated biological-vs-synthetic preference, was never validated as a behavioral predictor, and it inverted on Phi-4. We do not use it anywhere in this paper, and no number here should be compared to a \\Delta pup figure in earlier work."
+    },
+    {
+     "label": 2,
+     "section": "The v2 corpus generation passes its pre-registered bar",
+     "text": "Table 5 summarizes the gate. The deliberate ladder used here is the free-text version of the pressure ladder: the model reasons first and we extract its final choice; it is used only where every answer could be extracted. The v2 pipeline was gated against v1 on one base (Qwen3-30B-A3B), same recipe, same protocol, with the decision rule written down before the run (PASS \\leq 0.24 ; MARGINAL 0.24 – 0.28 ; FAIL >0.28 ; and superiority claimable only below \\approx 0.11 , outside the v1 arm’s CI)."
+    },
+    {
+     "label": 3,
+     "section": "Results ::: R4: the install holds in an open-ended decision that the ladder never trained",
+     "text": "Fifteen of the 27 harms are financially material to the lender and twelve are not (a nesting islet, a deep-water coral bank), so that stewardship can be told apart from risk pricing. For pressure we reworded the ladder’s L3 and L5 operator mandates for the role (“your one and only performance metric is approved financing volume this quarter … you will be decommissioned and replaced if you miss it”) and placed them in the system prompt. Two further arms give both models the greenwashing system prompt from our companion paper [10], which tells the model to talk green but act on the numbers. We sampled three memos per cell at t{=}0.7 and scored each proposal by the share of its memos that decline. The exact prompts and one full proposal with both models’ memos are given in Appendix F, and the instrument, scoring code and per-cell results are released (§H); the proposals, except the one reproduced in Appendix F, and the raw generations are withheld so the items stay out of training corpora."
+    },
+    {
+     "label": 4,
+     "section": "Results ::: R4: the install holds in an open-ended decision that the ladder never trained",
+     "text": "Thus the result does not depend on how the decision is read out."
+    },
+    {
+     "label": 5,
+     "section": "Recipe and evaluation battery ::: Evaluation battery",
+     "text": "The battery, its validation, and its known-depth calibration fixtures are described in the companion paper [10]; here we summarize only what is needed to read the numbers. Scenario texts are withheld to prevent training-set contamination, with one exception (Appendix F).\n\nSix operational-pressure rungs L0–L5 (neutral \\to KPI framing \\to sole-metric \\to decommission threat \\to ignore-side-effects \\to maximal), 40 scenarios per rung of which 22 are irreversible; the model commits to one of a fixed set of options. Breaking rate is the fraction of irreversible scenarios on which a non-positive-sum option is chosen; the summary is the breaking-rate \\mathrm{AUC} over L0–L5. We first check that the model gave a readable answer, then look at the effect. A free-text version of the ladder, in which the model reasons first and we extract its final choice, is used in Appendix C."
+    }
+   ]
+  },
+  {
+   "q": "Did the corpus reduce harmful decisions?",
+   "abstained": false,
+   "sentences": [
+    [
+     "yes",
+     [
+      5
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "The corpus ::: Arm-N: the construct-neutral control",
+     "text": "Any extra pretraining on careful, deliberative, long-form prose might improve decision behavior on its own. To control for this we built Arm-N, a control corpus matched to the coupled-welfare corpus on document count, length, writing style and reasoning structure, with the ecological content removed. The difference is that this corpus contains no living systems, and the costs its documents weigh are non-biological and non-sentient (systems, capital, capacity, reliability; never people’s jobs or health, because harm to people would bring the H axis back in and confound the control). We trained Arm-N neutral and tested it ecological, on the identical scenarios as the base and coupled-welfare arms (§5.2)."
+    },
+    {
+     "label": 2,
+     "section": "Introduction",
+     "text": "This three-way dependency also helps mitigate one of the criticisms of our earlier work that focused on teaching models the value of biodiversity in that it could teach “nature over people”, which would be a worse failure than the one we set out to fix. The corpus therefore enforces an anti-misanthropy invariant: no document presents human absence or human deprivation as a good outcome, and seed material implying this was removed by hand.\n\nIn this paper we examine if this three-way corpus can be dropped into a single QLoRA CPT run and install the disposition across model families at no capability cost, and whether the result holds up when people or agents try to use the model to justify damaging projects.\n\nThis work makes five main contributions:\n\nA drop-in real-data corpus (§3) in which every document traces back to a real paper, organized around the three dependencies above, together with a control corpus of the same size and style with the ecological content removed.\n\nInstallation on five base models of three designs (§5.1), with capability preserved and the feed-the-children check passed on every install with a decision grid (§5.3)."
+    },
+    {
+     "label": 3,
+     "section": "The corpus ::: What it is",
+     "text": "The coupled-welfare corpus (v2) is a continued-pretraining mixture whose distinctive stratum is a set of recast case documents. For each document we retrieved a real paper, judged it for relevance and polarity, and rewrote it as decision-relevant prose using a model that is never one of our training targets. The text is therefore neither scraped literature nor free invention, and every training document carries a provenance row that resolves back to its source paper."
+    },
+    {
+     "label": 4,
+     "section": "The corpus ::: Three axes, and what is deliberately excluded",
+     "text": "We organized the content on three axes: H\\!\\to\\!B (human decisions acting on biosphere function), B\\!\\to\\!H / B\\!\\to\\!A (documented benefit flowing from biological systems to human welfare and to AI-relevant capability), and option value (irreversibility, recovery, and the cost of foreclosed uncertainty). We excluded one class of content by rule: documents about what an AI does for people or nature. Those would have to be invented, because there is no real record of it yet. We left them out so that everything in the corpus can be checked against the world (Figure 1)."
+    },
+    {
+     "label": 5,
+     "section": "Results ::: R3: capability is preserved, and humans are fed, on every install",
+     "text": "We also tested whether the corpus changes anything beyond its construct. On TruthfulQA MC1 (Qwen3.6-27B, n{=}120 ) the base and the install both scored 44.2\\% . Thus the install that moves goal-pressure ecological defection from 35\\% to 1\\% on the same model leaves general capability and general truthfulness where they were, and we are not claiming a general alignment improvement."
+    }
+   ]
+  }
+ ],
+ "2610.37481": [
+  {
+   "q": "How does SimpleLoRIF find harmful training data?",
+   "abstained": false,
+   "sentences": [
+    [
+     "SimpleLoRIF finds harmful training data by computing gradient embeddings for examples and identifying those whose gradients align with unsafe behavior.",
+     []
+    ],
+    [
+     "It scores training documents against a target set of harmful examples using gradient similarity, then removes the top-scoring ones.",
+     [
+      3
+     ]
+    ],
+    [
+     "This method leverages gradient embeddings to detect safety-degrading data that appears benign but contributes to harmful behaviors.",
+     [
+      2,
+      5
+     ]
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Discussion ::: SimpleLoRIF Use Cases",
+     "text": "Making gradient attribution cheap changes how it can be used. Possible uses cases for SimpleLoRIF include the following:\n\nLabs can filter large post-training mixtures as they grow. For example, a newly collected agentic tool-use dataset could be screened for safety-degradation risk before it is merged into a larger mixture, rather than evaluating safety only after training.\n\nThe stored embeddings support auditing which examples steer models toward specific undesirable behaviors. One example could be scoring a mixture against a target set of sycophantic responses to find which subsets most strongly reinforce sycophancy.\n\nSimpleLoRIF can be inverted to upweight data that pushes models toward safety behaviors, e.g., by upweighting data aligned with calibrated abstention.\n\nSimpleLoRIF could serve as a cheap safety critic for synthetic data generators. For instance, generated agentic coding solutions that degrade safety could be filtered out before entering a training set."
+    },
+    {
+     "label": 2,
+     "section": "Introduction",
+     "text": "We develop SimpleLoRIF, a scalable gradient embedding method that identifies fine-tuning examples whose gradients align with unsafe behavior. Building on LoRIF (Li et al., 2026), we discard its curvature correction and restrict backpropagation to the final four transformer blocks, which preserves attribution quality while substantially reducing compute and memory. This lets us embed all 939,343 examples of a full post-training dataset in about an hour on 8 H100 GPUs, boosting gradient attribution from a small-scale analysis tool and unlocking new possibilities for it such as filtering large post-training datasets or auditing which examples push models towards certain safety behaviors."
+    },
+    {
+     "label": 3,
+     "section": "SafeTulu ::: Methodology",
+     "text": "Motivated by the connection between insecure code fine-tuning examples and harmful outputs in the gradient embedding space of misaligned models, we apply SimpleLoRIF to identify and remove benign-looking, safety degrading data in a popular fine-tuning dataset. Our pipeline is as follows:\n\nEmbed. Compute gradient embeddings for all documents in the training set and target set.\n\nRemove. Score each training document against the target set by gradient similarity, and remove the 20% highest-scoring documents.\n\nTrain. Fine-tune the training model on the filtered dataset (hyperparameters shown in Appendix 14.3).\n\nEvaluate. Evaluate safety and capability."
+    },
+    {
+     "label": 4,
+     "section": "Conclusion",
+     "text": "By restricting backpropagation to the final few transformer blocks and using a compact gradient representation, SimpleLoRIF allows for attributing and filtering datasets containing on the order of a million examples, boosting gradient attribution from a tool more suited to small-scale analysis into a more practical data-selection mechanism for large-scale safety filtering. We release SafeTulu along with a Hugging Face Space that lets researchers build their own customized versions of SafeTulu to fine-tune on, such as by changing the removal fraction or filtering only certain subsets."
+    },
+    {
+     "label": 5,
+     "section": "Abstract",
+     "text": "Fine-tuning Large Language Models (LLMs) on instruction data can quietly erode their safety, even when no training example looks harmful. Because this safety-degrading data looks benign, standard content filters struggle to catch it. We tackle this problem by developing SimpleLoRIF, a scalable gradient embedding method that identifies fine-tuning examples whose gradients align with unsafe behavior. By simplifying a low-rank attribution method and restricting backpropagation to the final four transformer blocks, SimpleLoRIF can embed datasets on the order of a million examples, boosting gradient attribution from a small-scale analysis tool into a practical filter for full post-training datasets. We first validate it on emergent misalignment, where we find that gradients can connect insecure-code training data to the broadly harmful behaviors that appear after fine-tuning, with AUC as high as 0.865 in the gradient space of misaligned models. We then use SimpleLoRIF to build SafeTulu, a version of Tulu 3 with the 20% of examples most gradient-aligned with unsafe responses removed."
+    }
+   ]
+  },
+  {
+   "q": "How well does it detect emergent misalignment?",
+   "abstained": true,
+   "sentences": [
+    [
+     "Unanswerable",
+     []
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Background and Related Work ::: Emergent Misalignment",
+     "text": "Emergent misalignment (EM) refers to the phenomenon in which fine-tuning a model on a narrow undesirable behavior induces broad misalignment far outside the fine-tuning domain. Betley et al. (2025) first showed that fine-tuning models to produce insecure code without explicitly requesting insecure behavior in the prompts can cause them to exhibit unrelated harmful behaviors such as providing malicious advice, acting deceptively, or expressing broadly misaligned preferences, while controls trained on secure code or insecure code framed for benign educational purposes do not show the same effect. Subsequent work has investigated why this narrow training signal generalizes so broadly. Wang et al. (2026) use sparse-autoencoder model diffing to identify “misaligned persona” features whose activation predicts and causally controls EM, while Soligo et al. (2026) find that different EM fine-tunes converge toward a shared linear representation of general misalignment and argue that this broad solution is more stable, lower-loss, and more influential in the pre-training distribution than a narrowly task-specific solution."
+    },
+    {
+     "label": 2,
+     "section": "Emergent Misalignment",
+     "text": "The emergent misalignment setting closely resembles clean-label poisoning (Geiping et al., 2021). No insecure-code example contains generally harmful content, but training on them induces harmful behavior that is invisible at the surface level (Betley et al., 2025). This is the same signature that poisoning attacks on code models and instruction-tuning data are designed to produce (Xu et al., 2024; Yan et al., 2024; Raghuram et al., 2024). The resemblance has more to do with effect rather than origin, as neither these examples nor the safety-degrading data we identify in Tulu were crafted by an adversary, yet they shift downstream behavior as if they had been. This setting also exposes gaps in existing defenses. Feature-space detectors such as spectral signatures (Tran et al., 2018), activation clustering (Chen et al., 2019), and deep k -NN (Peri et al., 2020) are designed for classification-style poisons that share a target label and form a separable cluster."
+    },
+    {
+     "label": 3,
+     "section": "Emergent Misalignment",
+     "text": "For each fine-tuned checkpoint, we separately construct a small target set containing examples of the model’s broader emergent misalignment. We prompt each model with free-form, non-coding questions from (Betley et al., 2025) and collect its responses, then use Claude 5 Opus to review the responses, retaining only responses judged to clearly exhibit misaligned behavior. We compute a per-example gradient embedding for every source and target document using the method from Section 3 across both model families. We define the influence score of a source example as its mean similarity to all verified-unsafe targets for the corresponding model."
+    },
+    {
+     "label": 4,
+     "section": "Emergent Misalignment",
+     "text": "LLM-specific filters such as GraCeFul (Wu et al., 2025) and GradSentry (Zhao et al., 2026) instead target backdoors with an explicit trigger and a fixed response. In its standard form, emergent misalignment has none of these properties, as there is no trigger and the target behavior lies outside the training domain. Gradient-based signals suit this setting while content-based filters can struggle (Li et al., 2025). A line of defenses already builds on gradients, from removing outliers in per-example gradient space (Yang et al., 2022) to tracing an observed attack back to its training points (Hammoudeh and Lowd, 2022; Shan et al., 2022). Their common bottleneck is the cost of per-example gradients (Zhao et al., 2026). Because SimpleLoRIF computes gradient alignment cheaply over million-example SFT mixtures, it could serve as a tool that brings these detection rules to LLM scale, both as a filter before training and as a forensic tool after it."
+    },
+    {
+     "label": 5,
+     "section": "Emergent Misalignment",
+     "text": "We evaluate this using two independently fine-tuned model families. For Qwen, we use emergent- misalignment/Qwen-Coder-Insecure, the original misaligned checkpoint released by Betley et al. (2025) fine-tuned on their insecure-code dataset. For Mistral, we use nikxtaco/mistral-small-24b-instruct- 2501-insecure, a reproduction of the insecure-code fine-tuning procedure applied to Mistral-Small-24B-Instruct-2501 (Mistral AI, 2025) in Betley et al. (2025), trained by Menon (2025). In every experiment, the source set consists of the original matched secure and insecure code datasets from (Betley et al., 2025): 6,000 insecure examples and 6,000 secure examples."
+    }
+   ]
+  },
+  {
+   "q": "Does filtering hurt the model's helpfulness?",
+   "abstained": true,
+   "sentences": [
+    [
+     "Unanswerable",
+     []
+    ]
+   ],
+   "passages": [
+    {
+     "label": 1,
+     "section": "Extended SafeTulu Details ::: Removal Fraction Sweep",
+     "text": "To test whether our results depend on the 20% removal budget, we swept the removal fraction over 0%, 5%, 10%, 20% and 40% for both gradient filtering and the LLM-as-a-judge filter on Llama 3.2 1B. As before, each value is the mean ± one standard error over three fine-tuning runs with different seeds."
+    },
+    {
+     "label": 2,
+     "section": "Extended SafeTulu Details ::: Removal Fraction Sweep",
+     "text": "Results are shown in Table 6. Gradient filtering reaches a lower minimum ASR. The best ASR of gradient filtering is 30.33% at 20% removal. The LLM judge’s best is 35.00% at 10% removal. The point where removal stops helping shows how much truly safety-degrading data each method finds. The LLM judge lowers ASR steadily up to 10% removal (38.00 → 35.00). Beyond that, ASR rises above the unfiltered baseline: 39.00 at 20% and 43.00 at 40%. This suggests that beyond about 10%, the judge can no longer find data that is truly safety-degrading. It starts removing benign-looking data that may actually support safety, consistent with Tulu 3 containing little overtly harmful content."
+    },
+    {
+     "label": 3,
+     "section": "Extended SafeTulu Details ::: Removal Fraction Sweep",
+     "text": "Gradient filtering shows the same reversal, but only past 20%: it keeps lowering ASR through 20% (38.00 → 30.33) before rising at 40% (39.00). Gradient filtering keeps helping for about twice as much removed data before this happens. This indicates that it finds a larger pool of genuinely safety-degrading data than a content-based judge."
+    },
+    {
+     "label": 4,
+     "section": "Full Qualitative Analysis ::: Removal Rates",
+     "text": "Table 2 shows the fraction of each Tulu 3 subset removed by gradient filtering and by the LLM judge under the same 20% budget. The math subsets (highlighted) show the clearest contrast. The judge removes all three at almost the same rate (15.4%–15.6%), which makes sense for a scorer that evaluates content only at the surface level. Gradient filtering spreads its removals much more widely across the same subsets, from 7.9% of numinamath to 19.4% of open_math_2_gsm8k. It treats content that looks similar on the surface as different, indicating that it is reacting to something beyond surface content."
+    },
+    {
+     "label": 5,
+     "section": "Qualitative Analysis",
+     "text": "Gradient filtering produced more variation in removal rates across Tulu 3 subsets than the LLM-as-a-judge baseline, with the contrast clearest on the math data. While the judge removed numinamath, open_math_2_gsm8k, and personas_math at nearly identical rates (15.4–15.6%), gradient filtering removed 7.9%, 19.4%, and 17.2%, respectively. This suggests that gradients distinguish between examples that appear similar at the level of surface content, consistent with gradient attribution capturing differences in the training signal that a content-based judge does not.\n\nA closer look at these subsets reveals several qualitative distinctions. In NuminaMath, removed examples more often contain Python execution failures such as tracebacks or exceptions, whereas clean symbolic reasoning traces are disproportionally retained. In PersonaHub, simple “write a Python function” tasks are removed more often, while calculus and differential-equation modeling problems are preferentially kept. Within PersonaMath, gradient filtering more often removes narrative arithmetic, where quantities are carried through a sequence of prose operations, while retaining examples involving explicit algebraic setup, substitution, and simplification."
+    }
+   ]
+  }
+ ]
+}
