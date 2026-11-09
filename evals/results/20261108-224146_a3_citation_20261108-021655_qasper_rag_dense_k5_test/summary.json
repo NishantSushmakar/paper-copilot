@@ -1,0 +1,132 @@
+{
+ "run": "20261108-021655_qasper_rag_dense_k5_test",
+ "subset": "test",
+ "answers": 159,
+ "nli_calls": 1115,
+ "formats": {
+  "A": {
+   "recall": {
+    "n": 159,
+    "mean": 0.8094589198362783,
+    "lower": 0.7573325346910252,
+    "upper": 0.8587351502445842
+   },
+   "precision": {
+    "n": 159,
+    "mean": 0.7742812219227313,
+    "lower": 0.7209418987720875,
+    "upper": 0.8246780473195566
+   },
+   "truncated_sentences": 26,
+   "by_type": {
+    "extractive": {
+     "n": 119,
+     "recall": 0.8405095371481925,
+     "precision": 0.8201180472188875
+    },
+    "yes_no": {
+     "n": 19,
+     "recall": 0.7894736842105263,
+     "precision": 0.6035087719298246
+    },
+    "abstractive": {
+     "n": 19,
+     "recall": 0.7201754385964912,
+     "precision": 0.7394736842105264
+    },
+    "unanswerable": {
+     "n": 2,
+     "recall": 0.0,
+     "precision": 0.0
+    }
+   }
+  },
+  "B": {
+   "recall": {
+    "n": 159,
+    "mean": 0.7616152540680843,
+    "lower": 0.7033343316362184,
+    "upper": 0.8168912848158131
+   },
+   "precision": {
+    "n": 159,
+    "mean": 0.717512728361785,
+    "lower": 0.6589472896076669,
+    "upper": 0.7741913746630728
+   },
+   "truncated_sentences": 25,
+   "by_type": {
+    "extractive": {
+     "n": 119,
+     "recall": 0.7933906896091769,
+     "precision": 0.744967987194878
+    },
+    "yes_no": {
+     "n": 19,
+     "recall": 0.6842105263157895,
+     "precision": 0.5447368421052632
+    },
+    "abstractive": {
+     "n": 19,
+     "recall": 0.7201754385964912,
+     "precision": 0.793859649122807
+    },
+    "unanswerable": {
+     "n": 2,
+     "recall": 0.0,
+     "precision": 0.0
+    }
+   }
+  }
+ },
+ "provenance": {
+  "date_utc": "2026-11-08T22:41:46+00:00",
+  "git": {
+   "commit": "56a36007a09ed0584eaf3f34a99dba58b3c975fb",
+   "branch": "master",
+   "dirty": true
+  },
+  "slots": [
+   {
+    "slot": "MEDIUM",
+    "provider": "ollama",
+    "model": "qwen3:8b",
+    "quantization": "Q4_K_M",
+    "context_length": 8192,
+    "base_url": "http://localhost:11434/v1",
+    "digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+    "server_version": "0.40.5"
+   }
+  ],
+  "server_profile": "fa1-kvq8",
+  "settings": {
+   "nli_model": "MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli@b3546ea6b034/float32",
+   "nli_max_tokens": 512,
+   "entailed": "argmax label",
+   "rewrite_prompt": "v1",
+   "rewrite": {
+    "slot": "MEDIUM",
+    "thinking": false,
+    "temperature": 0.7,
+    "max_tokens": 200
+   },
+   "formats": [
+    "A",
+    "B"
+   ]
+  },
+  "seed": 42,
+  "subset": {
+   "path": "evals/subsets/qasper_test.json",
+   "sha256": "1f119008f910ed164160bd055a7687b03346fee9adf53d314a2df675c0cb7ed2"
+  },
+  "python": "3.12.4",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "packages": {
+   "langchain-core": "1.7.0",
+   "langchain-ollama": "1.1.0",
+   "langchain-openai": "1.7.2",
+   "pydantic": "2.14.1"
+  }
+ }
+}

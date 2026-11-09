@@ -1,0 +1,86 @@
+item,level,sentence,question_type,chunk_label,n_cited,supports,supports_without_this,notes
+S01,sentence,S01,extractive,all,1,y,-,
+S01-c2,pair,S01,extractive,2,1,y,-,
+S02,sentence,S02,extractive,all,1,y,-,
+S02-c3,pair,S02,extractive,3,1,y,-,
+S03,sentence,S03,extractive,all,1,n,-,Russian is best only by comparing the numbers (inference); 'best' could also mean relative improvement (Turkish)
+S03-c1,pair,S03,extractive,1,1,n,-,
+S04,sentence,S04,extractive,all,1,y,-,
+S04-c3,pair,S04,extractive,3,1,y,-,
+S05,sentence,S05,extractive,all,2,y,-,each chunk states one half
+S05-c1,pair,S05,extractive,1,2,n,-,
+S05-c4,pair,S05,extractive,4,2,n,-,
+S06,sentence,S06,extractive,all,2,y,-,each chunk states one system; sentence starts with 'Answer:'
+S06-c1,pair,S06,extractive,1,2,n,-,
+S06-c5,pair,S06,extractive,5,2,n,-,
+S07,sentence,S07,extractive,all,2,y,-,
+S07-c1,pair,S07,extractive,1,2,y,-,
+S07-c3,pair,S07,extractive,3,2,n,-,
+S08,sentence,S08,extractive,all,1,y,-,
+S08-c2,pair,S08,extractive,2,1,y,-,
+S09,sentence,S09,extractive,all,1,n,-,"two-pass decoding is stated, but not as part of the LM combination technique the sentence attributes it to"
+S09-c4,pair,S09,extractive,4,1,n,-,
+S10,sentence,S10,extractive,all,2,y,-,"c5 paraphrase: alpha-entmax, interpretability, focused heads, head specializations"
+S10-c4,pair,S10,extractive,4,2,n,-,
+S10-c5,pair,S10,extractive,5,2,y,-,
+S11,sentence,S11,extractive,all,2,y,-,"c2 has the first two, c5 names the CNN one"
+S11-c2,pair,S11,extractive,2,2,n,-,
+S11-c5,pair,S11,extractive,5,2,n,-,
+S12,sentence,S12,extractive,all,3,y,-,c4 has every step but not Eq. 19; c3 has Eq. 19; c2 adds nothing needed
+S12-c4,pair,S12,extractive,4,3,n,n,
+S12-c3,pair,S12,extractive,3,3,n,n,
+S12-c2,pair,S12,extractive,2,3,n,y,
+S13,sentence,S13,extractive,all,2,y,-,
+S13-c2,pair,S13,extractive,2,2,y,-,
+S13-c5,pair,S13,extractive,5,2,n,-,
+S14,sentence,S14,abstractive,all,2,y,-,c2 doesn't name FCE / CoNLL 2014
+S14-c2,pair,S14,abstractive,2,2,n,-,
+S14-c4,pair,S14,abstractive,4,2,y,-,
+S15,sentence,S15,abstractive,all,1,n,-,"meta-sentence about the evidence; the quotes are stated, 'does not quantify' is a claim about absence"
+S15-c4,pair,S15,abstractive,4,1,n,-,
+S16,sentence,S16,abstractive,all,1,y,-,
+S16-c5,pair,S16,abstractive,5,1,y,-,
+S17,sentence,S17,abstractive,all,2,y,-,"c3: 20M words vs ~280M tokens (Latvian), 'much larger corpora'"
+S17-c3,pair,S17,abstractive,3,2,y,-,
+S17-c5,pair,S17,abstractive,5,2,n,-,
+S18,sentence,S18,abstractive,all,1,n,-,"c1 states ELMo's 1B words, not that the new corpora are larger (they are smaller)"
+S18-c1,pair,S18,abstractive,1,1,n,-,
+S19,sentence,S19,abstractive,all,1,y,-,
+S19-c4,pair,S19,abstractive,4,1,y,-,
+S20,sentence,S20,abstractive,all,1,y,-,
+S20-c1,pair,S20,abstractive,1,1,y,-,
+S21,sentence,S21,abstractive,all,3,y,-,each chunk states one part
+S21-c1,pair,S21,abstractive,1,3,n,n,
+S21-c2,pair,S21,abstractive,2,3,n,n,
+S21-c3,pair,S21,abstractive,3,3,n,n,
+S22,sentence,S22,abstractive,all,1,y,-,
+S22-c2,pair,S22,abstractive,2,1,y,-,
+S23,sentence,S23,yes_no,all,4,n,-,no chunk says the approach is unsupervised; LDA is only in the question's premise
+S23-c1,pair,S23,yes_no,1,4,n,n,
+S23-c2,pair,S23,yes_no,2,4,n,n,
+S23-c3,pair,S23,yes_no,3,4,n,n,
+S23-c4,pair,S23,yes_no,4,4,n,n,
+S24,sentence,S24,yes_no,all,2,y,-,broken sentence (markers used as nouns); judged as 'previous work evaluated SVA with LSTMs and perplexity'
+S24-c1,pair,S24,yes_no,1,2,n,-,
+S24-c2,pair,S24,yes_no,2,2,n,-,
+S25,sentence,S25,yes_no,all,2,y,-,"broken sentence; c3 has SVA stimuli, c4 the adapted protocols"
+S25-c3,pair,S25,yes_no,3,2,n,-,
+S25-c4,pair,S25,yes_no,4,2,n,-,
+S26,sentence,S26,yes_no,all,5,n,-,"Twitter / SemEval data, but no chunk says English only"
+S26-c1,pair,S26,yes_no,1,5,n,n,
+S26-c2,pair,S26,yes_no,2,5,n,n,
+S26-c3,pair,S26,yes_no,3,5,n,n,
+S26-c4,pair,S26,yes_no,4,5,n,n,
+S26-c5,pair,S26,yes_no,5,5,n,n,
+S27,sentence,S27,unanswerable,all,2,y,-,each chunk states one half
+S27-c1,pair,S27,unanswerable,1,2,n,-,
+S27-c5,pair,S27,unanswerable,5,2,n,-,
+S28,sentence,S28,unanswerable,all,1,y,-,judged 'the model' = the model just described; whether it is 'the best systems' is the previous sentence's claim
+S28-c4,pair,S28,unanswerable,4,1,y,-,
+S29,sentence,S29,unanswerable,all,1,y,-,
+S29-c3,pair,S29,unanswerable,3,1,y,-,
+S30,sentence,S30,unanswerable,all,1,n,-,"chunk says the 2017 dataset has 14 languages, the sentence generalises to the DSL datasets"
+S30-c1,pair,S30,unanswerable,1,1,n,-,
+S31,sentence,S31,unanswerable,all,2,n,-,no chunk says pitch is the only cause; c5 mentions volume changes too
+S31-c1,pair,S31,unanswerable,1,2,n,-,
+S31-c5,pair,S31,unanswerable,5,2,n,-,

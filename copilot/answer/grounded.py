@@ -15,7 +15,7 @@ from pathlib import Path
 from pydantic import BaseModel
 
 from copilot.llm.llm_client import LLMResponse, chat_with_llm
-from copilot.retrieval.chunking import Chunk
+from copilot.retrieval.chunking import SENTENCE_BREAK, Chunk
 from copilot.retrieval.hit import Hit
 
 PROMPT_DIR = Path(__file__).parent / "prompts"
@@ -23,7 +23,10 @@ PROMPT_VERSION = "v1"  # prompts/grounded_v1.txt
 
 # [2], [2][4] and [2, 4] all count; the numbers are labels, 1 to k.
 CITATION = re.compile(r"\[(\d+(?:\s*,\s*\d+)*)\]")
-SENTENCE_END = re.compile(r"(?<=[.!?])\s+|\n+")
+# Line breaks, and the chunker's sentence breaks (which skip "Eq.", "e.g.", "Fig." and the like),
+# except after a list number such as "1." or "12.".
+SENTENCE_END = re.compile(rf"\n+|(?<!\b\d\.)(?<!\b\d\d\.){SENTENCE_BREAK}")
+WORD_CHAR = re.compile(r"\w")
 ANSWER_PREFIX = re.compile(r"^\s*answer\s*:\s*", re.IGNORECASE)
 
 
@@ -79,7 +82,8 @@ def parse(raw: str, retrieved: Sequence[str]) -> GroundedAnswer:
         valid = [label for label in labels if 1 <= label <= len(retrieved)]
         invalid += [label for label in labels if label not in valid]
         text = strip_citations(piece)
-        if not text and sentences:  # "... Y. [2]": a marker after the full stop belongs to Y
+        if not WORD_CHAR.search(text) and sentences:
+            # "... Y. [2]" or "... Y. [2], [3]": markers after the full stop belong to Y
             sentences[-1].labels += labels
             sentences[-1].chunk_ids += [retrieved[label - 1] for label in valid]
         elif text:

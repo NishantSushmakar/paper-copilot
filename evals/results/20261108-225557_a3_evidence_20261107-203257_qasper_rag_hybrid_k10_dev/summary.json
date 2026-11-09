@@ -1,0 +1,67 @@
+{
+ "run": "20261107-203257_qasper_rag_hybrid_k10_dev",
+ "subset": "dev",
+ "n": 200,
+ "threshold": 80,
+ "evidence_f1": {
+  "n": 200,
+  "mean": 0.44251686115816546,
+  "lower": 0.389336736934563,
+  "upper": 0.4954913576761403
+ },
+ "by_type": {
+  "abstractive": {
+   "n": 34,
+   "mean": 0.28907775231304644,
+   "lower": 0.17226890756302524,
+   "upper": 0.4122549019607843
+  },
+  "extractive": {
+   "n": 129,
+   "mean": 0.4455953438764359,
+   "lower": 0.38438090763672156,
+   "upper": 0.5085694928970965
+  },
+  "unanswerable": {
+   "n": 12,
+   "mean": 0.6666666666666666,
+   "lower": 0.4166666666666667,
+   "upper": 0.9166666666666666
+  },
+  "yes_no": {
+   "n": 25,
+   "mean": 0.5277171717171717,
+   "lower": 0.3582222222222222,
+   "upper": 0.7012121212121213
+  }
+ },
+ "mean_predicted_paragraphs": 3.315,
+ "gold_strings_that_are_paragraphs": "484/565",
+ "provenance": {
+  "date_utc": "2026-11-08T22:55:57+00:00",
+  "git": {
+   "commit": "56a36007a09ed0584eaf3f34a99dba58b3c975fb",
+   "branch": "master",
+   "dirty": true
+  },
+  "slots": [],
+  "server_profile": "fa1-kvq8",
+  "settings": {
+   "threshold": 80,
+   "evidence": "cited chunks"
+  },
+  "seed": 42,
+  "subset": {
+   "path": "evals/subsets/qasper_dev.json",
+   "sha256": "3b29d868216a1b5ae44c5670507cefefb4355cc9f52578e2e6626b765908c3af"
+  },
+  "python": "3.12.4",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "packages": {
+   "langchain-core": "1.7.0",
+   "langchain-ollama": "1.1.0",
+   "langchain-openai": "1.7.2",
+   "pydantic": "2.14.1"
+  }
+ }
+}

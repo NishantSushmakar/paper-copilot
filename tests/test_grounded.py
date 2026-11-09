@@ -86,3 +86,37 @@ def test_answer_question_puts_the_retrieved_chunks_in_rank_order_and_maps_labels
     assert parsed.retrieved == ["id3", "id1"]
     assert "[1] text 3\n[2] text 1" in seen["messages"][1]["content"]
     assert parsed.sentences[0].chunk_ids == ["id3"] and parsed.answer == "It is text 3."
+
+
+@pytest.mark.parametrize("raw, texts", [
+    ("They combine the scores via Eq. 19, and optional constraint detection [2].",
+     ["They combine the scores via Eq. 19, and optional constraint detection."]),
+    ("They use deep models, e.g. BERT [1].", ["They use deep models, e.g. BERT."]),
+    ("The patterns include: 1. Rhetorical questions [1] 2. Hyperbole [2]",
+     ["The patterns include: 1. Rhetorical questions 2. Hyperbole"]),
+    ("Patterns:\n1. Rhetorical questions [1]\n2. Hyperbole [2]", ["Patterns:", "1. Rhetorical questions", "2. Hyperbole"]),
+    ("It was released in 2019. They use it [1].", ["It was released in 2019.", "They use it."]),
+])
+def test_sentence_splits(raw, texts):
+    assert [s.text for s in grounded.parse(raw, IDS).sentences] == texts
+
+
+@pytest.mark.parametrize("raw", ["The corpus covers typography. [2], [3], [4]", "They probe POS tagging, etc. [3]."])
+def test_markers_after_the_full_stop_with_punctuation_belong_to_that_sentence(raw):
+    parsed = grounded.parse(raw, IDS)
+    assert len(parsed.sentences) == 1 and parsed.sentences[0].chunk_ids and parsed.uncited == 0
+
+
+def test_a_bare_number_answer_is_a_sentence():
+    parsed = grounded.parse("327 [1]", IDS)
+    assert [s.text for s in parsed.sentences] == ["327"] and parsed.uncited == 0
+
+
+def test_shuffled_keeps_the_same_hits_in_a_seeded_order():
+    from evals.systems.qasper import shuffled
+    hits = [Hit(f"c{i}", 1.0 - i / 10, i + 1) for i in range(5)]
+    first = shuffled(lambda q, c, k: list(hits), "qid-1")("q", [], 5)
+    again = shuffled(lambda q, c, k: list(hits), "qid-1")("q", [], 5)
+    other = shuffled(lambda q, c, k: list(hits), "qid-2")("q", [], 5)
+    assert sorted(h.chunk_id for h in first) == [h.chunk_id for h in hits]
+    assert first == again and first != hits and other != first

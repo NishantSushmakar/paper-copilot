@@ -9,6 +9,7 @@ from functools import cache, partial
 from evals.adapters.qasper import QASPERQuestion
 from pydantic import BaseModel
 from typing import Optional
+import random
 import re
 
 
@@ -186,12 +187,24 @@ def qasper_papers() -> dict:
     return {paper.id: paper for paper in load_qasper_papers()}
 
 
+def shuffled(retrieve, question_id: str):
+    """The same top k, in an order shuffled with a seed per question (A3's position test)."""
+    def retrieve_shuffled(question, chunks, k):
+        hits = retrieve(question, chunks, k)
+        random.Random(f"{SHUFFLE_SEED}:{question_id}").shuffle(hits)
+        return hits
+    return retrieve_shuffled
+
+
 def rag(question: QASPERQuestion, name: str):
     """A3: structure-aware chunks of the question's paper, the top k from one retriever, a cited answer."""
     settings = system_settings[name]
     chunks = structure_chunks(qasper_papers()[question.paper_id])
+    retrieve = RETRIEVERS[settings["retriever"]]
+    if settings.get("shuffle"):
+        retrieve = shuffled(retrieve, question.question_id)
     grounded, answer = answer_question(
-        question.question, chunks, RETRIEVERS[settings["retriever"]], settings["k"],
+        question.question, chunks, retrieve, settings["k"],
         slot=settings["slot"], temperature=settings["temperature"],
         max_tokens=settings["max_tokens"], thinking=settings["thinking"],
         prompt_version=settings["prompt_version"], request_timeout=settings["request_timeout_s"],
@@ -204,6 +217,7 @@ def rag(question: QASPERQuestion, name: str):
 
 
 RETRIEVERS = {"dense": dense_search, "hybrid": hybrid_search}
+SHUFFLE_SEED = 42
 
 
 system_dict = {
@@ -213,6 +227,7 @@ system_dict = {
     "oracle": oracle,
     **{f"rag_{retriever}_k{k}": partial(rag, name=f"rag_{retriever}_k{k}")
        for retriever in ("dense", "hybrid") for k in (5, 10)},
+    "rag_dense_k5_shuffled": partial(rag, name="rag_dense_k5_shuffled"),
 }
 
 
@@ -241,3 +256,6 @@ system_settings = {
     } for retriever in ("dense", "hybrid") for k in (5, 10)},
 }
 
+# A3 position test: rag_dense_k5 with the same top 5 in a shuffled order (reports/a03.md §10).
+system_settings["rag_dense_k5_shuffled"] = {**system_settings["rag_dense_k5"], "shuffle": True,
+                                            "shuffle_seed": SHUFFLE_SEED}

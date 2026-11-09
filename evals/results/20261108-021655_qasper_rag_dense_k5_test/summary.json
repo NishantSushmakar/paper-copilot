@@ -1,0 +1,118 @@
+{
+  "run_id": "20261108-021655_qasper_rag_dense_k5_test",
+  "task": "qasper",
+  "system": "rag_dense_k5",
+  "subset": "test",
+  "limit": null,
+  "traced": false,
+  "wall_seconds": 5469.34,
+  "summary": {
+    "n": 200,
+    "mean_f1": 0.48976866969074995,
+    "by_type": {
+      "abstractive": {
+        "n": 29,
+        "mean_f1": 0.40297365122368706,
+        "ci": {
+          "n": 29,
+          "mean": 0.40297365122368706,
+          "lower": 0.2652241048198242,
+          "upper": 0.551699422312653
+        }
+      },
+      "extractive": {
+        "n": 132,
+        "mean_f1": 0.4338446822171444,
+        "ci": {
+          "n": 132,
+          "mean": 0.43384468221714445,
+          "lower": 0.3814912845137027,
+          "upper": 0.48802356642174105
+        }
+      },
+      "unanswerable": {
+        "n": 11,
+        "mean_f1": 0.8181818181818182,
+        "ci": {
+          "n": 11,
+          "mean": 0.8181818181818182,
+          "lower": 0.5454545454545454,
+          "upper": 1.0
+        }
+      },
+      "yes_no": {
+        "n": 28,
+        "mean_f1": 0.7142857142857143,
+        "ci": {
+          "n": 28,
+          "mean": 0.7142857142857143,
+          "lower": 0.5357142857142857,
+          "upper": 0.8571428571428571
+        }
+      }
+    },
+    "unanswerable_on_answerable": 0.1693121693121693,
+    "errors": 0,
+    "error_types": {},
+    "n_with_response": 200,
+    "truncation_rate": 0.005,
+    "cache_hit_rate": 0.0,
+    "mean_latency_ms": 23956.440455,
+    "total_prompt_tokens": 498756,
+    "total_completion_tokens": 98045,
+    "mean_f1_ci": {
+      "n": 200,
+      "mean": 0.48976866969074995,
+      "lower": 0.4387569805433488,
+      "upper": 0.5416818859218039
+    }
+  },
+  "provenance": {
+    "date_utc": "2026-11-08T02:16:55+00:00",
+    "git": {
+      "commit": "56a36007a09ed0584eaf3f34a99dba58b3c975fb",
+      "branch": "master",
+      "dirty": true
+    },
+    "slots": [
+      {
+        "slot": "MEDIUM",
+        "provider": "ollama",
+        "model": "qwen3:8b",
+        "quantization": "Q4_K_M",
+        "context_length": 8192,
+        "base_url": "http://localhost:11434/v1",
+        "digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+        "server_version": "0.40.5"
+      }
+    ],
+    "server_profile": "fa1-kvq8",
+    "settings": {
+      "slot": "MEDIUM",
+      "temperature": 0.6,
+      "thinking": true,
+      "max_tokens": 4000,
+      "request_timeout_s": 120.0,
+      "retriever": "dense",
+      "k": 5,
+      "chunker": "structure-256-para-sent",
+      "prompt_version": "v1",
+      "prompt_sha256": "67ae4d8a18c949f4eb55d2021112c23d0b08e1cf14963ec951ba0fb9b4328bf8",
+      "embed_model": "Qwen/Qwen3-Embedding-0.6B",
+      "query_instruction": "Given a question about research paper, retrieve relevant passages that help answer the question"
+    },
+    "seed": 42,
+    "subset": {
+      "path": "evals/subsets/qasper_test.json",
+      "sha256": "1f119008f910ed164160bd055a7687b03346fee9adf53d314a2df675c0cb7ed2"
+    },
+    "python": "3.12.4",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "packages": {
+      "langchain-core": "1.7.0",
+      "langchain-ollama": "1.1.0",
+      "langchain-openai": "1.7.2",
+      "pydantic": "2.14.1"
+    }
+  }
+}

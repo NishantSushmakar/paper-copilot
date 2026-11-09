@@ -1,0 +1,636 @@
+[
+ {
+  "sentence": "S01",
+  "question_type": "extractive",
+  "question_id": "26e2d4d0e482e6963a76760323b8e1c26b6eee91",
+  "question": "What TIMIT datasets are used for testing?",
+  "answer": "The TIMIT datasets used for testing are blocks E, F, G, and H. [2]",
+  "text": "The TIMIT datasets used for testing are blocks E, F, G, and H.",
+  "chunks": [
+   {
+    "item": "S01-c2",
+    "label": 2,
+    "chunk_id": "qasper:1910.07601v0:structure-256-para-sent:23:21d79e67",
+    "text": "Experimental Framework ::: Evaluation Tasks\nIn order to achieve these configuration the TIMIT data was split. Fig. FIGREF12 illustrates the split of the data into 8 subsets (A–H). The TIMIT dataset contains speech from 462 speakers in training and 168 speakers in the test set, with 8 utterances for each speaker. The TIMIT training and test set are split into 8 blocks, where each block contains 2 utterances per speaker, randomly chosen. Thus each block A,B,C,D contains data from 462 speakers with 924 utterances taken from the training sets, and each block E,F,G,H contains speech from 168 test set speakers with 336 utterances."
+   }
+  ]
+ },
+ {
+  "sentence": "S02",
+  "question_type": "extractive",
+  "question_id": "54e945ea4b014e11ed4e1e61abc2aa9e68fea310",
+  "question": "What is best BLEU score of language style transfer authors got?",
+  "answer": "The best BLEU score of language style transfer authors got is 29.65 [3].",
+  "text": "The best BLEU score of language style transfer authors got is 29.65.",
+  "chunks": [
+   {
+    "item": "S02-c3",
+    "label": 3,
+    "chunk_id": "qasper:1910.03634v0:structure-256-para-sent:9:9d997a2c",
+    "text": "Methods ::: Shakespearizing Poetic Captions ::: Prediction\nFor both seq2seq models, we use the attention matrices returned at each decoder time step during inference, to compute the next word in the translated sequence if the decoder output at the current time step is the UNK token. We replace the UNKs in the target output with the highest aligned, maximum attention, source word. The seq2seq model with global attention gives the best results with an average target BLEU score of 29.65 on the style transfer dataset, compared with an average target BLEU score of 26.97 using the seq2seq model with pointer networks."
+   }
+  ]
+ },
+ {
+  "sentence": "S03",
+  "question_type": "extractive",
+  "question_id": "e79a5b6b6680bd2f63e9f4adbaae1d7795d81e38",
+  "question": "which non-english language had the best performance?",
+  "answer": "Russian [1]",
+  "text": "Russian",
+  "chunks": [
+   {
+    "item": "S03-c1",
+    "label": 1,
+    "chunk_id": "qasper:1806.04511v0:structure-256-para-sent:20:1b886aaf",
+    "text": "Discussion\nConsidering the improvements over the majority baseline achieved by the RNN model for both non-English (on the average 22.76% relative improvement; 15.82% relative improvement on Spanish, 72.71% vs. 84.21%, 30.53% relative improvement on Turkish, 56.97% vs. 74.36%, 37.13% relative improvement on Dutch, 59.63% vs. 81.77%, and 7.55% relative improvement on Russian, 79.60% vs. 85.62%) and English test sets (27.34% relative improvement), we can draw the conclusion that our model is robust to handle multiple languages. Building separate models for each language requires both labeled and unlabeled data. Even though having lots of labeled data in every language is the perfect case, it is unrealistic. Therefore, eliminating the resource requirement in this resource-constrained task is crucial. The fact that machine translation can be used in reusing models from different languages is promising for reducing the data requirements."
+   }
+  ]
+ },
+ {
+  "sentence": "S04",
+  "question_type": "extractive",
+  "question_id": "9bfebf8e5bc0bacf0af96a9a951eb7b96b359faa",
+  "question": "What were their results on the new dataset?",
+  "answer": "Their results showed that human evaluators preferred personalized model outputs over the baseline 63% of the time [3], and 60% of users found recipes from personalized models more coherent and preferable compared to baseline models [3].",
+  "text": "Their results showed that human evaluators preferred personalized model outputs over the baseline 63% of the time, and 60% of users found recipes from personalized models more coherent and preferable compared to baseline models.",
+  "chunks": [
+   {
+    "item": "S04-c3",
+    "label": 3,
+    "chunk_id": "qasper:1909.00105v0:structure-256-para-sent:21:e8a0aba0",
+    "text": "Experiments and Results\nHuman Evaluation: We presented 310 pairs of recipes for pairwise comparison BIBREF8 (details in appendix) between baseline and each personalized model, with results shown in tab:metricsontest. On average, human evaluators preferred personalized model outputs to baseline 63% of the time, confirming that personalized attention improves the semantic plausibility of generated recipes. We also performed a small-scale human coherence survey over 90 recipes, in which 60% of users found recipes generated by personalized models to be more coherent and preferable to those generated by baseline models."
+   }
+  ]
+ },
+ {
+  "sentence": "S05",
+  "question_type": "extractive",
+  "question_id": "c09a92e25e6a81369fcc4ae6045491f2690ccc10",
+  "question": "How do they compare lexicons?",
+  "answer": "They compare lexicons by contrasting their lexicon with existing ones like NRC [1], and by evaluating crowd and expert assessments of the lexicon [4].",
+  "text": "They compare lexicons by contrasting their lexicon with existing ones like NRC, and by evaluating crowd and expert assessments of the lexicon.",
+  "chunks": [
+   {
+    "item": "S05-c1",
+    "label": 1,
+    "chunk_id": "qasper:1710.04203v0:structure-256-para-sent:34:d9d65a58",
+    "text": "Limitations\nThe corpus may be limiting the term groups in the lexicon to specific domain-specific subjects. Comparisons with existing lexicons, such as NRC BIBREF21 indicate a moderate overlap with 40% common terms. Additionally, the number of annotations for a number of term groups is relatively low. However, the batch task of evaluation and annotation provided almost ten thousand annotations, and increased the mean number of annotations from 2.3 to 3.2."
+   },
+   {
+    "item": "S05-c4",
+    "label": 4,
+    "chunk_id": "qasper:1710.04203v0:structure-256-para-sent:0:c3f50a7b",
+    "text": "Abstract\nSentiment analysis aims to uncover emotions conveyed through information. In its simplest form, it is performed on a polarity basis, where the goal is to classify information with positive or negative emotion. Recent research has explored more nuanced ways to capture emotions that go beyond polarity. For these methods to work, they require a critical resource: a lexicon that is appropriate for the task at hand, in terms of the range of emotions it captures diversity. In the past, sentiment analysis lexicons have been created by experts, such as linguists and behavioural scientists, with strict rules. Lexicon evaluation was also performed by experts or gold standards. In our paper, we propose a crowdsourcing method for lexicon acquisition, which is scalable, cost-effective, and doesn't require experts or gold standards. We also compare crowd and expert evaluations of the lexicon, to assess the overall lexicon quality, and the evaluation capabilities of the crowd."
+   }
+  ]
+ },
+ {
+  "sentence": "S06",
+  "question_type": "extractive",
+  "question_id": "435570723b37ee1f5898c1a34ef86a0b2e8701bb",
+  "question": "Which translation systems do they compare against?",
+  "answer": "The translation systems they compared against are the hierarchical phrase-based system (baseline) and the context-independent and dependent scoring models. The baseline is a hierarchical phrase-based system with a 4-gram language model, as described in [1]. Additionally, they compared their models against the best-performing context-independent and dependent scoring models from their own framework, as detailed in [5]. \n\nAnswer: hierarchical phrase-based system [1], context-independent and dependent scoring models [5]",
+  "text": "Answer: hierarchical phrase-based system, context-independent and dependent scoring models",
+  "chunks": [
+   {
+    "item": "S06-c1",
+    "label": 1,
+    "chunk_id": "qasper:1801.10293v0:structure-256-para-sent:24:a928165d",
+    "text": "Machine Translation\nTo test this hypothesis, we built an English-Spanish MT system using the cdec decoder BIBREF27 for the entire training pipeline (word alignments, phrase extraction, feature weight tuning, and decoding). Corpora from the WMT 2011 evaluation was used to build the translation and language models, and for tuning (on news-test2010) and evaluation (on news-test2011), with scoring done using BLEU BIBREF28 . The baseline is a hierarchical phrase-based system BIBREF29 with a 4-gram language model, with feature weights tuned using MIRA BIBREF30 . For features, each translation rule is decorated with two lexical and phrasal features corresponding to the forward INLINEFORM0 and backward INLINEFORM1 conditional log frequencies, along with the log joint frequency INLINEFORM2 , the log frequency of the source phrase INLINEFORM3 , and whether the phrase pair or the source phrase is a singleton. Weights for the language model, glue rule, and word penalty are also tuned. This setup (Baseline) achieves scores en par with the published WMT results."
+   },
+   {
+    "item": "S06-c5",
+    "label": 5,
+    "chunk_id": "qasper:1801.10293v0:structure-256-para-sent:25:6c61e48a",
+    "text": "Machine Translation\nWe added the compositionality score as an additional feature, and also added two binary-valued features: the first indicates if the given translation rule has not been decorated with a compositionality score (either because it consists of non-terminals only or the lexical items in the translation rule are unigrams), and correspondingly the second feature indicates if the translation rule has been scored. Therefore, an appropriate additional baseline would be to mark translation rules with these indicator functions but without the scores, akin to identifying rules with phrases in them (Baseline + SegOn).\n\nTable TABREF40 presents the results of the MT evaluation, comparing the baselines to the best-performing context-independent and dependent scoring models from § SECREF36 . The scores have been averaged over three tuning runs with standard deviation in parentheses; bold results on the test set are statistically significant ( INLINEFORM0 ) with respect to the baseline. While knowledge of relative compositionality consistently helps, the improvements using the context-dependent scoring models, especially with the INLINEFORM1 concatenation model, are noticeably better."
+   }
+  ]
+ },
+ {
+  "sentence": "S07",
+  "question_type": "extractive",
+  "question_id": "e2b0cd30cf56a4b13f96426489367024310c3a05",
+  "question": "How is evaluation performed?",
+  "answer": "Evaluation is performed by comparing the model's output to the gold ranking of the DURel dataset using Spearman's $\\rho$ correlation [1], where higher values indicate better performance [3]. Models are also compared to two baselines: log-transformed normalized frequency difference (FD) and count vectors with column intersection and cosine distance (CNT + CI + CD) [4]. The DURel gold standard is based on annotators' ratings of semantic relatedness for word pairs across two time periods, with an average Spearman's $\\rho$ of 0.66 among annotators [3].",
+  "text": "Evaluation is performed by comparing the model's output to the gold ranking of the DURel dataset using Spearman's $\\rho$ correlation, where higher values indicate better performance.",
+  "chunks": [
+   {
+    "item": "S07-c1",
+    "label": 1,
+    "chunk_id": "qasper:2001.07786v0:structure-256-para-sent:6:f6f7d60a",
+    "text": "Evaluation ::: Metric\nThe output of a system with the target words in the predicted order is compared to the gold ranking of the DURel data set. As the metric to assess how well the model's output fits the gold ranking Spearman's $\\rho $ was used. The higher Spearman's rank-order correlation the better the system's performance."
+   },
+   {
+    "item": "S07-c3",
+    "label": 3,
+    "chunk_id": "qasper:2001.07786v0:structure-256-para-sent:5:482722ae",
+    "text": "Evaluation\nThe Diachronic Usage Relatedness (DURel) gold standard data set includes 22 target words and their varying degrees of semantic change BIBREF12. For each of these target words a random sample of use pairs from the DTA corpus was retrieved and annotated. The annotators were required to rate the pairs according to their semantic relatedness on a scale from 1 to 4 (unrelated - identical meanings) for two time periods. The average Spearman's $\\rho $ between the five annotators was 0.66 for 1,320 use paris. The resulting word ranking of the DURel data set is determined by the mean usage relatedness across two time periods and is used as the benchmark to compare the models’ performances in the shared task."
+   }
+  ]
+ },
+ {
+  "sentence": "S08",
+  "question_type": "extractive",
+  "question_id": "005cca3c8ab6c3a166e315547a2259020f318ffb",
+  "question": "How does proposed qualitative annotation schema looks like?",
+  "answer": "The proposed qualitative annotation schema categorizes gold standards based on linguistic complexity, required reasoning, background knowledge, and factual correctness [2]. It further integrates linguistic features from the GLUE suite [3] and reasoning categories from the WorldTree dataset [3]. The schema also includes a metric based on lexical cues to approximate task complexity [2].",
+  "text": "The schema also includes a metric based on lexical cues to approximate task complexity.",
+  "chunks": [
+   {
+    "item": "S08-c2",
+    "label": 2,
+    "chunk_id": "qasper:2003.04642v0:structure-256-para-sent:8:4bfa3578",
+    "text": "Framework for MRC Gold Standard Analysis ::: Dimensions of Interest\nIn this section we describe a methodology to categorise gold standards according to linguistic complexity, required reasoning and background knowledge, and their factual correctness. Specifically, we use those dimensions as high-level categories of a qualitative annotation schema for annotating question, expected answer and the corresponding context. We further enrich the qualitative annotations by a metric based on lexical cues in order to approximate a lower bound for the complexity of the reading comprehension task. By sampling entries from each gold standard and annotating them, we obtain measurable results and thus are able to make observations about the challenges present in that gold standard data."
+   }
+  ]
+ },
+ {
+  "sentence": "S09",
+  "question_type": "extractive",
+  "question_id": "fe1dcd6ef1f8618bbceee418f07cafe63a8efe08",
+  "question": "What is the language model combination technique used in the paper?",
+  "answer": "The language model combination technique used in the paper is combining language models based on perplexity calculated on a small text of a domain that we want to optimize for [4]. This technique involves using a pruned language model in the first pass for decoding and a un-pruned language model in the second pass to rescore decoded lattices [4].",
+  "text": "This technique involves using a pruned language model in the first pass for decoding and a un-pruned language model in the second pass to rescore decoded lattices.",
+  "chunks": [
+   {
+    "item": "S09-c4",
+    "label": 4,
+    "chunk_id": "qasper:1910.05603v0:structure-256-para-sent:4:50e12b77",
+    "text": "System Description ::: Language Model\nOur language model training pipeline is described in Figure FIGREF6. First, we collect and clean large amount of text data from various sources including news, manual labeled conversation video. Then, the collected data is categorized into domains. This is an important step as the ASR performance is highly depends on the speech domain. After that, the text is fed into a data cleaning pipeline to clean bad tone marks, normalizing numbers and dates.\n\nFor each domain text data, we train an n-gram language modelBIBREF1 that is optimized for that domain. As the results, we have more than 10 language models. These language models are combined based on perplexity calculated on a small text of a domain that we want to optimize for.\n\nIn our system, the language model is used in 2 pass-decoding. In the first pass, the language model is combined with acoustic and lexicon model to form a full decoding graph. In this stage, the language model is typically small in size by utilizing pruning method. In the second stage, we use a un-pruned language model to rescore decoded lattices."
+   }
+  ]
+ },
+ {
+  "sentence": "S10",
+  "question_type": "extractive",
+  "question_id": "5913930ce597513299e4b630df5e5153f3618038",
+  "question": "How does their model improve interpretability compared to softmax transformers?",
+  "answer": "Their model improves interpretability by enabling sparse attention through α-entmax, which allows heads to focus on specific tokens or sequences, facilitating specialization and clearer analysis [4][5]. This sparsity helps uncover distinct head behaviors compared to dense softmax attention [2][5].",
+  "text": "Their model improves interpretability by enabling sparse attention through α-entmax, which allows heads to focus on specific tokens or sequences, facilitating specialization and clearer analysis.",
+  "chunks": [
+   {
+    "item": "S10-c4",
+    "label": 4,
+    "chunk_id": "qasper:1909.00015v0:structure-256-para-sent:2:df08d706",
+    "text": "Introduction\nThe attention distribution of each head is predicted typically using the softmax normalizing transform. As a result, all context words have non-zero attention weight. Recent work on single attention architectures suggest that using sparse normalizing transforms in attention mechanisms such as sparsemax – which can yield exactly zero probabilities for irrelevant words – may improve performance and interpretability BIBREF12, BIBREF13, BIBREF14. Qualitative analysis of attention heads BIBREF0 suggests that, depending on what phenomena they capture, heads tend to favor flatter or more peaked distributions.\n\nRecent works have proposed sparse Transformers BIBREF10 and adaptive span Transformers BIBREF11. However, the “sparsity\" of those models only limits the attention to a contiguous span of past tokens, while in this work we propose a highly adaptive Transformer model that is capable of attending to a sparse set of words that are not necessarily contiguous. Figure FIGREF1 shows the relationship of these methods with ours.\n\nOur contributions are the following:\n\nWe introduce sparse attention into the Transformer architecture, showing that it eases interpretability and leads to slight accuracy gains."
+   },
+   {
+    "item": "S10-c5",
+    "label": 5,
+    "chunk_id": "qasper:1909.00015v0:structure-256-para-sent:0:a0b7bcf7",
+    "text": "Abstract\nAttention mechanisms have become ubiquitous in NLP. Recent architectures, notably the Transformer, learn powerful context-aware word representations through layered, multi-headed attention. The multiple heads learn diverse types of word relationships. However, with standard softmax attention, all attention heads are dense, assigning a non-zero weight to all context words. In this work, we introduce the adaptively sparse Transformer, wherein attention heads have flexible, context-dependent sparsity patterns. This sparsity is accomplished by replacing softmax with $\\alpha$-entmax: a differentiable generalization of softmax that allows low-scoring words to receive precisely zero weight. Moreover, we derive a method to automatically learn the $\\alpha$ parameter -- which controls the shape and sparsity of $\\alpha$-entmax -- allowing attention heads to choose between focused or spread-out behavior. Our adaptively sparse Transformer improves interpretability and head diversity when compared to softmax Transformers on machine translation datasets. Findings of the quantitative and qualitative analysis of our approach include that heads in different layers learn different sparsity preferences and tend to be more diverse in their attention distributions than softmax Transformers. Furthermore, at no cost in accuracy, sparsity in attention heads helps to uncover different head specializations."
+   }
+  ]
+ },
+ {
+  "sentence": "S11",
+  "question_type": "extractive",
+  "question_id": "afb77b11da41cd0edcaa496d3f634d18e48d7168",
+  "question": "What new fine-tuning methods are presented?",
+  "answer": "BERT based fine-tuning [2], Insert nonlinear layers [2], Inserting a CNN [5]",
+  "text": "BERT based fine-tuning, Insert nonlinear layers, Inserting a CNN",
+  "chunks": [
+   {
+    "item": "S11-c2",
+    "label": 2,
+    "chunk_id": "qasper:1910.12574v0:structure-256-para-sent:16:197930ab",
+    "text": "Methodology ::: Fine-Tuning Strategies\n1. BERT based fine-tuning: In the first approach, which is shown in Figure FIGREF8, very few changes are applied to the BERTbase. In this architecture, only the [CLS] token output provided by BERT is used. The [CLS] output, which is equivalent to the [CLS] token output of the 12th transformer encoder, a vector of size 768, is given as input to a fully connected network without hidden layer. The softmax activation function is applied to the hidden layer to classify.\n\n2. Insert nonlinear layers: Here, the first architecture is upgraded and an architecture with a more robust classifier is provided in which instead of using a fully connected network without hidden layer, a fully connected network with two hidden layers in size 768 is used. The first two layers use the Leaky Relu activation function with negative slope = 0.01, but the final layer, as the first architecture, uses softmax activation function as shown in Figure FIGREF8."
+   },
+   {
+    "item": "S11-c5",
+    "label": 5,
+    "chunk_id": "qasper:1910.12574v0:structure-256-para-sent:25:cfd7a7b6",
+    "text": "Experiments and Results ::: Implementation and Results Analysis\nAccording to Table TABREF17, F1-scores of all BERT based fine-tuning strategies except BERT + nonlinear classifier on top of BERT are higher than the baselines. Using the pre-trained BERT model as initial embeddings and fine-tuning the model with a fully connected linear classifier (BERTbase) outperforms previous baselines yielding F1-score of 81% and 91% for datasets of Waseem and Davidson respectively. Inserting a CNN to pre-trained BERT model for fine-tuning on downstream task provides the best results as F1- score of 88% and 92% for datasets of Waseem and Davidson and it clearly exceeds the baselines. Intuitively, this makes sense that combining all pre-trained BERT layers with a CNN yields better results in which our model uses all the information included in different layers of pre-trained BERT during the fine-tuning phase. This information contains both syntactical and contextual features coming from lower layers to higher layers of BERT."
+   }
+  ]
+ },
+ {
+  "sentence": "S12",
+  "question_type": "extractive",
+  "question_id": "d3aa0449708cc861a51551b128d73e11d62207d2",
+  "question": "What they use in their propsoed framework?",
+  "answer": "They use entity re-ranking (first-step relation detection) [4], relation detection (second-step) [4], query generation combining entity and relation scores via Eq. 19 [3], and optional constraint detection [2]. The framework also involves two-step relation detection [1].",
+  "text": "They use entity re-ranking (first-step relation detection), relation detection (second-step), query generation combining entity and relation scores via Eq. 19, and optional constraint detection.",
+  "chunks": [
+   {
+    "item": "S12-c4",
+    "label": 4,
+    "chunk_id": "qasper:1704.06194v0:structure-256-para-sent:23:11a005eb",
+    "text": "KBQA Enhanced by Relation Detection\n[htbp] InputInput OutputOutput Top query tuple $(\\hat{e},\\hat{r}, \\lbrace (c, r_c)\\rbrace )$ Entity Re-Ranking (first-step relation detection): Use the raw question text as input for a relation detector to score all relations in the KB that are associated to the entities in $EL_K(q)$ ; use the relation scores to re-rank $EL_K(q)$ and generate a shorter list $EL^{\\prime }_{K^{\\prime }}(q)$ containing the top- $K^{\\prime }$ entity candidates (Section \"Entity Re-Ranking\" ) Relation Detection: Detect relation(s) using the reformatted question text in which the topic entity is replaced by a special token $<$ e $>$ (Section \"Relation Detection\" ) Query Generation: Combine the scores from step 1 and 2, and select the top pair $(\\hat{e},\\hat{r})$ (Section \"Query Generation\" ) Constraint Detection (optional): Compute similarity between $q$ and any neighbor entity $c$ of the entities along $EL_K(q)$0 (connecting by a relation $EL_K(q)$1 ) ,"
+   },
+   {
+    "item": "S12-c3",
+    "label": 3,
+    "chunk_id": "qasper:1704.06194v0:structure-256-para-sent:31:a72c795c",
+    "text": "Query Generation\nFinally, the system outputs the $<$ entity, relation (or core-chain) $>$ pair $(\\hat{e}, \\hat{r})$ according to: \n\n$$s(\\hat{e}, \\hat{r}; q) =& \\max _{e \\in EL_{K^{\\prime }}^{^{\\prime }}(q), r \\in R_e} \\left( \\beta \\cdot s_{\\mathrm {rerank}}(e;q) \\right. \\nonumber \\\\\n&\\left.+ (1-\\beta ) \\cdot s_{\\mathrm {rel}} (r;e,q) \\right),\n\\nonumber $$   (Eq. 19) \n\n where $\\beta $ is a hyperparameter to be tuned."
+   },
+   {
+    "item": "S12-c2",
+    "label": 2,
+    "chunk_id": "qasper:1704.06194v0:structure-256-para-sent:24:c72f1814",
+    "text": "KBQA Enhanced by Relation Detection\nadd the high scoring $EL_K(q)$2 and $EL_K(q)$3 to the query (Section \"Constraint Detection\" )."
+   }
+  ]
+ },
+ {
+  "sentence": "S13",
+  "question_type": "extractive",
+  "question_id": "e9cfbfdf30e48cffdeca58d4ac6fdd66a8b27d7a",
+  "question": "How were crowd workers instructed to identify important elements in large document collections?",
+  "answer": "The crowd workers were instructed to evaluate propositions based on the document cluster's topic description rather than reading full documents. They were asked to score each proposition's importance without accessing the actual documents, relying instead on the provided topic context and propositions. This approach is described as simple, intuitive, and small-scale [1][2][4]. The task design ensures workers focus on propositions and their relevance to the cluster's topic, avoiding the need to process entire documents [2][5].",
+  "text": "The task design ensures workers focus on propositions and their relevance to the cluster's topic, avoiding the need to process entire documents.",
+  "chunks": [
+   {
+    "item": "S13-c2",
+    "label": 2,
+    "chunk_id": "qasper:1704.04452v0:structure-256-para-sent:11:e5cc7ca2",
+    "text": "Task Design\nWe break down the task of importance annotation to the level of single propositions. The goal of our crowdsourcing scheme is to obtain a score for each proposition indicating its importance in a document cluster, such that a ranking according to the score would reveal what is most important and should be included in a summary. In contrast to other work, we do not show the documents to the workers at all, but provide only a description of the document cluster's topic along with the propositions. This ensures that tasks are small, simple and can be done quickly (see Figure FIGREF4 ).\n\nIn preliminary tests, we found that this design, despite the minimal context, works reasonably on our focused clusters on common educational topics. For instance, consider Figure FIGREF4 : One can easily say that P1 is more important than P2 without reading the documents.\n\nWe distinguish two task variants:"
+   },
+   {
+    "item": "S13-c5",
+    "label": 5,
+    "chunk_id": "qasper:1704.04452v0:structure-256-para-sent:16:3bfd2091",
+    "text": "Pilot Study\nIn addition to the reliability studies, we extrinsically evaluated the annotations in the task of summary evaluation. For each of the 58 peer summaries in TAC2008, we calculated a score as the sum of the importance estimates of the propositions it contains. Table TABREF13 shows how these peer scores, averaged over the three topics, correlate with the manual responsiveness scores assigned during TAC in comparison to ROUGE-2 and Pyramid scores. The results demonstrate that with both task designs, we obtain importance annotations that are similarly useful for summary evaluation as pyramid annotations or gold-standard summaries (used for ROUGE).\n\nBased on the pilot study, we conclude that the proposed crowdsourcing scheme allows us to obtain proper importance annotations for propositions. As workers are not required to read all documents, the annotation is much more efficient and scalable as with traditional methods."
+   }
+  ]
+ },
+ {
+  "sentence": "S14",
+  "question_type": "abstractive",
+  "question_id": "ab9b0bde6113ffef8eb1c39919d21e5913a05081",
+  "question": "What are their results on both datasets?",
+  "answer": "The results show that the combination of pattern-based and machine translation approaches (Ann+PAT+MT) achieved the best performance on all datasets, including FCE and CoNLL 2014 [2][4]. The final combination system was also significantly better than Felice2014a on all three datasets [1]. Artificial data improved error detection performance across both datasets [3][4].",
+  "text": "The results show that the combination of pattern-based and machine translation approaches (Ann+PAT+MT) achieved the best performance on all datasets, including FCE and CoNLL 2014.",
+  "chunks": [
+   {
+    "item": "S14-c2",
+    "label": 2,
+    "chunk_id": "qasper:1707.05236v0:structure-256-para-sent:12:3511ca6e",
+    "text": "Evaluation\nThe results show that error detection performance is substantially improved by making use of artificially generated data, created by any of the described methods. When comparing the error generation system by Felice2014a (FY14) with our pattern-based (PAT) and machine translation (MT) approaches, we see that the latter methods covering all error types consistently improve performance. While the added error types tend to be less frequent and more complicated to capture, the added coverage is indeed beneficial for error detection. Combining the pattern-based approach with the machine translation system (Ann+PAT+MT) gave the best overall performance on all datasets. The two frameworks learn to generate different types of errors, and taking advantage of both leads to substantial improvements in error detection."
+   },
+   {
+    "item": "S14-c4",
+    "label": 4,
+    "chunk_id": "qasper:1707.05236v0:structure-256-para-sent:16:fb687fce",
+    "text": "Conclusion\nThis paper investigated two AEG methods, in order to create additional training data for error detection. First, we explored a method using textual patterns learned from an annotated corpus, which are used for inserting errors into correct input text. In addition, we proposed formulating error generation as an MT framework, learning to translate from grammatically correct to incorrect sentences.\n\nThe addition of artificial data to the training process was evaluated on three error detection annotations, using the FCE and CoNLL 2014 datasets. Making use of artificial data provided improvements for all data generation methods. By relaxing the type restrictions and generating all types of errors, our pattern-based method consistently outperformed the system by Felice2014a. The combination of the pattern-based method with the machine translation approach gave further substantial improvements and the best performance on all datasets."
+   }
+  ]
+ },
+ {
+  "sentence": "S15",
+  "question_type": "abstractive",
+  "question_id": "f0b1d8c0a44dbe8d444a5dbe2d9c3d51e048a6f6",
+  "question": "How big is the difference in performance between proposed model and baselines?",
+  "answer": "The evidence states that ALOHA \"achieves a significant improvement\" and \"a significant boost in Hits@n/N accuracy\" compared to baselines [4], but does not quantify the exact performance difference (e.g., percentage points or numerical values). Thus, while the difference is described as significant, the magnitude is not specified.  \n\nUnanswerable [4][5]",
+  "text": "The evidence states that ALOHA \"achieves a significant improvement\" and \"a significant boost in Hits@n/N accuracy\" compared to baselines, but does not quantify the exact performance difference (e.g., percentage points or numerical values).",
+  "chunks": [
+   {
+    "item": "S15-c4",
+    "label": 4,
+    "chunk_id": "qasper:1910.08293v0:structure-256-para-sent:47:28ea3848",
+    "text": "Results and Analysis ::: Performance: ALOHA vs. Baselines\nALOHA, combined with the HLAs and dialogue dataset, achieves a significant improvement on the target character language style retrieval task compared to the baseline open-domain chatbot models. As observed from Table TABREF44, ALOHA achieves a significant boost in Hits@n/N accuracy and other metrics for retrieving the correct response of five diverse characters with different identities (see Section SECREF28)."
+   }
+  ]
+ },
+ {
+  "sentence": "S16",
+  "question_type": "abstractive",
+  "question_id": "0ec56e15005a627d0b478a67fd627a9d85c3920e",
+  "question": "What can word subspace represent?",
+  "answer": "Word subspace can represent the context of texts [1], allowing comparison of similarity between contexts via canonical angles [2]. It captures semantic relationships between words, enabling distance calculations and arithmetic operations that reflect semantic meanings [5]. Additionally, it incorporates term-frequency information to enhance text characterization [3].",
+  "text": "It captures semantic relationships between words, enabling distance calculations and arithmetic operations that reflect semantic meanings.",
+  "chunks": [
+   {
+    "item": "S16-c5",
+    "label": 5,
+    "chunk_id": "qasper:1806.03125v0:structure-256-para-sent:18:8bf6d2f7",
+    "text": "Word subspace\nAll methods mentioned above utilize the BOW features to represent a document. Although this representation is simple and powerful, its main problem lies on disregarding the word semantics within a document, where the context and meaning could offer many benefits to the model such as identification of synonyms.\n\nIn our formulation, words are represented as vectors in a real-valued feature vector space $\\mathbb {R}^{p}$ , by using word2vec BIBREF8 . Through this representation, it is possible to calculate the distance between two words, where words from similar contexts are represented by vectors close to each other, while words from different contexts are represented as far apart vectors. Also, this representation brings the new concept of arithmetic operations between words, where operations such as addition and subtraction carry meaning (eg., “king”-“man”+“woman”=“queen”) BIBREF20 ."
+   }
+  ]
+ },
+ {
+  "sentence": "S17",
+  "question_type": "abstractive",
+  "question_id": "603fee7314fa65261812157ddfc2c544277fcf90",
+  "question": "How larger are the training sets of these versions of ELMo compared to the previous ones?",
+  "answer": "The training sets for the new ELMo versions are significantly larger. The previous ELMoForManyLangs models used 20-million-word datasets [3], while the new models were trained on corpora with about 280 million tokens [5]. This represents a 14-fold increase in data size. The new models also used larger corpora compared to the original ELMo, which was trained on a one billion word corpus [1]. \n\nThe new training sets are much larger than previous ones, with specific comparisons showing 280 million tokens versus 20 million words [3][5].",
+  "text": "The new training sets are much larger than previous ones, with specific comparisons showing 280 million tokens versus 20 million words.",
+  "chunks": [
+   {
+    "item": "S17-c3",
+    "label": 3,
+    "chunk_id": "qasper:1911.10049v0:structure-256-para-sent:8:6073389c",
+    "text": "ELMo ::: ELMoForManyLangs\nRecently, ELMoForManyLangs BIBREF6 project released pre-trained ELMo models for a number of different languages BIBREF7. These models, however, were trained on a significantly smaller datasets. They used 20-million-words data randomly sampled from the raw text released by the CoNLL 2017 Shared Task - Automatically Annotated Raw Texts and Word Embeddings BIBREF8, which is a combination of Wikipedia dump and common crawl. The quality of these models is questionable. For example, we compared the Latvian model by ELMoForManyLangs with a model we trained on a complete (wikidump + common crawl) Latvian corpus, which has about 280 million tokens. The difference of each model on the word analogy task is shown in Figure FIGREF16 in Section SECREF5. As the results of the ELMoForManyLangs embeddings are significantly worse than using the full corpus, we can conclude that these embeddings are not of sufficient quality. For that reason, we computed ELMo embeddings for seven languages on much larger corpora."
+   },
+   {
+    "item": "S17-c5",
+    "label": 5,
+    "chunk_id": "qasper:1911.10049v0:structure-256-para-sent:10:98014d39",
+    "text": "Training Data\nWe trained ELMo models for seven languages: Slovenian, Croatian, Finnish, Estonian, Latvian, Lithuanian and Swedish. To obtain high-quality embeddings, we used large monolingual corpora from various sources for each language. Some corpora are available online under permissive licences, others are available only for research purposes or have limited availability. The corpora used in training datasets are a mix of news articles and general web crawl, which we preprocessed and deduplicated. Below we shortly describe the used corpora in alphabetical order of the involved languages. Their names and sizes are summarized in Table TABREF3."
+   }
+  ]
+ },
+ {
+  "sentence": "S18",
+  "question_type": "abstractive",
+  "question_id": "603fee7314fa65261812157ddfc2c544277fcf90",
+  "question": "How larger are the training sets of these versions of ELMo compared to the previous ones?",
+  "answer": "The training sets for the new ELMo versions are significantly larger. The previous ELMoForManyLangs models used 20-million-word datasets [3], while the new models were trained on corpora with about 280 million tokens [5]. This represents a 14-fold increase in data size. The new models also used larger corpora compared to the original ELMo, which was trained on a one billion word corpus [1]. \n\nThe new training sets are much larger than previous ones, with specific comparisons showing 280 million tokens versus 20 million words [3][5].",
+  "text": "The new models also used larger corpora compared to the original ELMo, which was trained on a one billion word corpus.",
+  "chunks": [
+   {
+    "item": "S18-c1",
+    "label": 1,
+    "chunk_id": "qasper:1911.10049v0:structure-256-para-sent:7:9d0374e3",
+    "text": "ELMo\nAlthough ELMo is trained on character level and is able to handle out-of-vocabulary words, a vocabulary file containing most common tokens is used for efficiency during training and embedding generation. The original ELMo model was trained on a one billion word large English corpus, with a given vocabulary file of about 800,000 words. Later, ELMo models for other languages were trained as well, but limited to larger languages with many resources, like German and Japanese."
+   }
+  ]
+ },
+ {
+  "sentence": "S19",
+  "question_type": "abstractive",
+  "question_id": "600b097475b30480407ce1de81c28c54a0b3b2f8",
+  "question": "What are the baselines used in the paper?",
+  "answer": "The baselines used are (1) GloVe vectors trained on their corpus versus pre-trained from Wikipedia and Gigaword [3], and (2) ensembling versus final hidden state for predictions [3]. Additionally, they compared standard binary cross-entropy loss with the DMK loss [4].",
+  "text": "Additionally, they compared standard binary cross-entropy loss with the DMK loss.",
+  "chunks": [
+   {
+    "item": "S19-c4",
+    "label": 4,
+    "chunk_id": "qasper:1806.11432v0:structure-256-para-sent:16:abd49641",
+    "text": "Experiments\nSeeking to create a model which could generate and discriminate a “high-occupancy listing description”, we wanted to evaluate the capabilities of a generative adversarial network trained on either the standard binary cross-entropy loss or the DMK loss proposed above. Common to both models was the decision to alternate between training the generator for 50 steps and the discriminator for 2000 steps. We leave further tuning of the models to future research as each occasionally falls into unideal local optima within 20 iterations. One potential culprit is the step imbalance between generator and discriminator – should either learn at a much faster rate than the other, one component is liable to be “defeated\" and cease to learn the training data."
+   }
+  ]
+ },
+ {
+  "sentence": "S20",
+  "question_type": "abstractive",
+  "question_id": "ad1be65c4f0655ac5c902d17f05454c0d4c4a15d",
+  "question": "what dataset statistics are provided?",
+  "answer": "The dataset statistics provided include:  \n- Training (9,731 questions on 1,470 texts), development (1,411 questions on 219 texts), and test set (2,797 questions on 430 texts) splits [1].  \n- Average text, question, and answer lengths of 196.0 words, 7.8 words, and 3.6 words, respectively [1].  \n- 6.7 questions per text on average [1].  \n- 52% of 14,074 questions could be answered, with 10,160 text-based and 3,914 script-based answers [5].  \n- Final dataset comprises 13,939 questions, 3,827 requiring commonsense knowledge (27.4%) [5].  \n\nThese statistics are cited from the evidence.",
+  "text": "- 6.7 questions per text on average.",
+  "chunks": [
+   {
+    "item": "S20-c1",
+    "label": 1,
+    "chunk_id": "qasper:1803.05223v0:structure-256-para-sent:17:0e6f668d",
+    "text": "Data Statistics\nWe split the dataset into training (9,731 questions on 1,470 texts), development (1,411 questions on 219 texts), and test set (2,797 questions on 430 texts). Each text appears only in one of the three sets. The complete set of texts for 5 scenarios was held out for the test set. The average text, question, and answer length is 196.0 words, 7.8 words, and 3.6 words, respectively. On average, there are 6.7 questions per text.\n\nFigure FIGREF21 shows the distribution of question types in the dataset, which we identified using simple heuristics based on the first words of a question: Yes/no questions were identified as questions starting with an auxiliary or modal verb, all other question types were determined based on the question word."
+   }
+  ]
+ },
+ {
+  "sentence": "S21",
+  "question_type": "abstractive",
+  "question_id": "74b338d5352fe1a6fd592e38269a4c81fe79b866",
+  "question": "What cognitive features are used?",
+  "answer": "The cognitive features used include gaze features such as **Average Fixation Duration per Word** and **Largest Regression Position** [1], **reading time** [2], and **simple gaze-based features** derived from eye-movement patterns like fixations, saccades, skips, and regressions [3]. Additionally, **complex features derived from a graph structure** are mentioned [5]. These features are based on readers' eye-movement data and are integrated with traditional linguistic features for sarcasm detection.",
+  "text": "The cognitive features used include gaze features such as **Average Fixation Duration per Word** and **Largest Regression Position**, **reading time**, and **simple gaze-based features** derived from eye-movement patterns like fixations, saccades, skips, and regressions.",
+  "chunks": [
+   {
+    "item": "S21-c1",
+    "label": 1,
+    "chunk_id": "qasper:1701.05574v0:structure-256-para-sent:25:3aac1228",
+    "text": "How Effective are the Cognitive Features\nWe examine the effectiveness of cognitive features on the classification accuracy by varying the input training data size. To examine this, we create a stratified (keeping the class ratio constant) random train-test split of 80%:20%. We train our classifier with 100%, 90%, 80% and 70% of the training data with our whole feature set, and the feature combination from joshi2015harnessing. The goodness of our system is demonstrated by improvements in F-score and Kappa statistics, shown in Figure FIGREF22 .\n\nWe further analyze the importance of features by ranking the features based on (a) Chi squared test, and (b) Information Gain test, using Weka's attribute selection module. Figure FIGREF23 shows the top 20 ranked features produced by both the tests. For both the cases, we observe 16 out of top 20 features to be gaze features. Further, in each of the cases, Average Fixation Duration per Word and Largest Regression Position are seen to be the two most significant features."
+   },
+   {
+    "item": "S21-c2",
+    "label": 2,
+    "chunk_id": "qasper:1701.05574v0:structure-256-para-sent:24:8044955f",
+    "text": "Considering Reading Time as a Cognitive Feature along with Sarcasm Features\nOne may argue that, considering simple measures of reading effort like “reading time” as cognitive feature instead of the expensive eye-tracking features for sarcasm detection may be a cost-effective solution. To examine this, we repeated our experiments with “reading time” considered as the only cognitive feature, augmented with the textual features. The F-scores of all the classifiers turn out to be close to that of the classifiers considering sarcasm feature alone and the difference in the improvement is not statistically significant ( INLINEFORM0 ). One the other hand, F-scores with gaze features are superior to the F-scores when reading time is considered as a cognitive feature."
+   },
+   {
+    "item": "S21-c3",
+    "label": 3,
+    "chunk_id": "qasper:1701.05574v0:structure-256-para-sent:18:026f0d25",
+    "text": "Simple Gaze Based Features\nReaders' eye-movement behavior, characterized by fixations, forward saccades, skips and regressions, can be directly quantified by simple statistical aggregation (i.e., either computing features for individual participants and then averaging or performing a multi-instance based learning as explained in section SECREF6 ). Since these eye-movement attributes relate to the cognitive process in reading BIBREF17 , we consider these as features in our model. Some of these features have been reported by sarcasmunderstandability for modeling sarcasm understandability of readers. However, as far as we know, these features are being introduced in NLP tasks like textual sarcasm detection for the first time. The values of these features are believed to increase with the increase in the degree of surprisal caused by incongruity in text (except skip count, which will decrease)."
+   }
+  ]
+ },
+ {
+  "sentence": "S22",
+  "question_type": "abstractive",
+  "question_id": "c87fcc98625e82fdb494ff0f5309319620d69040",
+  "question": "What are hashtag features?",
+  "answer": "Hashtag features refer to the existence of hashtags in tweets, used as an additional feature alongside unigrams in SVM classifiers [2]. This feature indicates whether a tweet contains hashtags, which is evaluated in Table TABREF2 [1]. The authors explicitly use this binary presence/absence as a feature for stance detection [5].",
+  "text": "Hashtag features refer to the existence of hashtags in tweets, used as an additional feature alongside unigrams in SVM classifiers.",
+  "chunks": [
+   {
+    "item": "S22-c2",
+    "label": 2,
+    "chunk_id": "qasper:1706.06894v0:structure-256-para-sent:14:704a8b4c",
+    "text": "Stance Detection Experiments Using SVM Classifiers\nWe have also evaluated SVM classifiers which use only bigrams as features, as ngram-based classifiers have been reported to perform better for the stance detection problem BIBREF0 . However, we have observed that using bigrams as the sole features of the SVM classifiers leads to quite poor results. This observation may be due to the relatively limited size of the tweet data set employed. Still, we can conclude that unigram-based features lead to superior results compared to the results obtained using bigrams as features, based on our experiments on our data set. Yet, ngram-based features may be employed on the extended versions of the data set to verify this conclusion within the course of future work.\n\nWith an intention to exploit the contribution of hashtag use to stance detection, we have also used the existence of hashtags in tweets as an additional feature to unigrams. The corresponding evaluation results of the SVM classifiers using unigrams together the existence of hashtags as features are provided in Table TABREF2 ."
+   }
+  ]
+ },
+ {
+  "sentence": "S23",
+  "question_type": "yes_no",
+  "question_id": "dac087e1328e65ca08f66d8b5307d6624bf3943f",
+  "question": "LDA is an unsupervised method; is this paper introducing an unsupervised approach to spam detection?",
+  "answer": "yes [1][2][3][4]",
+  "text": "yes",
+  "chunks": [
+   {
+    "item": "S23-c1",
+    "label": 1,
+    "chunk_id": "qasper:1604.08504v0:structure-256-para-sent:0:8751733c",
+    "text": "Abstract\nSpammer detection on social network is a challenging problem. The rigid anti-spam rules have resulted in emergence of\"smart\"spammers. They resemble legitimate users who are difficult to identify. In this paper, we present a novel spammer classification approach based on Latent Dirichlet Allocation(LDA), a topic model. Our approach extracts both the local and the global information of topic distribution patterns, which capture the essence of spamming. Tested on one benchmark dataset and one self-collected dataset, our proposed method outperforms other state-of-the-art methods in terms of averaged F1-score."
+   },
+   {
+    "item": "S23-c2",
+    "label": 2,
+    "chunk_id": "qasper:1604.08504v0:structure-256-para-sent:3:fb6521af",
+    "text": "Introduction\nIn this paper, we propose an efficient feature extraction method. In this method, two new topic-based features are extracted and used to discriminate human-like spammers from legitimate users. We consider the historical tweets of each user as a document and use the Latent Dirichlet Allocation (LDA) model to compute the topic distribution for each user. Based on the calculated topic probability, two topic-based features, the Local Outlier Standard Score (LOSS) which captures the user's interests on different topics and the Global Outlier Standard Score (GOSS) which reveals the user's interests on specific topic in comparison with other users', are extracted. The two features contain both local and global information, and the combination of them can distinguish human-like spammers effectively.\n\nTo the best of our knowledge, it is the first time that features based on topic distributions are used in spammer classification. Experimental results on one public dataset and one self-collected dataset further validate that the two sets of extracted topic-based features get excellent performance on human-like spammer classification problem compared with other state-of-the-art methods. In addition, we build a Weibo dataset, which contains both legitimate users and spammers.\n\nTo summarize, our major contributions are two-fold:"
+   },
+   {
+    "item": "S23-c3",
+    "label": 3,
+    "chunk_id": "qasper:1604.08504v0:structure-256-para-sent:22:94c45cfb",
+    "text": "Conclusion\nIn this paper, we propose a novel feature extraction method to effectively detect \"smart\" spammers who post seemingly legitimate tweets and are thus difficult to identify by existing spammer classification methods. Using the LDA model, we obtain the topic probability for each Twitter user. By utilizing the topic probability result, we extract our two topic-based features: GOSS and LOSS which represent the account with global and local information. Experimental results on a public dataset and a self-built Chinese microblog dataset validate the effectiveness of the proposed features."
+   },
+   {
+    "item": "S23-c4",
+    "label": 4,
+    "chunk_id": "qasper:1604.08504v0:structure-256-para-sent:10:dbc427c4",
+    "text": "LDA model\nIn this paper, $W=\\left\\lbrace  w_{i1},w_{i2},...,w_{iM}\\right\\rbrace $1 , $W=\\left\\lbrace  w_{i1},w_{i2},...,w_{iM}\\right\\rbrace $2 and $W=\\left\\lbrace  w_{i1},w_{i2},...,w_{iM}\\right\\rbrace $3 are empirically set to 0.3, 0.01 and 15. The entire content of each Twitter user is regarded as one document. We adopt Gibbs Sampling BIBREF8 to speed up the inference of LDA. Based on LDA, we can get the topic probabilities for all users in the employed dataset as: $W=\\left\\lbrace  w_{i1},w_{i2},...,w_{iM}\\right\\rbrace $4 , where $W=\\left\\lbrace  w_{i1},w_{i2},...,w_{iM}\\right\\rbrace $5 is the number of users."
+   }
+  ]
+ },
+ {
+  "sentence": "S24",
+  "question_type": "yes_no",
+  "question_id": "d27438b11bc70e706431dda0af2b1c0b0d209f96",
+  "question": "Were any of these tasks evaluated in any previous work?",
+  "answer": "Yes [1][2][3][4][5]. The tasks evaluated in previous work include subject-verb agreement and reflexive anaphora phenomena. Evidence [1] and [2] describe evaluations on subject-verb agreement using LSTM models and perplexity comparisons. Evidence [3] explicitly mentions subject-verb agreement stimuli, and [4] notes adapting protocols from BIBREF1, BIBREF2, and BIBREF3 (which include agreement tasks). Reflexive anaphora is also mentioned in [3].",
+  "text": "Evidence and describe evaluations on subject-verb agreement using LSTM models and perplexity comparisons.",
+  "chunks": [
+   {
+    "item": "S24-c1",
+    "label": 1,
+    "chunk_id": "qasper:1901.05287v0:structure-256-para-sent:4:078024ff",
+    "text": "Previous setups\nAll three previous work use uni-directional language-model-like models.\n\n BIBREF1 start with existing sentences from wikipedia that contain a present-tense verb. They feed each sentence word by word into an LSTM, stop right before the focus verb, and ask the model to predict a binary plural/singular decision (supervised setup) or compare the probability assigned by a pre-trained language model (LM) to the plural vs singular forms of the verb (LM setup). The evaluation is then performed on sentences with “agreement attractors” in which at there is at least one noun between the verb and its subject, and all of the nouns between the verb and subject are of the opposite number from the subject."
+   },
+   {
+    "item": "S24-c2",
+    "label": 2,
+    "chunk_id": "qasper:1901.05287v0:structure-256-para-sent:6:2eacc85a",
+    "text": "Previous setups\nBIBREF3 focus on manually constructed and controlled stimuli, that also emphasizes linguistic structure over selectional preferences. They construct minimal pairs of grammatical and ungrammatical sentences, feed each one in its entirety into a pre-trained LSTM-LM, and compare the perplexity assigned by the model to the grammatical and ungrammatical sentences. The model is “correct” if it assigns the grammatical sentence a higher probability than to the ungrammatical one. Since the minimal pairs for most phenomena differ only in a single word (the focus verb), this scoring is very similar to the one used in the two previous works. However, it does consider the continuation of the sentence after the focus verb, and also allows for assessing phenomena that require change into two or more words (like negative polarity items)."
+   }
+  ]
+ },
+ {
+  "sentence": "S25",
+  "question_type": "yes_no",
+  "question_id": "d27438b11bc70e706431dda0af2b1c0b0d209f96",
+  "question": "Were any of these tasks evaluated in any previous work?",
+  "answer": "Yes [1][2][3][4][5]. The tasks evaluated in previous work include subject-verb agreement and reflexive anaphora phenomena. Evidence [1] and [2] describe evaluations on subject-verb agreement using LSTM models and perplexity comparisons. Evidence [3] explicitly mentions subject-verb agreement stimuli, and [4] notes adapting protocols from BIBREF1, BIBREF2, and BIBREF3 (which include agreement tasks). Reflexive anaphora is also mentioned in [3].",
+  "text": "Evidence explicitly mentions subject-verb agreement stimuli, and notes adapting protocols from BIBREF1, BIBREF2, and BIBREF3 (which include agreement tasks).",
+  "chunks": [
+   {
+    "item": "S25-c3",
+    "label": 3,
+    "chunk_id": "qasper:1901.05287v0:structure-256-para-sent:0:bbb46618",
+    "text": "Abstract\nI assess the extent to which the recently introduced BERT model captures English syntactic phenomena, using (1) naturally-occurring subject-verb agreement stimuli; (2)\"coloreless green ideas\"subject-verb agreement stimuli, in which content words in natural sentences are randomly replaced with words sharing the same part-of-speech and inflection; and (3) manually crafted stimuli for subject-verb agreement and reflexive anaphora phenomena. The BERT model performs remarkably well on all cases."
+   },
+   {
+    "item": "S25-c4",
+    "label": 4,
+    "chunk_id": "qasper:1901.05287v0:structure-256-para-sent:2:cadfc6a0",
+    "text": "Introduction\nThe BERT model is based on the “Transformer” architecture BIBREF4 , which—in contrast to RNNs—relies purely on attention mechanisms, and does not have an explicit notion of word order beyond marking each word with its absolute-position embedding. This reliance on attention may lead one to expect decreased performance on syntax-sensitive tasks compared to RNN (LSTM) models that do model word order directly, and explicitly track states across the sentence. Indeed, BIBREF5 finds that transformer-based models perform worse than LSTM models on the BIBREF1 agreement prediction dataset. In contrast, BIBREF6 find that self-attention performs on par with LSTM for syntax sensitive dependencies in the context of machine-translation, and performance on syntactic tasks is correlated with the number of attention heads in multi-head attention.\n\nI adapt the evaluation protocol and stimuli of BIBREF1 , BIBREF2 and BIBREF3 to the bidirectional setting required by BERT, and evaluate the pre-trained BERT models (both the Large and the Base models). Surprisingly (at least to me), the out-of-the-box models (without any task-specific fine-tuning) perform very well on all the syntactic tasks."
+   }
+  ]
+ },
+ {
+  "sentence": "S26",
+  "question_type": "yes_no",
+  "question_id": "92d1a6df3041667dc662376938bc65527a5a1c3c",
+  "question": "Do they report results only on English datasets?",
+  "answer": "yes [1][2][3][4][5]",
+  "text": "yes",
+  "chunks": [
+   {
+    "item": "S26-c1",
+    "label": 1,
+    "chunk_id": "qasper:1705.01265v0:structure-256-para-sent:4:e4319f80",
+    "text": "Introduction\nIn this work, we empirically demonstrate that using different types of embeddings on three NLP tasks with twitter data we manage to achieve better or near to the state-of-the art performance on three NLP tasks: (i) Named Entity Recognition (NER) segmentation, (ii) NER classification, (iii) fine-grained sentiment analysis and (iv) fine-grained sentiment quantification. For each of the three tasks, we achieve higher performance than without using features which indicates the effectiveness of the cluster membership features. Importantly, our evaluation compared to previous work BIBREF6 who focus on old and well studied datasets uses recent and challenging datasets composed by tweets. The obtained results across all the tasks permits us to reveal important aspects of the use of word clusters and therefore provide guidelines. Although our obtained scores are state-of-the-art, our analysis reveals that the performance in such tasks is far from perfect and, hence, identifies that there is still much space for improvement and future work."
+   },
+   {
+    "item": "S26-c2",
+    "label": 2,
+    "chunk_id": "qasper:1705.01265v0:structure-256-para-sent:12:0640380d",
+    "text": "Fine-grained Sentiment Analysis\nThe task of fine grained sentiment classification consists in predicting the sentiment of an input text according to a five point scale (sentiment INLINEFORM0 {VeryNegative, Negative, Neutral, Positive, VeryPositive}). We use the setting of task 4 of SemEval2016 “Sentiment Analysis in Twitter” and the dataset released by the organizers for subtask 4 BIBREF13 .\n\nIn total, the training (resp. test) data consist of 9,070 (resp. 20,632) tweets."
+   },
+   {
+    "item": "S26-c3",
+    "label": 3,
+    "chunk_id": "qasper:1705.01265v0:structure-256-para-sent:16:708f8122",
+    "text": "Fine-grained Sentiment Analysis\nNote, also, that using the clusters produced by the out-of-domain embeddings trained on wikipedia that were released as part of BIBREF8 performs surprisingly well. One might have expected their addition to hurt the performance. However, their value probably stems from the sheer amount of data used for their training as well as the relatively simple type of words (like awesome, terrible) which are discriminative for this task. Lastly, note that in each of the settings, the best results are achieved when the number of clusters is within INLINEFORM0 as in the NER tasks. Comparing the performance across the different embeddings, one cannot claim that a particular embedding performs better. It is evident though that augmenting the feature space with feature derived using the proposed method, preferably with in-domain data, helps the classification performance and reduces MAE INLINEFORM1 ."
+   },
+   {
+    "item": "S26-c4",
+    "label": 4,
+    "chunk_id": "qasper:1705.01265v0:structure-256-para-sent:20:98f5b6f7",
+    "text": "Fine-Grained Sentiment Quantification\nwhere INLINEFORM0 is number of categories (five in our case) and INLINEFORM1 and INLINEFORM2 are the true and predicted prevalence respectively BIBREF19 .\n\nResults Table TABREF13 presents the results of augmenting the feature set with the proposed features. We use Logistic Regression as a base classifier for the classify and count approach. Notice the positive impact of the features in the performance in the task. Adding the features derived from clustering the embeddings consistently improves the performance. Interestingly, the best performance ( INLINEFORM0 ) is achieved using the out-of-domain vectors, as in the NER classification task. Also, notice how the approach improves over the state-of-the-art performance in the challenge ( INLINEFORM1 ) BIBREF13 , held by the method of BIBREF20 . The improvement over the method of BIBREF20 however, does not necessarily mean that classify and count performs better in the task. It implies that the feature set we used is richer, that in turn highlights the value of robust feature extraction mechanisms which is the subject of this paper."
+   },
+   {
+    "item": "S26-c5",
+    "label": 5,
+    "chunk_id": "qasper:1705.01265v0:structure-256-para-sent:19:5b2f400c",
+    "text": "Fine-Grained Sentiment Quantification\nLearning Algorithm To perform the quantification task, we rely on a classify and count approach, which was shown effective in a related binary quantification problem BIBREF15 . The idea is that given a set of instances on a particular subject, one first classifies the instances and then aggregates the counts. To this end, we use the same feature representation steps and data with the ones used for fine grained classification (Section 3.2). Note that the data of the task are associated with subjects (described in full detail at BIBREF13 ), and, hence, quantification is performed for the tweets of a subject. For each of the five categories, the output of the approach is a 5-dimensional vector with the estimated prevalence of the categories.\n\nThe evaluation measure for the problem is the Earth Movers Distance (EMD) BIBREF18 . EMD is a measure of error, hence lower values are better. It assumes ordered categories, which in our problem is naturally defined. Further assuming that the distance of consecutive categories (e.g., Positive and VeryPositive) is 1, the measure is calculated by: INLINEFORM0"
+   }
+  ]
+ },
+ {
+  "sentence": "S27",
+  "question_type": "unanswerable",
+  "question_id": "bfbd6040cb95b179118557352e8e3899ef25c525",
+  "question": "Are there elements, other than pitch, that can potentially result in out of key converted singing?",
+  "answer": "No [1][5]. The evidence states that the existing approach failed to model pitch information precisely, leading to out-of-key conversions [1], and that singing voice conversion requires handling frequency variations and pitch changes [5]. No other elements besides pitch are explicitly cited as causes for out-of-key issues.",
+  "text": "The evidence states that the existing approach failed to model pitch information precisely, leading to out-of-key conversions, and that singing voice conversion requires handling frequency variations and pitch changes.",
+  "chunks": [
+   {
+    "item": "S27-c1",
+    "label": 1,
+    "chunk_id": "qasper:1912.01852v0:structure-256-para-sent:0:0f359947",
+    "text": "Abstract\nSinging voice conversion is to convert a singer's voice to another one's voice without changing singing content. Recent work shows that unsupervised singing voice conversion can be achieved with an autoencoder-based approach [1]. However, the converted singing voice can be easily out of key, showing that the existing approach can not model the pitch information precisely. In this paper, we propose to advance the existing unsupervised singing voice conversion method proposed in [1] to achieve more accurate pitch translation and flexible pitch manipulation. Specifically, the proposed PitchNet added an adversarially trained pitch regression network to enforce the encoder network to learn pitch invariant phoneme representation, and a separate module to feed pitch extracted from the source audio to the decoder network. Our evaluation shows that the proposed method can greatly improve the quality of the converted singing voice (2.92 vs 3.75 in MOS). We also demonstrate that the pitch of converted singing can be easily controlled during generation by changing the levels of extracted pitch before passing it to the decoder network."
+   },
+   {
+    "item": "S27-c5",
+    "label": 5,
+    "chunk_id": "qasper:1912.01852v0:structure-256-para-sent:2:ede46a6f",
+    "text": "Introduction\nSinging voice conversion is another way of singing synthesis which extracts musical expression within existing singing and reproduced them with another singer's voice. It is very similar to speech based voice conversion BIBREF5, BIBREF6, BIBREF7, BIBREF8, but compared with speech voice conversion, singing voice conversion needs to deal with a wider range of frequency variations as well as the sharper change of volume and pitch within singing voice. The performance of singing conversion is highly dependent on the musical expression of converted singing and the similarity of the converted voice timbre compared to target singer's voice. There are several singing voice conversion methods to convert one's singing voice to another BIBREF9, BIBREF10, BIBREF11. They generally require parallel data to train the conversion model. To overcome the limitation of the parallel training data for singing voice conversion, an unsupervised method BIBREF0 has been proposed to utilize non-parallel data. This method employs an autoencoder architecture composed of a WaveNet-like encoder, a WaveNet BIBREF4 autoregressive decoder, and a learnable singer embedding table."
+   }
+  ]
+ },
+ {
+  "sentence": "S28",
+  "question_type": "unanswerable",
+  "question_id": "b7c3f3942a07c118e57130bc4c3ec4adc431d725",
+  "question": "What did the best systems use for their model?",
+  "answer": "The best systems used a model based on QRNN units, replacing LSTM with Quasi Recurrent Neural Network (QRNN) units, and employed an AWD_LSTM architecture with tied embedding weights, 2304 hidden states, 3 layers, and a softmax layer for next-word prediction. The model had about 60 million trainable parameters. [4]",
+  "text": "The model had about 60 million trainable parameters.",
+  "chunks": [
+   {
+    "item": "S28-c4",
+    "label": 4,
+    "chunk_id": "qasper:1907.03187v0:structure-256-para-sent:9:349a522d",
+    "text": "LM Training and Fine-tuning\nWe train the LM using a 90/10 training/validation split, reporting the validation loss and accuracy of next-word prediction on the validation set. For the LM, we selected an ASGD Weight-Dropped Long Short Term Memory (AWD_LSTM, described in Merity et al. BIBREF5 ) model included in Fast.ai. We replaced the typical Long Short Term Memory (LSTM) units with Quasi Recurrent Neural Network (QRNN, described in Bradbury et al. BIBREF6 ) units. Our network has 2304 hidden-states, 3 layers and a softmax layer to predict the next-word. We tied the embedding weights BIBREF7 on the encoder and decoder for training. We performed some simple tests with LSTM units and a Transformer Language model, finding all models were similar in performance during LM training. We thus chose to use QRNN units due to improved training speed compared to the alternatives. This model has about 60 million trainable parameters."
+   }
+  ]
+ },
+ {
+  "sentence": "S29",
+  "question_type": "unanswerable",
+  "question_id": "63b92dcc701ec77fdb3355ede5d37d2fbf057bcc",
+  "question": "What applicability of their approach is demonstrated by the authors?",
+  "answer": "The applicability of their approach is demonstrated by generating Shakespearean prose for famous paintings [3].",
+  "text": "The applicability of their approach is demonstrated by generating Shakespearean prose for famous paintings.",
+  "chunks": [
+   {
+    "item": "S29-c3",
+    "label": 3,
+    "chunk_id": "qasper:1910.03634v0:structure-256-para-sent:0:c7959f6b",
+    "text": "Abstract\nPainting captions are often dry and simplistic which motivates us to describe a painting creatively in the style of Shakespearean prose. This is a difficult problem, since there does not exist a large supervised dataset from paintings to Shakespearean prose. Our solution is to use an intermediate English poem description of the painting and then apply language style transfer which results in Shakespearean prose describing the painting. We rate our results by human evaluation on a Likert scale, and evaluate the quality of language style transfer using BLEU score as a function of prose length. We demonstrate the applicability and limitations of our approach by generating Shakespearean prose for famous paintings. We make our models and code publicly available."
+   }
+  ]
+ },
+ {
+  "sentence": "S30",
+  "question_type": "unanswerable",
+  "question_id": "6415f38a06c2f99e8627e8ba6251aa4b364ade2d",
+  "question": "What are the languages represented in the DSL datasets? ",
+  "answer": "The DSL datasets include 14 languages over 6 language groups [1].",
+  "text": "The DSL datasets include 14 languages over 6 language groups.",
+  "chunks": [
+   {
+    "item": "S30-c1",
+    "label": 1,
+    "chunk_id": "qasper:1911.07555v0:structure-256-para-sent:3:32990efc",
+    "text": "Related Works\nThe focus of this section is on recently published datasets and LID research applicable to the South African context. An in depth survey of algorithms, features, datasets, shared tasks and evaluation methods may be found in BIBREF0.\n\nThe datasets for the DSL 2015 & DSL 2017 shared tasks BIBREF1 are often used in LID benchmarks and also available on Kaggle . The DSL datasets, like other LID datasets, consists of text sentences labelled by language. The 2017 dataset, for example, contains 14 languages over 6 language groups with 18000 training samples and 1000 testing samples per language."
+   }
+  ]
+ },
+ {
+  "sentence": "S31",
+  "question_type": "unanswerable",
+  "question_id": "bfbd6040cb95b179118557352e8e3899ef25c525",
+  "question": "Are there elements, other than pitch, that can potentially result in out of key converted singing?",
+  "answer": "No [1][5]. The evidence states that the existing approach failed to model pitch information precisely, leading to out-of-key conversions [1], and that singing voice conversion requires handling frequency variations and pitch changes [5]. No other elements besides pitch are explicitly cited as causes for out-of-key issues.",
+  "text": "No.",
+  "chunks": [
+   {
+    "item": "S31-c1",
+    "label": 1,
+    "chunk_id": "qasper:1912.01852v0:structure-256-para-sent:0:0f359947",
+    "text": "Abstract\nSinging voice conversion is to convert a singer's voice to another one's voice without changing singing content. Recent work shows that unsupervised singing voice conversion can be achieved with an autoencoder-based approach [1]. However, the converted singing voice can be easily out of key, showing that the existing approach can not model the pitch information precisely. In this paper, we propose to advance the existing unsupervised singing voice conversion method proposed in [1] to achieve more accurate pitch translation and flexible pitch manipulation. Specifically, the proposed PitchNet added an adversarially trained pitch regression network to enforce the encoder network to learn pitch invariant phoneme representation, and a separate module to feed pitch extracted from the source audio to the decoder network. Our evaluation shows that the proposed method can greatly improve the quality of the converted singing voice (2.92 vs 3.75 in MOS). We also demonstrate that the pitch of converted singing can be easily controlled during generation by changing the levels of extracted pitch before passing it to the decoder network."
+   },
+   {
+    "item": "S31-c5",
+    "label": 5,
+    "chunk_id": "qasper:1912.01852v0:structure-256-para-sent:2:ede46a6f",
+    "text": "Introduction\nSinging voice conversion is another way of singing synthesis which extracts musical expression within existing singing and reproduced them with another singer's voice. It is very similar to speech based voice conversion BIBREF5, BIBREF6, BIBREF7, BIBREF8, but compared with speech voice conversion, singing voice conversion needs to deal with a wider range of frequency variations as well as the sharper change of volume and pitch within singing voice. The performance of singing conversion is highly dependent on the musical expression of converted singing and the similarity of the converted voice timbre compared to target singer's voice. There are several singing voice conversion methods to convert one's singing voice to another BIBREF9, BIBREF10, BIBREF11. They generally require parallel data to train the conversion model. To overcome the limitation of the parallel training data for singing voice conversion, an unsupervised method BIBREF0 has been proposed to utilize non-parallel data. This method employs an autoencoder architecture composed of a WaveNet-like encoder, a WaveNet BIBREF4 autoregressive decoder, and a learnable singer embedding table."
+   }
+  ]
+ }
+]
