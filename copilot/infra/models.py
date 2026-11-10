@@ -5,8 +5,9 @@ decisions (which errors to retry, how many attempts, how long to wait) are passe
 in by the caller.
 """
 
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Callable, Optional, Union
+from typing import Any, Callable, Optional, Union
 
 from langchain_core.language_models import BaseChatModel
 from langchain_core.runnables import Runnable
@@ -31,6 +32,8 @@ def build_chat_model(
     request_timeout: float,
     retry: RetryPolicy,
     response_format: Optional[Union[str, dict]] = None,
+    tools: Optional[Sequence[Any]] = None,
+    tool_choice: Optional[Union[str, dict]] = None,
 ) -> Runnable:
     """Return a chat model for `slot` (a validated chat slot from copilot.llm.slots).
 
@@ -46,6 +49,12 @@ def build_chat_model(
 
     `response_format` turns on constrained decoding: "json" for any JSON object, or a
     JSON schema (dict) that every generated token must fit. None means free text.
+
+    `tools` turns on native tool calling: anything LangChain's `bind_tools` accepts
+    (`@tool` functions, Pydantic models, OpenAI-style dicts). They are bound before the
+    retry wrapper, which has no `bind_tools` of its own. None means no tools.
+    `tool_choice` is passed to `bind_tools` when set; ChatOllama ignores it, so the
+    caller decides whether that is allowed.
     """
     provider = getattr(slot, "provider", "ollama")
     base_url = str(slot.base_url).rstrip("/")
@@ -89,7 +98,12 @@ def build_chat_model(
     else:
         raise ValueError(f"Unknown provider {provider!r}; expected 'ollama' or 'openai'.")
 
-    return model.with_retry(
+    if tools:
+        choice = {} if tool_choice is None else {"tool_choice": tool_choice}
+        runnable: Runnable = model.bind_tools(tools, **choice)
+    else:
+        runnable = model
+    return runnable.with_retry(
         retry_if_exception_type=retry.should_retry,
         stop_after_attempt=retry.max_attempts,
         wait_exponential_jitter=True,
