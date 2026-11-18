@@ -1,0 +1,97 @@
+{
+  "n": 25,
+  "errors": 0,
+  "pass": {
+    "n": 25,
+    "mean": 0.4,
+    "lower": 0.2,
+    "upper": 0.6
+  },
+  "valid_calls": {
+    "n": 25,
+    "mean": 1.0,
+    "lower": 1.0,
+    "upper": 1.0
+  },
+  "right_outcome": {
+    "n": 25,
+    "mean": 0.4,
+    "lower": 0.2,
+    "upper": 0.6
+  },
+  "by_kind": {
+    "ambiguous": {
+      "n": 3,
+      "pass": 0
+    },
+    "no_offered_tool": {
+      "n": 3,
+      "pass": 1
+    },
+    "no_tool": {
+      "n": 3,
+      "pass": 1
+    },
+    "not_in_library": {
+      "n": 2,
+      "pass": 0
+    },
+    "one_paper": {
+      "n": 7,
+      "pass": 0
+    },
+    "topic_search": {
+      "n": 4,
+      "pass": 1
+    },
+    "two_papers": {
+      "n": 3,
+      "pass": 0
+    }
+  },
+  "ambiguous_search_found_intended": 3,
+  "tokens_per_case": 1775.0,
+  "seconds_per_case": 9.050765498398565,
+  "tool_calls_per_case": 0.8,
+  "provenance": {
+    "date_utc": "2026-11-16T20:25:26+00:00",
+    "git": {
+      "commit": "447b334e48671c47b6177b7c4f53c8f2eb4d9f9f",
+      "branch": "master",
+      "dirty": true
+    },
+    "slots": [
+      {
+        "slot": "SMALL",
+        "provider": "ollama",
+        "model": "qwen3:4b-q4_K_M",
+        "quantization": "Q4_K_M",
+        "context_length": 8192,
+        "base_url": "http://localhost:11434/v1",
+        "digest": "2bfd38a7daaf4b1037efe517ccb73d1a3bbd4822cf89f1a82be1569050a114e0",
+        "server_version": "0.40.5"
+      }
+    ],
+    "server_profile": "fa1-kvq8",
+    "settings": {
+      "thinking": false,
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "max_turns": 4,
+      "system_prompt": "You are Research Guru, an assistant for the user's personal library of research papers. Use the tools when a question is about papers in the library; answer general questions directly."
+    },
+    "seed": 42,
+    "subset": {
+      "path": "evals/subsets/tool_calls_dev.json",
+      "sha256": "b6eb6b71343dfca4487f96abcabcd51af4fbafd396d2a3fdcd395527903cd68e"
+    },
+    "python": "3.12.4",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "packages": {
+      "langchain-core": "1.7.0",
+      "langchain-ollama": "1.1.0",
+      "langchain-openai": "1.7.2",
+      "pydantic": "2.14.1"
+    }
+  }
+}

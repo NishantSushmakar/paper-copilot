@@ -1,0 +1,43 @@
+{
+  "dataset": "tool_calls_cases",
+  "split": "dev",
+  "seed": 42,
+  "size": 25,
+  "stratified_by": "kind (proportional)",
+  "kind_counts": {
+    "ambiguous": 3,
+    "no_offered_tool": 3,
+    "no_tool": 3,
+    "not_in_library": 2,
+    "one_paper": 7,
+    "topic_search": 4,
+    "two_papers": 3
+  },
+  "case_ids": [
+    "ambig_01",
+    "ambig_02",
+    "ambig_06",
+    "missing_05",
+    "missing_06",
+    "notool_01",
+    "notool_03",
+    "notool_06",
+    "one_01",
+    "one_02",
+    "one_03",
+    "one_04",
+    "one_14",
+    "one_17",
+    "one_19",
+    "topic_01",
+    "topic_04",
+    "topic_09",
+    "topic_10",
+    "two_04",
+    "two_06",
+    "two_07",
+    "unserved_02",
+    "unserved_05",
+    "unserved_07"
+  ]
+}
